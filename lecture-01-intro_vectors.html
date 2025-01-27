@@ -1,0 +1,812 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 6.1: A Deeper look at Vectors &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-01-intro_vectors';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to your Jupyter Book" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1. Linear Algebra</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 6.1: A Deeper look at Vectors</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-01-intro_vectors.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/lecture-01-intro_vectors.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 6.1: A Deeper look at Vectors</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-vectors">Why Vectors</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-formal-definition-of-a-vector">A Formal Definition of a Vector</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geometrically-understanding-vectors">Geometrically understanding vectors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-matrices">Introduction to Matrices</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#range-rank-and-kernel">Range, rank, and kernel.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrices-as-linear-transformations">Matrices as Linear Transformations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-multiplication">Matrix Multiplication</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-matrix-operations">Basic Matrix Operations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-examples-of-matrices-in-chemistry">Some Examples of Matrices in Chemistry</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#first-order-rate-laws">First-order Rate Laws</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quantum-mechanical-mixture-of-m-wavefunctions">A Quantum Mechanical Mixture of <span class="math notranslate nohighlight">\(M\)</span> wavefunctions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#approximating-a-derivative">Approximating a derivative</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-linear-regression">Multivariate Linear Regression</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-and-the-matrix-inversion">The Identity and the Matrix Inversion</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-6-1-a-deeper-look-at-vectors">
+<h1>Chapter 6.1: A Deeper look at Vectors<a class="headerlink" href="#chapter-6-1-a-deeper-look-at-vectors" title="Link to this heading">#</a></h1>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<p>By the end of this lecture, you should be able to:</p>
+<ul class="simple">
+<li><p>Define a vector space and an inner product space.</p></li>
+<li><p>Understand basic vector operations, including addition, scalar multiplication, and the dot product.</p></li>
+<li><p>Define a matrix and matrix multiplication.</p></li>
+</ul>
+<!-- 1. **Encode Data in Vectors** by discretizing or featurizing data. -->
+<!-- 2. **Apply Matrix Multiplications** for stoichiometric coefficients using Python and NumPy. -->
+<!-- 3. **Apply the null space method** to find balanced coefficients for chemical reactions. -->
+<!-- 4. **Interpret and generalize solutions** to balance hydrocarbon combustion reactions and other chemical equations. -->
+</section>
+<section id="why-vectors">
+<h2>Why Vectors<a class="headerlink" href="#why-vectors" title="Link to this heading">#</a></h2>
+<p>At its most immediate, encoding an object in a list of numbers is a natural thing to do.</p>
+<ul class="simple">
+<li><p>We might describe an object using multiple “features”, each of which has a numeric value.  We might describe an apartment by its size in square feet, the number of bedrooms, which floor it is on.  Similarly, we might describe a student by their transcript: a number between 0 and 100 for every class they’ve taken.</p></li>
+<li><p>A convenient way to store a function on a computer is by storing its values at a list of points.</p></li>
+<li><p>To describe a molecule, we might write down its elemental composition: the number of carbons,  the number of hydrogens, the number of oxygens, and so forth.</p></li>
+</ul>
+<p>However, by itself a  list of numbers is not very useful: to do science, we need ways to manipulate it.  To manipulate our lists, we first consider three main properties:</p>
+<ol class="arabic simple">
+<li><p><strong>Addition</strong>: We can add two lists of numbers together by adding their corresponding entries.</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split} 
+  \begin{bmatrix} 1 \\2 \\3 \end{bmatrix} + \begin{bmatrix} 4 \\5 \\6 \end{bmatrix} = \begin{bmatrix} 1+4 \\2+5 \\3+6 \end{bmatrix} = \begin{bmatrix} 5 \\7 \\9 \end{bmatrix} 
+\end{split}\]</div>
+<ol class="arabic simple" start="2">
+<li><p><strong>Scalar Multiplication</strong>: We can multiply a list of numbers by a single number by multiplying each entry by that number.</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split} 
+  2 \left( 
+  \begin{bmatrix} 1 \\2 \\3 \end{bmatrix} \right) = 2 \left( \begin{bmatrix} 1 \\2 \\3 \end{bmatrix} \right) = \begin{bmatrix} 2 \cdot 1 \\2 \cdot 2 \\2 \cdot 3 \end{bmatrix} = \begin{bmatrix} 2 \\4 \\6 \end{bmatrix} 
+\end{split}\]</div>
+<ol class="arabic simple" start="3">
+<li><p><strong>Dot Product</strong>: We can multiply two lists of numbers together by multiplying their corresponding entries and summing the result.</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{bmatrix} 1 \\2 \\3 \end{bmatrix} \cdot \begin{bmatrix} 4 \\5 \\6 \end{bmatrix} = 1 \cdot 4 + 2 \cdot 5 + 3 \cdot 6 = 4 + 10 + 18 = 32 \end{split}\]</div>
+<p>We can visualize vectors as arrows in space.  The vector <span class="math notranslate nohighlight">\(\begin{bmatrix} 1 \\ 2 \end{bmatrix}\)</span>, for instance, is an arrow that starts at the origin and ends at the point <span class="math notranslate nohighlight">\((1,2)\)</span>.</p>
+<section id="a-formal-definition-of-a-vector">
+<h3>A Formal Definition of a Vector<a class="headerlink" href="#a-formal-definition-of-a-vector" title="Link to this heading">#</a></h3>
+<p>Formally, we have defined a set of minimal operations we expect our list to obey.<br />
+We define a space of objects called <strong>vectors</strong> along with a second space of objects called <strong>scalars</strong>.
+We define two operations: <strong>vector addition</strong> and <strong>scalar multiplication</strong>.</p>
+<p>If, for any three vectors <span class="math notranslate nohighlight">\(u,v,w\)</span> and two scalars <span class="math notranslate nohighlight">\(a,b\)</span>, we the following properties to hold,</p>
+<ol class="arabic simple">
+<li><p><strong>Associativity</strong>: <span class="math notranslate nohighlight">\((u+v)+w = u+(v+w)\)</span>.</p></li>
+<li><p><strong>Commutativity</strong>:  <span class="math notranslate nohighlight">\(u+v = v+u\)</span>.</p></li>
+<li><p><strong>Identity element for vector addition</strong>: There is a vector <span class="math notranslate nohighlight">\(0\)</span> such that <span class="math notranslate nohighlight">\(v+0 = v\)</span> for all <span class="math notranslate nohighlight">\(v\)</span>.</p></li>
+<li><p><strong>Inverse</strong>: For every vector <span class="math notranslate nohighlight">\(v\)</span>, there is a another vector <span class="math notranslate nohighlight">\(-v\)</span> such that <span class="math notranslate nohighlight">\(v+(-v) = 0\)</span>.</p></li>
+<li><p><strong>Compatibility with Scalars</strong>: <span class="math notranslate nohighlight">\(a(bv) = (ab)v\)</span>.</p></li>
+<li><p><strong>Distributivity of Scalars</strong>: <span class="math notranslate nohighlight">\(a(u+v) = au + av\)</span>.</p></li>
+<li><p><strong>Distributivity of Vectors</strong>: <span class="math notranslate nohighlight">\((a+b)v = av + bv\)</span>.</p></li>
+<li><p><strong>Identity element for scalar multiplication</strong>: <span class="math notranslate nohighlight">\(1v = v\)</span>.
+then our vectors and scalars form a <strong>vector space</strong>.</p></li>
+</ol>
+<p>We then further introduce a <strong>dot product</strong> operation, which takes two vectors and returns a scalar.  We require that the dot product be <strong>bilinear</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Linearity in the first argument</strong>: <span class="math notranslate nohighlight">\((au+v) \cdot w = a(u \cdot w) + v \cdot w\)</span>.</p></li>
+<li><p><strong>Symmetry</strong>: <span class="math notranslate nohighlight">\(u \cdot v = \overline{v \cdot u}\)</span>.</p></li>
+<li><p><strong>Positive Definite</strong>: <span class="math notranslate nohighlight">\(u \cdot u \geq 0\)</span> and <span class="math notranslate nohighlight">\(u \cdot u = 0\)</span> if and only if <span class="math notranslate nohighlight">\(u = 0\)</span>.
+Equipped with these operations, we have formed an <strong>inner product space</strong>.
+(Note: you might have heard of the term “Hilbert Space” in your quantum mechanics classes.  A Hilbert space is an inner product space with a few more technical properties we won’t discuss here.)</p></li>
+</ol>
+<p>These somewhat abstract properties allow us to impose a consistent structure on a wide variety of objects.  For instance, we can define an inner product space of functions whose square-integral is finite.
+Our “vectors” add elementwise:
+<span class="math notranslate nohighlight">\( (f+g)(x) = f(x) + g(x) \)</span>.  Similarly, a function times a scalar is defined by multiplying the function by the scalar:
+<span class="math notranslate nohighlight">\( (af)(x) = a f(x) \)</span>
+For the dot product, we use the integral:
+<span class="math notranslate nohighlight">\( (f \cdot g) = \int f^*(x) g(x) dx \)</span>
+where <span class="math notranslate nohighlight">\(f^*\)</span> is the complex conjugate of <span class="math notranslate nohighlight">\(f\)</span>.
+This structure shows up often in quantum mechanics, where vectors are wavefunctions.
+However, this not the only inner product space we can define.  For instance, in statistical mechanics, we might define our vectors and scalars the same way, but instead define an inner product using the average against the Boltzmann density:
+<span class="math notranslate nohighlight">\( (f \cdot g) = \frac{1}{Z} \int f(x) g(x) E^{-\beta H(x)} \)</span>
+where <span class="math notranslate nohighlight">\(\beta\)</span> is the inverse temperature.</p>
+<p>The key point between these examples is that we can define similar structures on a wide variety of objects.  This will be very useful computationally: we can approximate a function (e.g. a wavefunction) by a list of numbers but still expect much of the same mathematical structure to exist.</p>
+</section>
+<section id="geometrically-understanding-vectors">
+<h3>Geometrically understanding vectors<a class="headerlink" href="#geometrically-understanding-vectors" title="Link to this heading">#</a></h3>
+<p>Vectors have direct geometric interpretations: we can interpret a real vector with <span class="math notranslate nohighlight">\(k\)</span> entries as an arrow pointing from the origin to the corresponding <span class="math notranslate nohighlight">\(k\)</span>-dimensional space.  For instance, the vector <span class="math notranslate nohighlight">\(\begin{bmatrix} 1 \\ 2 \end{bmatrix}\)</span> is an arrow that starts at the origin and ends at the point <span class="math notranslate nohighlight">\((1,2)\)</span>.  Multiplying a vector by a scalar changes the length of the arrow, while adding two vectors adds the arrows tip-to-tail.</p>
+<p>The dot product also has a strong geometric interpretation.  For a vector with entries <span class="math notranslate nohighlight">\(x_1, x_2, \ldots, x_N\)</span>, the dot product of the vector with itself is equal to its squared Euclidean length:</p>
+<div class="math notranslate nohighlight">
+\[ x \cdot x = |x_1|^2 + |x_2|^2 + \ldots + |x_N|^2 = \|x\|^2 \]</div>
+<p>We say a vector is <strong>normalized</strong> if its length is equal to 1.  We can normalize a vector by dividing it by its length:</p>
+<div class="math notranslate nohighlight">
+\[ \hat{x} = \frac{x}{\|x\|} \]</div>
+<p>Moreover, the dot product of two vectors is proportional to the cosine of the angle between them.</p>
+<div class="math notranslate nohighlight">
+\[ \Re x \cdot y = \|x\| \|y\| \cos(\theta) \]</div>
+<p>where <span class="math notranslate nohighlight">\(\theta\)</span> is the angle between two vectors <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>.
+If <span class="math notranslate nohighlight">\(x \cdot y\)</span> is zero, we say the vectors are <strong>orthogonal</strong>: vectors that are both normalized and orthogonal are called <strong>orthonormal</strong>.</p>
+<p>Not only does this give us a natural connection to trigonometry, it lets us generalize the notion of distance and angle between any two vectors.</p>
+<ul class="simple">
+<li><p>Consider two wavefunctions <span class="math notranslate nohighlight">\(\psi_1\)</span> and <span class="math notranslate nohighlight">\(\psi_2\)</span>.  One definition of the “angle” between them is their overlap integral:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[ \cos(\theta) = \psi_1 \cdot \psi_2 = \int \psi_1^* \psi_2 dx \]</div>
+</section>
+</section>
+<section id="introduction-to-matrices">
+<h2>Introduction to Matrices<a class="headerlink" href="#introduction-to-matrices" title="Link to this heading">#</a></h2>
+<p>We have a natural way of generalizing addition to vectors.  We now turn to a second question: how should we generalize multiplication?
+In fact, we have already introduced one possible generalization: the dot product, which “multiplies” two vectors to produce a scalar.
+This gives us an idea; if we have a vector with <span class="math notranslate nohighlight">\(M entries, we can perform \)</span>K<span class="math notranslate nohighlight">\( different dot products to get a new vector with \)</span>K$ entries.</p>
+<p>To help make this practical, we introduce a new notation.  We write the first vector in a dot product as a row of numbers (a “row vector”) and the second vector as a column of numbers (a “column vector”).</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{bmatrix} 1 &amp; 2 &amp; 3 \end{bmatrix} \begin{bmatrix} 4 \\ 5 \\ 6 \end{bmatrix} = 1 \cdot 4 + 2 \cdot 5 + 3 \cdot 6 = 32 \end{split}\]</div>
+<p>To take the dot product of a row vector and a column vector, we march along the row vector and down the column vector, multiplying the corresponding entries and summing the result as we go.</p>
+<p>We can extend this idea to a matrix, which is a rectangular array of numbers.  Effectively, this is a set of row vectors stacked on top of each other.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{bmatrix} 1 &amp; 2 &amp; 3 \\ 4 &amp; 5 &amp; 6 \end{bmatrix} \begin{bmatrix} 7 \\ 8 \\ 9 \end{bmatrix} = \begin{bmatrix} 1 \cdot 7 + 2 \cdot 8 + 3 \cdot 9 \\ 4 \cdot 7 + 5 \cdot 8 + 6 \cdot 9 \end{bmatrix} = \begin{bmatrix} 50 \\ 122 \end{bmatrix} \end{split}\]</div>
+<p>As another example, if we had an arbitrary entries in a 2-by-2 matrix and a vector with two entries, we could write the matrix-vector product as below.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} ax + by \\ cx + dy \end{bmatrix} \end{split}\]</div>
+<p>Another way to think of a matrix-vector product is a weighted sum of the matrix columns, where the weights are given by the vector entries.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = x \begin{bmatrix} a \\ c \end{bmatrix} + y \begin{bmatrix} b \\ d \end{bmatrix} \end{split}\]</div>
+<section id="range-rank-and-kernel">
+<h3>Range, rank, and kernel.<a class="headerlink" href="#range-rank-and-kernel" title="Link to this heading">#</a></h3>
+<p>This view tells us what the possible <strong>range</strong> of a matrix is: the set of all output vectors we can get by multiplying the matrix by any vector.
+The dimensionality of a matrix’s range is called its <strong>rank</strong>.  For instance, the matrix <span class="math notranslate nohighlight">\(\begin{bmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{bmatrix}\)</span> has rank 2, since we can get any vector in <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span> by multiplying it by a vector.  However, the matrix <span class="math notranslate nohighlight">\(\begin{bmatrix} 1 &amp; 2 \\ 2 &amp; 4 \end{bmatrix}\)</span> has rank 1, since the second column is the same as the first column but scaled by 2.  In general, the rank of a matrix is the number of columns that are linearly independent: that is, the number of columns that can’t be written as a linear combination of any other columns.  One of the most important theorems in linear algebra is that the number of linearly independent columns is the same as the number of linearly independent rows: that is, the rank of a matrix is the same as the rank of its transpose.</p>
+<p>The <strong>kernel</strong> of a matrix is the set of all vectors that get sent to zero by the matrix.  All matrices have a ``trivial’’ kernel: the zero vector.  However, some matrices have nontrivial kernels: nonzero vectors that get sent to zero as well.<br />
+For instance, the kernel of the matrix <span class="math notranslate nohighlight">\(\begin{bmatrix} 1 &amp; 2 \\ 2 &amp; 4 \end{bmatrix}\)</span> is the set of all vectors of the form <span class="math notranslate nohighlight">\(\begin{bmatrix} x \\ -2x \end{bmatrix}\)</span>.  The kernel of a matrix is always a vector space: it contains the zero vector and is closed under addition and scalar multiplication.  The dimensionality of the kernel is called the <strong>nullity</strong> of the matrix, and the sum of the rank and the nullity is the number of columns in the matrix.</p>
+</section>
+<section id="matrices-as-linear-transformations">
+<h3>Matrices as Linear Transformations<a class="headerlink" href="#matrices-as-linear-transformations" title="Link to this heading">#</a></h3>
+<p>Another way of understanding matrices is as stretches, rotations, and reflections of space.  For instance,</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\begin{bmatrix} 2 &amp; 0 \\ 0 &amp; 2 \end{bmatrix}\)</span> stretches space by a factor of 2 in both the <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> directions: applying it to any vector doubles its length.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\begin{bmatrix} 0 &amp; -1 \\ 1 &amp; 0 \end{bmatrix}\)</span> rotates space by 90 degrees counterclockwise: any vector gets rotated by 90 degrees.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\begin{bmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{bmatrix}\)</span> reflects space across the <span class="math notranslate nohighlight">\(x\)</span>-axis: any vector gets flipped across the <span class="math notranslate nohighlight">\(x\)</span>-axis.</p></li>
+</ul>
+<p>Matrices with nontrivial kernel ``squash’’ vectors into a subspace of lower dimensionality than .  For instance, the matrix <span class="math notranslate nohighlight">\(\begin{bmatrix} 1 &amp; 2 \\ 2 &amp; 4 \end{bmatrix}\)</span> squashes all vectors onto the line <span class="math notranslate nohighlight">\(y = 2x\)</span>.</p>
+</section>
+<section id="matrix-multiplication">
+<h3>Matrix Multiplication<a class="headerlink" href="#matrix-multiplication" title="Link to this heading">#</a></h3>
+<p>Just as we stacked row vectors vertically, we can stack our column vectors horizontally.  This allows us to multiply two matrices together.
+For instance, if we have two 2-by-2 matrices, we can multiply them together as follows.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix} \begin{bmatrix} w &amp; x \\ y &amp; z \end{bmatrix} = \begin{bmatrix} aw + by &amp; ax + bz \\ cw + dy &amp; cx + dz \end{bmatrix} \end{split}\]</div>
+<p>Observe that the <span class="math notranslate nohighlight">\(i,j\)</span>’th entry is the dot product of the <span class="math notranslate nohighlight">\(i\)</span>’th row of the first matrix and the <span class="math notranslate nohighlight">\(j\)</span>’th column of the second matrix.</p>
+<p>Matrices don’t have to be square or even have the same number of rows and columns.  However, to multiply two matrices together, the number of columns in the first matrix must equal the number of rows in the second matrix.
+For instance, if we have a 2-by-3 matrix and a 3-by-2 matrix, we can multiply them together.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{bmatrix} a &amp; b &amp; c \\ d &amp; e &amp; f \end{bmatrix} \begin{bmatrix} w &amp; x \\ y &amp; z \\ u &amp; v \end{bmatrix} = \begin{bmatrix} aw + bx + cu &amp; ax + by + cv \\ dw + ex + fu &amp; dx + ey + fv \end{bmatrix} \end{split}\]</div>
+<p>We could also multiply a 3-by-2 matrix by a 2-by-3 matrix.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{bmatrix} w &amp; x \\ y &amp; z \\ u &amp; v \end{bmatrix} \begin{bmatrix} a &amp; b &amp; c \\ d &amp; e &amp; f \end{bmatrix} = \begin{bmatrix} wa + xb + uc &amp; wb + xb + vc &amp; wc + xb + vc \\ ya + zd + vf &amp; yb + ze + vf &amp; yc + zf + vf \end{bmatrix} \end{split}\]</div>
+<p>We could <em>also</em> multiply a 3-by-2 matrix by a 2-by-2 matrix.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{bmatrix} w &amp; x \\ y &amp; z \\ u &amp; v \end{bmatrix} \begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix} = \begin{bmatrix} wa + xb &amp; wb + xd \\ ya + zc &amp; yb + zd \\ ua + vb &amp; ub + vd \end{bmatrix} \end{split}\]</div>
+<p>However, we could not multiply a 2-by-3 matrix by a 2-by-2 matrix.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{bmatrix} a &amp; b \\ c &amp; d \\ e &amp; f \end{bmatrix} \begin{bmatrix} w &amp; x \\ y &amp; z \end{bmatrix} = \text{ERROR!} \end{split}\]</div>
+<p>Note that matrix multiplication has some key differences from scalar multiplication.</p>
+<ol class="arabic simple">
+<li><p>Matrix multiplication <em>is</em> associative: <span class="math notranslate nohighlight">\((AB)C = A(BC)\)</span>.</p></li>
+<li><p>Matrix multiplication <em>is</em> distributive: <span class="math notranslate nohighlight">\(A(B+C) = AB + AC\)</span>.</p></li>
+<li><p>Matrix multiplication <em>is not</em> commutative: <span class="math notranslate nohighlight">\(AB = BA\)</span>.</p></li>
+</ol>
+</section>
+<section id="basic-matrix-operations">
+<h3>Basic Matrix Operations<a class="headerlink" href="#basic-matrix-operations" title="Link to this heading">#</a></h3>
+<p>Matrices inherent many of the properties of vectors:</p>
+<ol class="arabic simple">
+<li><p><strong>Addition</strong>: We can add two matrices of the same size together by adding their corresponding entries.  For example,
+$<span class="math notranslate nohighlight">\( \begin{bmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{bmatrix} + \begin{bmatrix} 5 &amp; 6 \\ 7 &amp; 8 \end{bmatrix} = \begin{bmatrix} 1+5 &amp; 2+6 \\ 3+7 &amp; 4+8 \end{bmatrix} = \begin{bmatrix} 6 &amp; 8 \\ 10 &amp; 12 \end{bmatrix} \)</span>$</p></li>
+<li><p><strong>Scalar Multiplication</strong>: We can multiply a matrix by a single number by multiplying each entry by that number.  For example,
+$<span class="math notranslate nohighlight">\( 2 \begin{bmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{bmatrix} = \begin{bmatrix} 2 \cdot 1 &amp; 2 \cdot 2 \\ 2 \cdot 3 &amp; 2 \cdot 4 \end{bmatrix} = \begin{bmatrix} 2 &amp; 4 \\ 6 &amp; 8 \end{bmatrix} \)</span>$
+In fact, we can consider matrices <em>themselves</em> as vectors: we can add them and multiply by them scalars.  There are also multiple possible ways to define a “dot product” between two matrices. One simple way is to stack the entries into a bigger vector and take the dot product of the resulting vectors: this is known as the <strong>Frobenius inner product</strong>.</p></li>
+</ol>
+<p>However, there are also some additional operations we might apply on matrices that are useful:</p>
+<ul>
+<li><p>The  <strong>transpose</strong> operation.  The transpose of a matrix is the matrix with its rows and columns swapped.  For instance,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{bmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{bmatrix}^T = \begin{bmatrix} 1 &amp; 3 \\ 2 &amp; 4 \end{bmatrix} \end{split}\]</div>
+<p>It should be easy to verify that the transpose operation satisfies the following properties:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\((A^T)^T = A\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\((A + B)^T = A^T + B^T\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\((cA)^T = cA^T\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\((AB)^T = B^T A^T\)</span>.</p></li>
+</ol>
+</li>
+<li><p>The <strong>trace</strong>.  The trace of a square matrix is the sum of its diagonal entries.  For instance,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \text{tr} \left( \begin{bmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{bmatrix} \right) = 1 + 4 = 5 \end{split}\]</div>
+<p>For a more general <span class="math notranslate nohighlight">\(M \times M\)</span> matrix <span class="math notranslate nohighlight">\(A\)</span>, the trace obeys <span class="math notranslate nohighlight">\(\text{tr}(A) = \sum_{i=1}^M A_{ii}\)</span>.
+The trace operation satisfies the following properties:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(\text{tr}(A + B) = \text{tr}(A) + \text{tr}(B)\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\text{tr}(cA) = c \text{tr}(A)\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\text{tr}(AB) = \text{tr}(BA)\)</span>.</p></li>
+</ol>
+</li>
+</ul>
+</section>
+</section>
+<section id="some-examples-of-matrices-in-chemistry">
+<h2>Some Examples of Matrices in Chemistry<a class="headerlink" href="#some-examples-of-matrices-in-chemistry" title="Link to this heading">#</a></h2>
+<section id="first-order-rate-laws">
+<h3>First-order Rate Laws<a class="headerlink" href="#first-order-rate-laws" title="Link to this heading">#</a></h3>
+<p>Consider a collection of first-order rections,
+\begin{align}
+A &amp;\xrightarrow{k_{AB}} B \
+A &amp;\xrightarrow{k_{AC}} C \
+B &amp;\xrightarrow{k_{BC}} C \
+C &amp;\xrightarrow{k_{CA}} A
+\end{align}</p>
+<p>The rate equations are given by
+\begin{align}
+\frac{d[A]}{dt} &amp;= -k_{AB} [A] - k_{AC} [A] + k_{CA} [C] \
+\frac{d[B]}{dt} &amp;= k_{AB} [A] - k_{BC} [B] \
+\frac{d[C]}{dt} &amp;= k_{AC} [A] + k_{BC} [B] - k_{CA}[C]
+\end{align}
+We can write this as a matrix equation:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \frac{d}{dt} \begin{bmatrix} [A] \\ [B] \\ [C] \end{bmatrix} = \begin{bmatrix} -k_{AB} - k_{AC} &amp; 0 &amp; k_{CA} \\ k_{AB} &amp; -k_{BC} &amp; 0 \\ k_{AC} &amp; k_{BC} &amp; -k_{CA} \end{bmatrix} \begin{bmatrix} [A] \\ [B] \\ [C] \end{bmatrix} \end{split}\]</div>
+<p>Note that the kernel of this matrix is the same as the steady-state concentration of the system.</p>
+</section>
+<section id="a-quantum-mechanical-mixture-of-m-wavefunctions">
+<h3>A Quantum Mechanical Mixture of <span class="math notranslate nohighlight">\(M\)</span> wavefunctions<a class="headerlink" href="#a-quantum-mechanical-mixture-of-m-wavefunctions" title="Link to this heading">#</a></h3>
+<p>Assume we have a mixture of <span class="math notranslate nohighlight">\(M\)</span> wavefunctions <span class="math notranslate nohighlight">\(\psi_1, \psi_2, \ldots, \psi_M\)</span> (typically eigenstates of some Hamiltonian).</p>
+<div class="math notranslate nohighlight">
+\[ \Psi(x) = \sum_{i=1}^M c_i \psi_i(x) \]</div>
+<p>We now attempt to calculate the expectation for an operator <span class="math notranslate nohighlight">\(\hat{A}\)</span>.  If the matrix entries <span class="math notranslate nohighlight">\(A_{ij} = \langle \psi_i | \hat{A} | \psi_j \rangle\)</span> are known, then the expectation value is given by</p>
+<div class="math notranslate nohighlight">
+\[ \langle \hat{A} \rangle = \sum_{i,j=1}^M c_i^* c_j A_{ij} \]</div>
+<p>This is a matrix-vector product, of the form</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\langle \hat{A} \rangle = c^T A c$$.\\Note that a short calculation shows that this is equivalent to \\$$ \langle \hat{A} \rangle = \text{tr}(D A) \end{aligned}\end{align} \]</div>
+<p>where <span class="math notranslate nohighlight">\(D\)</span> is the density matrix with entries <span class="math notranslate nohighlight">\(D_{ij} = c_i c_j^*\)</span>.</p>
+</section>
+<section id="approximating-a-derivative">
+<h3>Approximating a derivative<a class="headerlink" href="#approximating-a-derivative" title="Link to this heading">#</a></h3>
+<p>Consider a function <span class="math notranslate nohighlight">\(f(x)\)</span> that we wish to approximate the derivative of.  We can approximate the derivative by a finite difference:</p>
+<div class="math notranslate nohighlight">
+\[ f'(x) \approx \frac{f(x+h) - f(x)}{h} \]</div>
+<p>If we have evaluated <span class="math notranslate nohighlight">\(f\)</span> at <span class="math notranslate nohighlight">\(N\)</span> points <span class="math notranslate nohighlight">\(x_1, x_2, \ldots, x_N\)</span>, we can write this as a matrix equation:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{bmatrix} f'(x_1) \\ f'(x_2) \\ \vdots \\ f'(x_N) \end{bmatrix} \approx \begin{bmatrix} -1 &amp; 1 &amp; 0 &amp; \ldots &amp; 0 \\ 0 &amp; -1 &amp; 1 &amp; \ldots &amp; 0 \\ \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 0 &amp; 0 &amp; 0 &amp; \ldots &amp; 1 \end{bmatrix} \begin{bmatrix} f(x_1) \\ f(x_2) \\ \vdots \\ f(x_N) \end{bmatrix} \end{split}\]</div>
+<p>This is a matrix-vector product and forms the basis of many numerical methods for solving differential equations.</p>
+</section>
+<section id="multivariate-linear-regression">
+<h3>Multivariate Linear Regression<a class="headerlink" href="#multivariate-linear-regression" title="Link to this heading">#</a></h3>
+<p>Assume that we have a signal <span class="math notranslate nohighlight">\(y\)</span> that we are modelling as a linear function of <span class="math notranslate nohighlight">\(k\)</span> input variables, <span class="math notranslate nohighlight">\(x_1, x_2, \ldots x_k\)</span>.
+Moreover, we have <span class="math notranslate nohighlight">\(N\)</span> pairs of sampled input points <span class="math notranslate nohighlight">\(X\)</span> as well as their corresponding output points <span class="math notranslate nohighlight">\(Y\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+X = \begin{bmatrix} x_{11} &amp; x_{12} &amp; \ldots &amp; x_{1k} \\ x_{21} &amp; x_{22} &amp; \ldots &amp; x_{2k} \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ x_{N1} &amp; x_{N2} &amp; \ldots &amp; x_{Nk} \end{bmatrix}, \qquad Y = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_N \end{bmatrix}
+\end{split}\]</div>
+<p>In linear regression we then attempt to find a vector <span class="math notranslate nohighlight">\(\beta\)</span> such that <span class="math notranslate nohighlight">\(X \beta\)</span> is as close to <span class="math notranslate nohighlight">\(Y\)</span> as possible.</p>
+</section>
+</section>
+<section id="the-identity-and-the-matrix-inversion">
+<h2>The Identity and the Matrix Inversion<a class="headerlink" href="#the-identity-and-the-matrix-inversion" title="Link to this heading">#</a></h2>
+<p>One of the most important matrices is the <strong>identity matrix</strong>, traditionally, denoted as <span class="math notranslate nohighlight">\(I\)</span>, which is a square matrix with ones on the diagonal and zeros elsewhere.  For instance, the 2-by-2 identity matrix is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{bmatrix} \end{split}\]</div>
+<p>The identity matrix has the property that multiplying any matrix (or vector) by the identity matrix gives the original matrix:
+Just as we can define the inverse of a number, we can (attempt to) define the inverse of a matrix.
+The inverse of a matrix <span class="math notranslate nohighlight">\(A\)</span> is a matrix <span class="math notranslate nohighlight">\(A^{-1}\)</span> such that <span class="math notranslate nohighlight">\(AA^{-1} = A^{-1}A = I\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left( \begin{bmatrix} 2 &amp; 3 &amp; 1 \\ 4 &amp; 5 &amp; 6 \\ 7 &amp; 8 &amp; 9 \end{bmatrix} \right)^{-1} = \begin{bmatrix} -1/3 &amp; -10 / 9 &amp; 13 / 9 \\ 2/3 &amp; 11 / 9 &amp; 8 / 9 \\ -1/3 &amp;  5 / 9 &amp; -2 / 9 \end{bmatrix} \end{split}\]</div>
+<p>Not all matrices have inverses: any matrix who sends a vector to zero does not have an inverse.
+To show this, let <span class="math notranslate nohighlight">\(v\)</span> be a nonzero vector such that <span class="math notranslate nohighlight">\(Av = 0\)</span>.  If an inverse existed, we would have <span class="math notranslate nohighlight">\(v = I v = A^{-1} A v = A^{-1} 0 = 0\)</span>, which is a contradiction.</p>
+<div class="tip admonition">
+<p class="admonition-title">Exercise</p>
+<p>Is the matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} A =  \begin{bmatrix} 1 &amp; 2 \\ 2 &amp; 4 \end{bmatrix} \end{split}\]</div>
+<p>invertible?  If so, find its inverse.  If not, find a vector <span class="math notranslate nohighlight">\(v\)</span> such that <span class="math notranslate nohighlight">\(Av = 0\)</span>.</p>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Welcome to your Jupyter Book</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-vectors">Why Vectors</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-formal-definition-of-a-vector">A Formal Definition of a Vector</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geometrically-understanding-vectors">Geometrically understanding vectors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-matrices">Introduction to Matrices</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#range-rank-and-kernel">Range, rank, and kernel.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrices-as-linear-transformations">Matrices as Linear Transformations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-multiplication">Matrix Multiplication</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-matrix-operations">Basic Matrix Operations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-examples-of-matrices-in-chemistry">Some Examples of Matrices in Chemistry</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#first-order-rate-laws">First-order Rate Laws</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quantum-mechanical-mixture-of-m-wavefunctions">A Quantum Mechanical Mixture of <span class="math notranslate nohighlight">\(M\)</span> wavefunctions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#approximating-a-derivative">Approximating a derivative</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-linear-regression">Multivariate Linear Regression</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-and-the-matrix-inversion">The Identity and the Matrix Inversion</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Erik Thiede
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
