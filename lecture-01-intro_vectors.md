@@ -221,19 +221,26 @@ However, there are also some additional operations we might apply on matrices th
 
 #### First-order Rate Laws
 Consider a collection of first-order rections,
-\begin{align}
+
+$$
+\begin{split}
   A &\xrightarrow{k_{AB}} B \\
   A &\xrightarrow{k_{AC}} C \\
   B &\xrightarrow{k_{BC}} C \\
   C &\xrightarrow{k_{CA}} A
-\end{align}
+  \end{split}
+$$
 
 The rate equations are given by 
-\begin{align}
+
+$$
+\begin{split}
   \frac{d[A]}{dt} &= -k_{AB} [A] - k_{AC} [A] + k_{CA} [C] \\
   \frac{d[B]}{dt} &= k_{AB} [A] - k_{BC} [B] \\
   \frac{d[C]}{dt} &= k_{AC} [A] + k_{BC} [B] - k_{CA}[C] 
-\end{align}
+  \end{split}
+$$
+
 We can write this as a matrix equation:
 
 $$ \frac{d}{dt} \begin{bmatrix} [A] \\ [B] \\ [C] \end{bmatrix} = \begin{bmatrix} -k_{AB} - k_{AC} & 0 & k_{CA} \\ k_{AB} & -k_{BC} & 0 \\ k_{AC} & k_{BC} & -k_{CA} \end{bmatrix} \begin{bmatrix} [A] \\ [B] \\ [C] \end{bmatrix} $$
@@ -252,7 +259,7 @@ $$ \langle \hat{A} \rangle = \sum_{i,j=1}^M c_i^* c_j A_{ij} $$
 
 This is a matrix-vector product, of the form 
 
-$$\langle \hat{A} \rangle = c^T A c$$.
+$$\langle \hat{A} \rangle = c^T A c$$
 
 Note that a short calculation shows that this is equivalent to 
 
