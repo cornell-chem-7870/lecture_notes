@@ -605,20 +605,26 @@ The trace operation satisfies the following properties:</p>
 <h2>Some Examples of Matrices in Chemistry<a class="headerlink" href="#some-examples-of-matrices-in-chemistry" title="Link to this heading">#</a></h2>
 <section id="first-order-rate-laws">
 <h3>First-order Rate Laws<a class="headerlink" href="#first-order-rate-laws" title="Link to this heading">#</a></h3>
-<p>Consider a collection of first-order rections,
-\begin{align}
-A &amp;\xrightarrow{k_{AB}} B \
-A &amp;\xrightarrow{k_{AC}} C \
-B &amp;\xrightarrow{k_{BC}} C \
-C &amp;\xrightarrow{k_{CA}} A
-\end{align}</p>
-<p>The rate equations are given by
-\begin{align}
-\frac{d[A]}{dt} &amp;= -k_{AB} [A] - k_{AC} [A] + k_{CA} [C] \
-\frac{d[B]}{dt} &amp;= k_{AB} [A] - k_{BC} [B] \
-\frac{d[C]}{dt} &amp;= k_{AC} [A] + k_{BC} [B] - k_{CA}[C]
-\end{align}
-We can write this as a matrix equation:</p>
+<p>Consider a collection of first-order rections,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{split}
+  A &amp;\xrightarrow{k_{AB}} B \\
+  A &amp;\xrightarrow{k_{AC}} C \\
+  B &amp;\xrightarrow{k_{BC}} C \\
+  C &amp;\xrightarrow{k_{CA}} A
+  \end{split}
+\end{split}\]</div>
+<p>The rate equations are given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{split}
+  \frac{d[A]}{dt} &amp;= -k_{AB} [A] - k_{AC} [A] + k_{CA} [C] \\
+  \frac{d[B]}{dt} &amp;= k_{AB} [A] - k_{BC} [B] \\
+  \frac{d[C]}{dt} &amp;= k_{AC} [A] + k_{BC} [B] - k_{CA}[C] 
+  \end{split}
+\end{split}\]</div>
+<p>We can write this as a matrix equation:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \frac{d}{dt} \begin{bmatrix} [A] \\ [B] \\ [C] \end{bmatrix} = \begin{bmatrix} -k_{AB} - k_{AC} &amp; 0 &amp; k_{CA} \\ k_{AB} &amp; -k_{BC} &amp; 0 \\ k_{AC} &amp; k_{BC} &amp; -k_{CA} \end{bmatrix} \begin{bmatrix} [A] \\ [B] \\ [C] \end{bmatrix} \end{split}\]</div>
 <p>Note that the kernel of this matrix is the same as the steady-state concentration of the system.</p>
@@ -633,7 +639,10 @@ We can write this as a matrix equation:</p>
 \[ \langle \hat{A} \rangle = \sum_{i,j=1}^M c_i^* c_j A_{ij} \]</div>
 <p>This is a matrix-vector product, of the form</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\langle \hat{A} \rangle = c^T A c$$.\\Note that a short calculation shows that this is equivalent to \\$$ \langle \hat{A} \rangle = \text{tr}(D A) \end{aligned}\end{align} \]</div>
+\[\langle \hat{A} \rangle = c^T A c\]</div>
+<p>Note that a short calculation shows that this is equivalent to</p>
+<div class="math notranslate nohighlight">
+\[ \langle \hat{A} \rangle = \text{tr}(D A) \]</div>
 <p>where <span class="math notranslate nohighlight">\(D\)</span> is the density matrix with entries <span class="math notranslate nohighlight">\(D_{ij} = c_i c_j^*\)</span>.</p>
 </section>
 <section id="approximating-a-derivative">
