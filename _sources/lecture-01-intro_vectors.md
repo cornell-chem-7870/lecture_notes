@@ -11,13 +11,14 @@ kernelspec:
   name: python3
 ---
 
-# Chapter 6.1: A Deeper look at Vectors
+# Chapter 1.1: A Deeper look at Vectors
 
 ## Learning Objectives
 
 By the end of this lecture, you should be able to:
 
 - Define a vector space and an inner product space.
+- Develop a geometric intuition for vectors and the dot product.
 - Understand basic vector operations, including addition, scalar multiplication, and the dot product.
 - Define a matrix and matrix multiplication.
 
@@ -104,7 +105,7 @@ $$ \hat{x} = \frac{x}{\|x\|} $$
 
 Moreover, the dot product of two vectors is proportional to the cosine of the angle between them.  
 
-$$ \Re x \cdot y = \|x\| \|y\| \cos(\theta) $$
+$$ \text{Re}(x \cdot y) = \|x\| \|y\| \cos(\theta) $$
 
 where $\theta$ is the angle between two vectors $x$ and $y$.
 If $x \cdot y$ is zero, we say the vectors are **orthogonal**: vectors that are both normalized and orthogonal are called **orthonormal**.
@@ -153,7 +154,7 @@ Another way of understanding matrices is as stretches, rotations, and reflection
 *  $\begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix}$ rotates space by 90 degrees counterclockwise: any vector gets rotated by 90 degrees.
 *  $\begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}$ reflects space across the $x$-axis: any vector gets flipped across the $x$-axis.
 
-Matrices with nontrivial kernel ``squash'' vectors into a subspace of lower dimensionality than .  For instance, the matrix $\begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}$ squashes all vectors onto the line $y = 2x$.
+Matrices with nontrivial kernel "squash" vectors into a subspace of lower dimensionality than .  For instance, the matrix $\begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}$ squashes all vectors onto the line $y = 2x$.
 
 ### Matrix Multiplication
 Just as we stacked row vectors vertically, we can stack our column vectors horizontally.  This allows us to multiply two matrices together.

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Chapter 6.1: A Deeper look at Vectors &#8212; My sample book</title>
+    <title>Chapter 1.1: A Deeper look at Vectors &#8212; My sample book</title>
   
   
   
@@ -65,7 +65,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-01-intro_vectors';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Welcome to your Jupyter Book" href="intro.html" />
+    <link rel="prev" title="Welcome to 7870" href="intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -165,13 +165,13 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Welcome to your Jupyter Book
+                    Welcome to 7870
                 </a>
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1. Linear Algebra</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 6.1: A Deeper look at Vectors</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Chapter 1.1: A Deeper look at Vectors</a></li>
 </ul>
 
     </div>
@@ -354,7 +354,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Chapter 6.1: A Deeper look at Vectors</h1>
+    <h1>Chapter 1.1: A Deeper look at Vectors</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -396,13 +396,14 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="chapter-6-1-a-deeper-look-at-vectors">
-<h1>Chapter 6.1: A Deeper look at Vectors<a class="headerlink" href="#chapter-6-1-a-deeper-look-at-vectors" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="chapter-1-1-a-deeper-look-at-vectors">
+<h1>Chapter 1.1: A Deeper look at Vectors<a class="headerlink" href="#chapter-1-1-a-deeper-look-at-vectors" title="Link to this heading">#</a></h1>
 <section id="learning-objectives">
 <h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
 <p>By the end of this lecture, you should be able to:</p>
 <ul class="simple">
 <li><p>Define a vector space and an inner product space.</p></li>
+<li><p>Develop a geometric intuition for vectors and the dot product.</p></li>
 <li><p>Understand basic vector operations, including addition, scalar multiplication, and the dot product.</p></li>
 <li><p>Define a matrix and matrix multiplication.</p></li>
 </ul>
@@ -490,7 +491,7 @@ where <span class="math notranslate nohighlight">\(\beta\)</span> is the inverse
 \[ \hat{x} = \frac{x}{\|x\|} \]</div>
 <p>Moreover, the dot product of two vectors is proportional to the cosine of the angle between them.</p>
 <div class="math notranslate nohighlight">
-\[ \Re x \cdot y = \|x\| \|y\| \cos(\theta) \]</div>
+\[ \text{Re}(x \cdot y) = \|x\| \|y\| \cos(\theta) \]</div>
 <p>where <span class="math notranslate nohighlight">\(\theta\)</span> is the angle between two vectors <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>.
 If <span class="math notranslate nohighlight">\(x \cdot y\)</span> is zero, we say the vectors are <strong>orthogonal</strong>: vectors that are both normalized and orthogonal are called <strong>orthonormal</strong>.</p>
 <p>Not only does this give us a natural connection to trigonometry, it lets us generalize the notion of distance and angle between any two vectors.</p>
@@ -534,7 +535,7 @@ For instance, the kernel of the matrix <span class="math notranslate nohighlight
 <li><p><span class="math notranslate nohighlight">\(\begin{bmatrix} 0 &amp; -1 \\ 1 &amp; 0 \end{bmatrix}\)</span> rotates space by 90 degrees counterclockwise: any vector gets rotated by 90 degrees.</p></li>
 <li><p><span class="math notranslate nohighlight">\(\begin{bmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{bmatrix}\)</span> reflects space across the <span class="math notranslate nohighlight">\(x\)</span>-axis: any vector gets flipped across the <span class="math notranslate nohighlight">\(x\)</span>-axis.</p></li>
 </ul>
-<p>Matrices with nontrivial kernel ``squash’’ vectors into a subspace of lower dimensionality than .  For instance, the matrix <span class="math notranslate nohighlight">\(\begin{bmatrix} 1 &amp; 2 \\ 2 &amp; 4 \end{bmatrix}\)</span> squashes all vectors onto the line <span class="math notranslate nohighlight">\(y = 2x\)</span>.</p>
+<p>Matrices with nontrivial kernel “squash” vectors into a subspace of lower dimensionality than .  For instance, the matrix <span class="math notranslate nohighlight">\(\begin{bmatrix} 1 &amp; 2 \\ 2 &amp; 4 \end{bmatrix}\)</span> squashes all vectors onto the line <span class="math notranslate nohighlight">\(y = 2x\)</span>.</p>
 </section>
 <section id="matrix-multiplication">
 <h3>Matrix Multiplication<a class="headerlink" href="#matrix-multiplication" title="Link to this heading">#</a></h3>
@@ -714,7 +715,7 @@ To show this, let <span class="math notranslate nohighlight">\(v\)</span> be a n
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Welcome to your Jupyter Book</p>
+        <p class="prev-next-title">Welcome to 7870</p>
       </div>
     </a>
 </div>
