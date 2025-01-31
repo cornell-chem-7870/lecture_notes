@@ -7,3 +7,4 @@ parts:
   - caption: Part 1. Linear Algebra
     chapters:
     - file: lecture-01-intro_vectors.md
+    - file: lecture-02-coding_matrices_in_python.md

@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# Chapter 1.1: A Deeper look at Vectors
+# A Deeper look at Vectors
 
 ## Learning Objectives
 
