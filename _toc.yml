@@ -8,3 +8,4 @@ parts:
     chapters:
     - file: lecture-01-intro_vectors.md
     - file: lecture-02-coding_matrices_in_python.md
+    - file: lecture-03-matrix_decompositions.md
