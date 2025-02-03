@@ -1,0 +1,675 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Eigenvectors, Unitary Matrices, and Matrix Decompositions &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-03-matrix_decompositions';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Linear Algebra in Python with Numpy" href="lecture-02-coding_matrices_in_python.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to 7870
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1. Linear Algebra</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="lecture-01-intro_vectors.html">A Deeper look at Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture-02-coding_matrices_in_python.html">Linear Algebra in Python with Numpy</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Eigenvectors, Unitary Matrices, and Matrix Decompositions</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-03-matrix_decompositions.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/lecture-03-matrix_decompositions.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Eigenvectors, Unitary Matrices, and Matrix Decompositions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrices-and-quantum-mechanics">Matrices and quantum mechanics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigenvectors-and-eigenvalues">Eigenvectors and Eigenvalues</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#definition">Definition</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigendecomposition">Eigendecomposition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unitary-matrices">Unitary Matrices</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-unitary-matrices">Examples of Unitary Matrices</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-decompositions">Matrix Decompositions</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="eigenvectors-unitary-matrices-and-matrix-decompositions">
+<h1>Eigenvectors, Unitary Matrices, and Matrix Decompositions<a class="headerlink" href="#eigenvectors-unitary-matrices-and-matrix-decompositions" title="Link to this heading">#</a></h1>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Map Quantum systems to matrix equations.</p></li>
+<li><p>Understand the concept of eigenvectors and eigenvalues, in particular the specific case of Hermitian matrices.</p></li>
+<li><p>Understand the concept of a unitary matrix and its properties.</p></li>
+<li><p>Understand the concept of matrix decompositions, most notably the Singular Value Decomposition (SVD).</p></li>
+</ul>
+</section>
+<section id="matrices-and-quantum-mechanics">
+<h2>Matrices and quantum mechanics<a class="headerlink" href="#matrices-and-quantum-mechanics" title="Link to this heading">#</a></h2>
+<p>We have previously discussed an interpretation of wavefunctions in terms of vectors.
+Here, we are going to make this more explicit by considering the matrix representation of quantum mechanical operators.
+We will see that many of the concepts we have discussed in the context of linear algebra have direct analogs in quantum mechanics.</p>
+<p>First, we restrict our attention to finite-dimensional quantum systems.  Then, each wavefunction can be represented as a sum of a set of <span class="math notranslate nohighlight">\(n\)</span> basis functions:</p>
+<div class="math notranslate nohighlight">
+\[
+\psi(x) = \sum_{i=1}^n c_i \phi_i(x)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\phi_i(x)\)</span> are the basis functions, and <span class="math notranslate nohighlight">\(c_i\)</span> are the coefficients of the expansion.
+For now, we assume our basis functions are orthonormal: that is, <span class="math notranslate nohighlight">\(\int \phi_i(x) \phi_j(x) dx = \delta_{ij}\)</span>.
+Infinite dimensional systems are also possible, but require a much more careful treatment: the development of functional analysis in the 20th century was largely driven by the need to understand these systems.</p>
+<p>Applying an operator <span class="math notranslate nohighlight">\(\hat{A}\)</span> to a wavefunction <span class="math notranslate nohighlight">\(\psi(x)\)</span> gives a new wavefunction <span class="math notranslate nohighlight">\(\psi'(x)\)</span>, with it’s own expansion coefficients.
+In fact, this is true for each <span class="math notranslate nohighlight">\(\phi_i(x)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{A} \phi_i(x) = \sum_{j=1}^n a_{ij} \phi_j(x)
+\]</div>
+<p>Since quantum mechanical operators are linear, we can rewrite the application of <span class="math notranslate nohighlight">\(\hat{A}\)</span> to <span class="math notranslate nohighlight">\(\psi(x)\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{A} \psi(x) = \sum_{i=1}^n c_i \hat{A} \phi_i(x) = \sum_{i=1}^n c_i \sum_{j=1}^n a_{ij} \phi_j(x)
+\]</div>
+<p>Effectively, we have a matrix equation: applying the operator <span class="math notranslate nohighlight">\(\hat{A}\)</span> to the wavefunction <span class="math notranslate nohighlight">\(\psi(x)\)</span> is equivalent to multiplying the vector of coefficients <span class="math notranslate nohighlight">\(c_i\)</span> by the matrix <span class="math notranslate nohighlight">\(A_{ij} = a_{ij}\)</span>.  This matrix is called the matrix representation of the operator <span class="math notranslate nohighlight">\(\hat{A}\)</span> in the basis <span class="math notranslate nohighlight">\(\phi_i(x)\)</span>.
+Consequently, we can even stop thinking about the wavefunction as a function, and instead think of it as a vector of coefficients.</p>
+</section>
+<section id="eigenvectors-and-eigenvalues">
+<h2>Eigenvectors and Eigenvalues<a class="headerlink" href="#eigenvectors-and-eigenvalues" title="Link to this heading">#</a></h2>
+<p>Equipped with this new perspective, we will revisit many of the math underlying quantum mechanics from our new, matrix-based perspective.
+We begin with eigenvectors and eigenvalues.</p>
+<section id="definition">
+<h3>Definition<a class="headerlink" href="#definition" title="Link to this heading">#</a></h3>
+<p>Given a matrix <span class="math notranslate nohighlight">\(A\)</span>, a vector <span class="math notranslate nohighlight">\(v\)</span> is an eigenvector of <span class="math notranslate nohighlight">\(A\)</span> if <span class="math notranslate nohighlight">\(Av = \lambda v\)</span> for some scalar <span class="math notranslate nohighlight">\(\lambda\)</span>.
+The scalar <span class="math notranslate nohighlight">\(\lambda\)</span> is called the eigenvalue corresponding to the eigenvector <span class="math notranslate nohighlight">\(v\)</span>.
+Immediately, a few things should be clear:</p>
+<ul class="simple">
+<li><p>For a matrix <span class="math notranslate nohighlight">\(A\)</span> to be an eigenvector, it must be square.</p></li>
+<li><p>The eigenvector <span class="math notranslate nohighlight">\(v\)</span> is not unique: any scalar multiple of <span class="math notranslate nohighlight">\(v\)</span> is also an eigenvector.</p></li>
+<li><p>Two eigenvectors with the same eigenvalue can be summed to form a new eigenvector:
+if <span class="math notranslate nohighlight">\(Av_1 = \lambda v_1\)</span> and <span class="math notranslate nohighlight">\(Av_2 = \lambda v_2\)</span>, then <span class="math notranslate nohighlight">\(A(v_1 + v_2) = \lambda(v_1 + v_2)\)</span>.</p>
+<ul>
+<li><p>We call the space of formed by all possible linear combinations of eigenvectors corresponding to a particular eigenvalue the eigenspace of that eigenvalue.</p></li>
+<li><p>The dimension of the eigenspace is called the geometric multiplicity of the eigenvalue.</p></li>
+</ul>
+</li>
+</ul>
+<p>If we allow our eigenvalues and eigenvalues to be complex, then every square matrix has <span class="math notranslate nohighlight">\(n\)</span> eigenvalues, counted with multiplicity.
+These eigenvalues don’t have to nonzero though:
+consider the matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A = \begin{bmatrix} 0 &amp; 1 \\ 0 &amp; 0 \end{bmatrix}
+\end{split}\]</div>
+<p>This matrix has only one eigenvalue, 0, with eigenvectors <span class="math notranslate nohighlight">\(\begin{bmatrix} 1 \\ 0 \end{bmatrix}\)</span> and <span class="math notranslate nohighlight">\(\begin{bmatrix} 0 \\ 1 \end{bmatrix}\)</span>.</p>
+</section>
+</section>
+<section id="eigendecomposition">
+<h2>Eigendecomposition<a class="headerlink" href="#eigendecomposition" title="Link to this heading">#</a></h2>
+<p>We say a matrix <span class="math notranslate nohighlight">\(A\)</span> is diagonalizable if it can be written as <span class="math notranslate nohighlight">\(A = V \Lambda V^{-1}\)</span>, where <span class="math notranslate nohighlight">\(V\)</span> is a matrix whose columns are the eigenvectors of <span class="math notranslate nohighlight">\(A\)</span>, and <span class="math notranslate nohighlight">\(\Lambda\)</span> is a diagonal matrix whose diagonal entries are the eigenvalues of <span class="math notranslate nohighlight">\(A\)</span>.
+Immediately, it should be clear that not all matrices are diagonalizable.  If we again consider the matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A = \begin{bmatrix} 0 &amp; 1 \\ 0 &amp; 0 \end{bmatrix}
+\end{split}\]</div>
+<p>any possible eigendecomposition would have take the form</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A = V \begin{bmatrix} 0 &amp; 0 \\ 0 &amp; 0 \end{bmatrix} V^{-1}
+\end{split}\]</div>
+<p>which is clearly an impossibility.  Matrices that are not diagonalizable are called <em>defective</em>.  (This always seemed to me like a very mean thing to call a matrix.)</p>
+<p>One specific case of interest, however, is when a matrix is <em>Hermitian</em>: that is, when <span class="math notranslate nohighlight">\(A = A^\dagger\)</span>.
+A famous theorem in linear algebra, the spectral theorem for Hermitian matrices,
+states that all Hermitian matrices are diagonalizable.
+Moreover,   it immediately follows that
+eigenvalues are real, since</p>
+<div class="math notranslate nohighlight">
+\[
+   (x^\dagger x) \lambda = x^\dagger A x =  (A x)^\dagger x = \lambda^* (x^\dagger x)
+\]</div>
+<p>Moreover, eigenvectors corresponding to different eigenvalues are orthogonal.  Denoting the eigenvectors corresponding to different eigenvalues as <span class="math notranslate nohighlight">\(v_i\)</span> and <span class="math notranslate nohighlight">\(v_j\)</span>, we have</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda_j v_i^\dagger v_j = v_i^\dagger A v_j =  
+(A v_i)^\dagger v_j = \lambda_i^* v_i^\dagger v_j
+\]</div>
+<p>which implies that <span class="math notranslate nohighlight">\(v_i^\dagger v_j = 0\)</span>.</p>
+<p>These two observations form the basis for a lot of quantum mechanics:</p>
+<ul class="simple">
+<li><p>Since the eigenvalues of a Hermitian matrix are real, the observed values of quantum mechanical observables are real.</p></li>
+<li><p>Since the eigenvectors of a Hermitian matrix are orthogonal, we do not see transitions between different states in quantum mechanics
+when observing a system in a state in which we are in an eigenstate of the observable.</p></li>
+</ul>
+<p>This has an important consequence: we can write our eigenvectors in a matrix <span class="math notranslate nohighlight">\(V\)</span>, such that <span class="math notranslate nohighlight">\(V^\dagger V = I\)</span>:
+orthogonality implies that</p>
+<div class="math notranslate nohighlight">
+\[
+(V^\dagger V)_{ij} =  v_i^\dagger v_j = \delta_{ij}
+\]</div>
+<p>Consequently, if <span class="math notranslate nohighlight">\(A\)</span> is a Hermitian matrix, there exists an eigendecomposition
+such that</p>
+<div class="math notranslate nohighlight">
+\[
+A = V \Lambda V^\dagger
+\]</div>
+</section>
+<section id="unitary-matrices">
+<h2>Unitary Matrices<a class="headerlink" href="#unitary-matrices" title="Link to this heading">#</a></h2>
+<p>The property of obeying <span class="math notranslate nohighlight">\(A^\dagger A = I\)</span> is true for a specific class of matrices: the unitary matrices.
+A matrix <span class="math notranslate nohighlight">\(U\)</span> is unitary if its conjugate transpose is its inverse: <span class="math notranslate nohighlight">\(U^\dagger = U^{-1}\)</span>: this is equivalent to <span class="math notranslate nohighlight">\(U^\dagger U = UU^\dagger = I\)</span>.</p>
+<p>Unitary matrices have many nice properties.</p>
+<ul class="simple">
+<li><p>They preserve the length of vectors: <span class="math notranslate nohighlight">\(\|Ux\| = \|x\|\)</span>.<br />
+s is because <span class="math notranslate nohighlight">\(\|Ux\|^2 = (Ux)^\dagger Ux = x^\dagger U^\dagger U x = x^\dagger x = \|x\|^2\)</span>.
+e generally, they preserve the inner product of vectors: <span class="math notranslate nohighlight">\(\langle Ux, Uy \rangle = \langle x, y \rangle\)</span>.</p></li>
+<li><p>The columns of a unitary matrix are orthonormal.</p></li>
+<li><p>The rows of a unitary matrix are orthonormal.</p></li>
+<li><p>Geometrically, unitary matrices correspond to rotations and reflections: the geometric properties that preserve length.</p></li>
+<li><p>The eigenvalues of a unitary matrix have absolute value 1.  (If you are not familiar with eigenvalues, keep on reading!)</p></li>
+</ul>
+<section id="examples-of-unitary-matrices">
+<h3>Examples of Unitary Matrices<a class="headerlink" href="#examples-of-unitary-matrices" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>The identity matrix is unitary.</p></li>
+<li><p>The matrix</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+R(\theta) = \begin{bmatrix} \cos \theta &amp; -\sin \theta \\ \sin \theta &amp; \cos \theta \end{bmatrix}
+\end{split}\]</div>
+<p>for any <span class="math notranslate nohighlight">\(\theta\)</span> is unitary: this is a two-dimensional rotation matrix.</p>
+<ul class="simple">
+<li><p>The matrix</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+F = \begin{bmatrix} -1 &amp; 0 \\ 0 &amp; 1 \end{bmatrix}
+\end{split}\]</div>
+<p>Consequently, unitary matrices are not useful just useful in quantum mechanics:
+they are useful any time we are interested in preserving length.
+For instance, the action of rotation and reflections on chemical systems are often encoded using unitary matrices.
+In addition to the rotation and reflection matrices above, Wigner-D matrices, which are used to describe the rotation of spherical harmonics, are unitary.</p>
+</section>
+</section>
+<section id="matrix-decompositions">
+<h2>Matrix Decompositions<a class="headerlink" href="#matrix-decompositions" title="Link to this heading">#</a></h2>
+<p>TBD</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="lecture-02-coding_matrices_in_python.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Linear Algebra in Python with Numpy</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrices-and-quantum-mechanics">Matrices and quantum mechanics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigenvectors-and-eigenvalues">Eigenvectors and Eigenvalues</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#definition">Definition</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigendecomposition">Eigendecomposition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unitary-matrices">Unitary Matrices</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-unitary-matrices">Examples of Unitary Matrices</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-decompositions">Matrix Decompositions</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Erik Thiede
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
