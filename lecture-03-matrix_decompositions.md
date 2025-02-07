@@ -137,6 +137,31 @@ $$
 A = V \Lambda V^\dagger
 $$
 
+### Application of Eigendecomposition: Exponential of a Matrix
+
+One application of Eigendecompositions is to compute the exponential of a matrix.
+Given a matrix $A$, we can write $A = V \Lambda V^\dagger$.
+Then, we can write
+
+$$
+e^A = I + A + \frac{A^2}{2!} + \frac{A^3}{3!} + \ldots
+$$
+
+Substituting in the eigendecomposition of $A$, we have
+
+$$
+e^A = V \left( I + \Lambda + \frac{\Lambda^2}{2!} + \frac{\Lambda^3}{3!} + \ldots \right) V^\dagger
+$$
+
+Since $\Lambda$ is diagonal, we can further write
+
+$$
+e^A = V \begin{bmatrix} e^{\lambda_1} & 0 & 0 & \ldots \\ 0 & e^{\lambda_2} & 0 & \ldots \\ 0 & 0 & e^{\lambda_3} & \ldots \\ \vdots & \vdots & \vdots & \ddots \end{bmatrix} V^\dagger
+$$
+
+This is a very useful result: it allows us to compute the exponential of a matrix by computing the exponential of its eigenvalues.
+
+
 ## Unitary Matrices
 
 The property of obeying $A^\dagger A = I$ is true for a specific class of matrices: the unitary matrices.
@@ -175,5 +200,55 @@ For instance, the action of rotation and reflections on chemical systems are oft
 In addition to the rotation and reflection matrices above, Wigner-D matrices, which are used to describe the rotation of spherical harmonics, are unitary.
 
 
-## Matrix Decompositions
-TBD
+## The Singular Value Decomposition
+
+We have already seen one matrix decomposition: the eigendecomposition.  However, the eigendecomposition does not exist for all matrices.
+The Singular Value Decomposition (SVD) is a more general matrix decomposition that does.
+
+Given a matrix $A$, the SVD of $A$ is a factorization of the form
+
+$$
+A = U \Sigma V^\dagger
+$$
+
+where $U$ and $V$ are unitary matrices, and $\Sigma$ with non-negative real numbers on the diagonal and zeros elsewhere.
+The non-zero elements of $\Sigma$ are called the singular values of $A$.  Some things to note:
+ver, * The SVD always exists for any matrix.  However, it is NOT unique.
+* If $A$ is diagonalizable (i.e., it has an eigendecomposition), then the singular values are the absolute values of the eigenvalues.
+* The singular values are the eigenvalues of $A^\dagger A$ (or $AA^\dagger$) raised to the power of 1/2.
+* The columns of $U$ are the eigenvectors of $AA^\dagger$, and the columns of $V$ are the eigenvectors of $A^\dagger A$.
+
+### Application of the SVD:
+
+#### Data Compression
+
+One of the most important applications of the SVD is in data compression.  In general, storing an $m \times n$ matrix requires $mn$ elements.
+However, in many applications many of the singular values are small.  Consequently, we can neglect them and store only the largest singular values and their corresponding columns of $U$ and $V$.
+
+#### Principal Component Analysis
+
+This concept of ``low-rank approximation'' is also the basis of the Principal Component Analysis (PCA) algorithm, which is used to reduce the dimensionality of data.  
+Assume we have a data matrix of size $m \times n$: each row is a different data point, and each column is a different feature.
+In PCA, we first ``center'' each column (i.e., subtract the mean of each column from each element of the column), so that each column is zero-mean.
+Then, we compute the SVD of the data matrix, and then keep only the largest singular values and their corresponding columns in $U$ and $V$.
+We can then interpret the columns of $V$ as the principal components of the data: the directions in which the data varies the most.
+The column of $U$ then tells us how much each data point varies in each of these directions.
+This allows us to build a lower-dimensional representation of the data that captures the most important features.  
+
+Note that since the PCA is the SVD of the data matrix, it is equivalent to diagonalizing the covariance matrix of the data.
+Then, the covariance matrix of the data is $C = \frac{1}{n} X^\dagger X$. The eigenvectors of the covariance matrix are the principal components of the data.
+
+#### Least Squares Regression
+
+Another application of the SVD is in solving least squares regression problems.
+
+Say we have a matrix $A$ and a vector $b$, and we want to find the vector $x$ that gets as close to solving the equation $Ax = b$ as possible.
+The least squares solution is the vector $x$ that minimizes $\|Ax - b\|^2$.  After some mathematics (which we will not go into here), it can be shown that the least squares solution is $x = V \Sigma^{-1} U^\dagger b$, where $U$, $\Sigma$, and $V$ are the SVD of $A$.  Moreover, we can also control the number of singular values we use in the solution: by damping the singular values, we can make solutions that may have higher error but are less sensitive to noise. 
+
+
+#### Orthogonalizing Vectors
+
+Another application of the SVD is to orthogonalize a set of vectors.
+Say we have a set of vectors $v_1, v_2, \ldots, v_n$, and want to find an orthogonal set of vectors $u_1, u_2, \ldots, u_n$ that span the same space
+(i.e., any vector that can be written as a linear combination of the $v_i$ can also be written as a linear combination of the $u_i$).
+We can do this by computing the SVD of the matrix whose columns are the $v_i$, and the columns of $U$ will be the $u_i$.
