@@ -610,12 +610,17 @@ The column of <span class="math notranslate nohighlight">\(U\)</span> then tells
 This allows us to build a lower-dimensional representation of the data that captures the most important features.</p>
 <p>Note that since the PCA is the SVD of the data matrix, it is equivalent to diagonalizing the covariance matrix of the data.
 Then, the covariance matrix of the data is <span class="math notranslate nohighlight">\(C = \frac{1}{n} X^\dagger X\)</span>. The eigenvectors of the covariance matrix are the principal components of the data.</p>
+<div class="math notranslate nohighlight">
+\[
+C = \frac{1}{n} X^\dagger X = \frac{1}{n} (U \Sigma V^\dagger)^\dagger U \Sigma V^\dagger = \frac{1}{n} V \Sigma U^\dagger U \Sigma V^\dagger = V \frac{1}{n} \Sigma^2 V^\dagger
+\]</div>
+<p>Consequently, the eigenvectors of the covariance matrix are the same as the columns of <span class="math notranslate nohighlight">\(V\)</span> in the SVD of the data matrix.</p>
 </section>
 <section id="least-squares-regression">
 <h4>Least Squares Regression<a class="headerlink" href="#least-squares-regression" title="Link to this heading">#</a></h4>
 <p>Another application of the SVD is in solving least squares regression problems.</p>
 <p>Say we have a matrix <span class="math notranslate nohighlight">\(A\)</span> and a vector <span class="math notranslate nohighlight">\(b\)</span>, and we want to find the vector <span class="math notranslate nohighlight">\(x\)</span> that gets as close to solving the equation <span class="math notranslate nohighlight">\(Ax = b\)</span> as possible.
-The least squares solution is the vector <span class="math notranslate nohighlight">\(x\)</span> that minimizes <span class="math notranslate nohighlight">\(\|Ax - b\|^2\)</span>.  After some mathematics (which we will not go into here), it can be shown that the least squares solution is <span class="math notranslate nohighlight">\(x = V \Sigma^{-1} U^\dagger b\)</span>, where <span class="math notranslate nohighlight">\(U\)</span>, <span class="math notranslate nohighlight">\(\Sigma\)</span>, and <span class="math notranslate nohighlight">\(V\)</span> are the SVD of <span class="math notranslate nohighlight">\(A\)</span>.  Moreover, we can also control the number of singular values we use in the solution: by damping the singular values, we can make solutions that may have higher error but are less sensitive to noise.</p>
+The least squares solution is the vector <span class="math notranslate nohighlight">\(x\)</span> that minimizes <span class="math notranslate nohighlight">\(\|Ax - b\|^2\)</span>.  After some mathematics (we will not go into herFe), it can be shown that the least squares solution is <span class="math notranslate nohighlight">\(x = V \Sigma^{-1} U^\dagger b\)</span>, where <span class="math notranslate nohighlight">\(U\)</span>, <span class="math notranslate nohighlight">\(\Sigma\)</span>, and <span class="math notranslate nohighlight">\(V\)</span> are the SVD of <span class="math notranslate nohighlight">\(A\)</span>.  Moreover, we can also control the number of singular values we use in the solution: by damping the singular values, we can make solutions that may have higher error but are less sensitive to noise.</p>
 </section>
 <section id="orthogonalizing-vectors">
 <h4>Orthogonalizing Vectors<a class="headerlink" href="#orthogonalizing-vectors" title="Link to this heading">#</a></h4>

@@ -6,8 +6,9 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; My sample book</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Linear Regression and Least Squares &#8212; My sample book</title>
   
   
   
@@ -59,9 +60,12 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
-    <link rel="index" title="Index" href="#" />
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-04-linear_regression';</script>
+    <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Eigenvectors, Unitary Matrices, and Matrix Decompositions" href="lecture-03-matrix_decompositions.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -112,8 +116,6 @@
     <div class="bd-container__inner bd-page-width">
       
       
-      
-        
       
       <dialog id="pst-primary-sidebar-modal"></dialog>
       <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
@@ -168,11 +170,11 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1. Linear Algebra</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="lecture-01-intro_vectors.html">A Deeper look at Vectors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-02-coding_matrices_in_python.html">Linear Algebra in Python with Numpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-03-matrix_decompositions.html">Eigenvectors, Unitary Matrices, and Matrix Decompositions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-04-linear_regression.html">Linear Regression and Least Squares</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Linear Regression and Least Squares</a></li>
 </ul>
 
     </div>
@@ -249,7 +251,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fgenindex.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-04-linear_regression.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -261,6 +263,54 @@
   </span>
 <span class="btn__text-container">Open issue</span>
 </a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/lecture-04-linear_regression.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
 </li>
       
   </ul>
@@ -294,7 +344,9 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -305,11 +357,23 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1></h1>
+    <h1>Linear Regression and Least Squares</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intro-to-linear-regression">Intro to Linear Regression</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#least-squares">Least Squares</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -319,13 +383,116 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
+  <section class="tex2jax_ignore mathjax_ignore" id="linear-regression-and-least-squares">
+<h1>Linear Regression and Least Squares<a class="headerlink" href="#linear-regression-and-least-squares" title="Link to this heading">#</a></h1>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+</section>
+<section id="intro-to-linear-regression">
+<h2>Intro to Linear Regression<a class="headerlink" href="#intro-to-linear-regression" title="Link to this heading">#</a></h2>
+<p>In linear regression, we are given a set of data points <span class="math notranslate nohighlight">\((x_i, y_i)\)</span> and we want to find a line that best fits the data.
+We consider the case where <span class="math notranslate nohighlight">\(x_i\)</span> is multi-dimensional, with <span class="math notranslate nohighlight">\(m\)</span> features.
+Finding the line that best fits the data corresponds to finding an <span class="math notranslate nohighlight">\(m\)</span>-dimensional vector <span class="math notranslate nohighlight">\(\mathbf{w}\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[
+y_i \approx w \cdot x_i + b
+\]</div>
+<p>To solve this problem, our first step is to write it as a matrix equation.
+We introduce the matrix <span class="math notranslate nohighlight">\(X\)</span> with entries</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+X = \begin{bmatrix}
+1 &amp; x_{1,1} &amp; x_{1,2} &amp; \cdots &amp; x_{1,m} \\
+1 &amp; x_{2,1} &amp; x_{2,2} &amp; \cdots &amp; x_{2,m} \\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+1 &amp; x_{n,1} &amp; x_{n,2} &amp; \cdots &amp; x_{n,m} \\
+\end{bmatrix}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(n\)</span> is the number of data points.  We can then write the linear regression problem as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+y_1 \\
+y_2 \\
+y_3 \\
+\vdots \\
+y_n
+\end{bmatrix}
+\approx
+\begin{bmatrix}
+1 &amp; x_{1,1} &amp; x_{1,2} &amp; \cdots &amp; x_{1,m} \\
+1 &amp; x_{2,1} &amp; x_{2,2} &amp; \cdots &amp; x_{2,m} \\
+1 &amp; x_{3,1} &amp; x_{3,2} &amp; \cdots &amp; x_{3,m} \\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+1 &amp; x_{n,1} &amp; x_{n,2} &amp; \cdots &amp; x_{n,m} \\
+\end{bmatrix}
+\begin{bmatrix}
+b \\
+w_1 \\
+w_2 \\
+\vdots \\
+w_m
+\end{bmatrix}
+\end{split}\]</div>
+<p>or more succinctly as</p>
+<div class="math notranslate nohighlight">
+\[
+Y \approx X W
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(Y\)</span> is the vector of <span class="math notranslate nohighlight">\(y_i\)</span> values, <span class="math notranslate nohighlight">\(X\)</span> is the matrix of <span class="math notranslate nohighlight">\(x_i\)</span> values, and <span class="math notranslate nohighlight">\(W\)</span> is the vector of <span class="math notranslate nohighlight">\(w_i\)</span> values and <span class="math notranslate nohighlight">\(b\)</span>.</p>
+<section id="least-squares">
+<h3>Least Squares<a class="headerlink" href="#least-squares" title="Link to this heading">#</a></h3>
+<p>To get the best approximation possible, we will attempt to minimize the length of the difference vector <span class="math notranslate nohighlight">\(Y - X W\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+    W_{\text{LS}} = \text{argmin}_W \| X W - Y\|_2^2
+\]</div>
+<p>(The notation <span class="math notranslate nohighlight">\(\| \cdot \|_2\)</span> denotes the Euclidean norm, which is the square root of the sum of the squares of the elements.
+So far we have not discussed any other norms, so this notation is redundant, but it will be good for us to get used to it.)</p>
+<p>To solve this, we will take the SVD of <span class="math notranslate nohighlight">\(X\)</span> (here we are using the convention that <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span> are square orthogonal matrices).</p>
+<div class="math notranslate nohighlight">
+\[
+\| X W - Y\|_2^2 = \| U \Sigma V^\dagger W - Y\|_2^2 = \| \Sigma V^\dagger W - U^\dagger Y\|_2^2
+\]</div>
+<p>Where the second equality follows that (a) <span class="math notranslate nohighlight">\(U\)</span> is an orthogonal unitary and (b) orthogonal matrices preserve the Euclidean norm.
+Moreover, for simplicity we can instead minimize over <span class="math notranslate nohighlight">\(Z = V^\dagger W\)</span> rather than <span class="math notranslate nohighlight">\(W\)</span> directly.</p>
+<p>Writing the Euclidean norm out explicitly, we have that</p>
+<div class="math notranslate nohighlight">
+\[
+\| X W - Y\|_2^2 = \sum_{i=1}^r |\sigma_i z_i - (U^\dagger Y)_i|^2  + \sum_{i=r+1}^M |(U^\dagger Y)_i|^2
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(r\)</span> is the number of non-zero singular values of <span class="math notranslate nohighlight">\(X\)</span>.
+We can clearly minimize this by setting <span class="math notranslate nohighlight">\(z_i = \sigma_i^{-1} (U^\dagger Y)_i\)</span> for <span class="math notranslate nohighlight">\(i \leq r\)</span> and making an arbitrary choice for <span class="math notranslate nohighlight">\(z_i\)</span> for <span class="math notranslate nohighlight">\(i &gt; r\)</span>.
+For simplicity, we will set <span class="math notranslate nohighlight">\(z_i = 0\)</span> for <span class="math notranslate nohighlight">\(i &gt; r\)</span>.</p>
+<p>Recalling that <span class="math notranslate nohighlight">\(Z = V^\dagger W\)</span>, implying that <span class="math notranslate nohighlight">\(V Z = W\)</span>, we can write the solution as</p>
+<div class="math notranslate nohighlight">
+\[
+W_{\text{LS}} = V \Sigma^{+} U^\dagger  Y
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Sigma^{+}\)</span> is the matrix with the reciprocals of the non-zero singular values of <span class="math notranslate nohighlight">\(\Sigma\)</span> on the diagonal and zeros elsewhere.</p>
+</section>
+</section>
+</section>
 
-<h1 id="index">Index</h1>
-
-<div class="genindex-jumpbox">
- 
-</div>
-
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
                 </article>
               
@@ -337,12 +504,41 @@
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="lecture-03-matrix_decompositions.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Eigenvectors, Unitary Matrices, and Matrix Decompositions</p>
+      </div>
+    </a>
 </div>
                 </footer>
               
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intro-to-linear-regression">Intro to Linear Regression</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#least-squares">Least Squares</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

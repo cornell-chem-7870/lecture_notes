@@ -238,12 +238,18 @@ This allows us to build a lower-dimensional representation of the data that capt
 Note that since the PCA is the SVD of the data matrix, it is equivalent to diagonalizing the covariance matrix of the data.
 Then, the covariance matrix of the data is $C = \frac{1}{n} X^\dagger X$. The eigenvectors of the covariance matrix are the principal components of the data.
 
+$$
+C = \frac{1}{n} X^\dagger X = \frac{1}{n} (U \Sigma V^\dagger)^\dagger U \Sigma V^\dagger = \frac{1}{n} V \Sigma U^\dagger U \Sigma V^\dagger = V \frac{1}{n} \Sigma^2 V^\dagger
+$$
+
+Consequently, the eigenvectors of the covariance matrix are the same as the columns of $V$ in the SVD of the data matrix.
+
 #### Least Squares Regression
 
 Another application of the SVD is in solving least squares regression problems.
 
 Say we have a matrix $A$ and a vector $b$, and we want to find the vector $x$ that gets as close to solving the equation $Ax = b$ as possible.
-The least squares solution is the vector $x$ that minimizes $\|Ax - b\|^2$.  After some mathematics (which we will not go into here), it can be shown that the least squares solution is $x = V \Sigma^{-1} U^\dagger b$, where $U$, $\Sigma$, and $V$ are the SVD of $A$.  Moreover, we can also control the number of singular values we use in the solution: by damping the singular values, we can make solutions that may have higher error but are less sensitive to noise. 
+The least squares solution is the vector $x$ that minimizes $\|Ax - b\|^2$.  After some mathematics (we will not go into herFe), it can be shown that the least squares solution is $x = V \Sigma^{-1} U^\dagger b$, where $U$, $\Sigma$, and $V$ are the SVD of $A$.  Moreover, we can also control the number of singular values we use in the solution: by damping the singular values, we can make solutions that may have higher error but are less sensitive to noise. 
 
 
 #### Orthogonalizing Vectors
