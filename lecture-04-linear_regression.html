@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -368,10 +368,13 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intro-to-linear-regression">Intro to Linear Regression</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#least-squares">Least Squares</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intro-to-linear-regression">Intro to Linear Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#least-squares">Least Squares</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-and-basis-regression">Polynomial and Basis Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#application-calculating-the-committor-function">Application: Calculating the Committor Function</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tikhonov-regularization">Tikhonov Regularization</a></li>
 </ul>
             </nav>
         </div>
@@ -440,14 +443,16 @@ w_m
 Y \approx X W
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(Y\)</span> is the vector of <span class="math notranslate nohighlight">\(y_i\)</span> values, <span class="math notranslate nohighlight">\(X\)</span> is the matrix of <span class="math notranslate nohighlight">\(x_i\)</span> values, and <span class="math notranslate nohighlight">\(W\)</span> is the vector of <span class="math notranslate nohighlight">\(w_i\)</span> values and <span class="math notranslate nohighlight">\(b\)</span>.</p>
+</section>
 <section id="least-squares">
-<h3>Least Squares<a class="headerlink" href="#least-squares" title="Link to this heading">#</a></h3>
+<h2>Least Squares<a class="headerlink" href="#least-squares" title="Link to this heading">#</a></h2>
 <p>To get the best approximation possible, we will attempt to minimize the length of the difference vector <span class="math notranslate nohighlight">\(Y - X W\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[
-    W_{\text{LS}} = \text{argmin}_W \| X W - Y\|_2^2
+    W_{\text{LS}} = \text{argmin}_W \| X W - Y\|_2^2 = \text{argmin}_W \sum_{i=1}^n |x_i \cdot W - y_i|^2
 \]</div>
-<p>(The notation <span class="math notranslate nohighlight">\(\| \cdot \|_2\)</span> denotes the Euclidean norm, which is the square root of the sum of the squares of the elements.
+<p>This strategy is called the method of least squares for pretty obvious reasons.
+(The notation <span class="math notranslate nohighlight">\(\| \cdot \|_2\)</span> denotes the Euclidean norm, which is the square root of the sum of the squares of the elements.
 So far we have not discussed any other norms, so this notation is redundant, but it will be good for us to get used to it.)</p>
 <p>To solve this, we will take the SVD of <span class="math notranslate nohighlight">\(X\)</span> (here we are using the convention that <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span> are square orthogonal matrices).</p>
 <div class="math notranslate nohighlight">
@@ -470,7 +475,110 @@ For simplicity, we will set <span class="math notranslate nohighlight">\(z_i = 0
 W_{\text{LS}} = V \Sigma^{+} U^\dagger  Y
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(\Sigma^{+}\)</span> is the matrix with the reciprocals of the non-zero singular values of <span class="math notranslate nohighlight">\(\Sigma\)</span> on the diagonal and zeros elsewhere.</p>
+<p>Remark: The matrix <span class="math notranslate nohighlight">\(V \Sigma^{+} U^\dagger\)</span> is called the Moore-Penrose pseudoinverse of <span class="math notranslate nohighlight">\(X\)</span> and is denoted <span class="math notranslate nohighlight">\(X^+\)</span>.  This is a generalization of the inverse of a matrix to non-square matrices
+or matrices that are not full rank, and obeys the following properties:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(X X^+ X = X\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(X^+ X X^+ = X^+\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((X X^+)^\dagger = X X^+\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((X^+ X)^\dagger = X^+ X\)</span></p></li>
+</ol>
+<section id="polynomial-and-basis-regression">
+<h3>Polynomial and Basis Regression<a class="headerlink" href="#polynomial-and-basis-regression" title="Link to this heading">#</a></h3>
+<p>The above discussion can be generalized to polynomial regression.
+In this case, we have a set of data points <span class="math notranslate nohighlight">\((x_i, y_i)\)</span> and we want to find a polynomial of degree <span class="math notranslate nohighlight">\(d\)</span> that best fits the data.
+Rather than using the features <span class="math notranslate nohighlight">\(x_i\)</span> directly, we will first take all monomials of degree <span class="math notranslate nohighlight">\(d\)</span> or less of the features, and use them to
+build a larger <span class="math notranslate nohighlight">\(X\)</span> matrix.
+For example, if <span class="math notranslate nohighlight">\(d = 2\)</span> and <span class="math notranslate nohighlight">\(m = 2\)</span>, we would have</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+X = \begin{bmatrix}
+1 &amp; x_{1,1} &amp; x_{1,2} &amp; x_{1,1}^2 &amp; x_{1,1} x_{1,2} &amp; x_{1,2}^2 \\
+1 &amp; x_{2,1} &amp; x_{2,2} &amp; x_{2,1}^2 &amp; x_{2,1} x_{2,2} &amp; x_{2,2}^2 \\
+\vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \vdots \\
+1 &amp; x_{n,1} &amp; x_{n,2} &amp; x_{n,1}^2 &amp; x_{n,1} x_{n,2} &amp; x_{n,2}^2 \\
+\end{bmatrix}
+\end{split}\]</div>
+<p>We then proceed as before.  More generally, we can consider a basis of functions <span class="math notranslate nohighlight">\(f_i(x)\)</span> and write the regression problem as</p>
+<div class="math notranslate nohighlight">
+\[
+Y \approx X W = \sum_{i=1}^m f_i(x) w_i
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(f_i(x)\)</span> are the basis functions and <span class="math notranslate nohighlight">\(w_i\)</span> are the coefficients we want to find.
+Here, our matrix <span class="math notranslate nohighlight">\(X\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+X = \begin{bmatrix}
+f_1(x_1) &amp; f_2(x_1) &amp; \cdots &amp; f_m(x_1) \\
+f_1(x_2) &amp; f_2(x_2) &amp; \cdots &amp; f_m(x_2) \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+f_1(x_n) &amp; f_2(x_n) &amp; \cdots &amp; f_m(x_n) \\
+\end{bmatrix}
+\end{split}\]</div>
 </section>
+<section id="application-calculating-the-committor-function">
+<h3>Application: Calculating the Committor Function<a class="headerlink" href="#application-calculating-the-committor-function" title="Link to this heading">#</a></h3>
+<p>We consider a system with <span class="math notranslate nohighlight">\(N\)</span> states, which hops from one state withthe following matrix of transition probabilities:</p>
+<div class="math notranslate nohighlight">
+\[
+T_{ij} = \mathbb{P}(X_{t+1} = j | X_t = i)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(X_i\)</span> is the state of the system.  The “|” symbol is read as “given” and is used to denote conditional probabilities.
+The committor function is a function that tells us the probability that a system will reach a certain set of states (set <span class="math notranslate nohighlight">\(B\)</span>) before another set of states (set <span class="math notranslate nohighlight">\(A\)</span>).</p>
+<div class="math notranslate nohighlight">
+\[
+q_i = \mathbb{P}(\text{reach } B \text{ before } A | X_i)
+\]</div>
+<p>This is a key quantity in the study of rare events, and is used to calculate the rate of transitions between states in a field known as transition path theory.
+The committor function can be calculated by solving the linear regression problem using the transition matrix of the system, which is a matrix that tells us the probability of transitioning from one state to another.
+Specifically, the committor function obeys <span class="math notranslate nohighlight">\(q_i = 0\)</span> for <span class="math notranslate nohighlight">\(i \in A\)</span> and <span class="math notranslate nohighlight">\(q_i = 1\)</span> for <span class="math notranslate nohighlight">\(i \in B\)</span>, and satisfies the equation</p>
+<div class="math notranslate nohighlight">
+\[
+q_i = \sum_j T_{ij} q_j
+\]</div>
+<p>for all other states.  This is is because the probability of reaching either <span class="math notranslate nohighlight">\(B\)</span> is the same as the probability of reaching <span class="math notranslate nohighlight">\(B\)</span> from any of the states that can be reached from <span class="math notranslate nohighlight">\(i\)</span>, weighted by the probability of reaching those states.</p>
+<p>To write this as a linear regression problem, denote by <span class="math notranslate nohighlight">\(D\)</span> the set of states that are not in <span class="math notranslate nohighlight">\(A\)</span> or <span class="math notranslate nohighlight">\(B\)</span>.  We can rewrite our sum as</p>
+<div class="math notranslate nohighlight">
+\[
+q_i = \sum_{j \in D} T_{ij} q_j + \sum_{j \in A} T_{ij} * 0 + \sum_{j \in B} T_{ij} * 1
+\]</div>
+<p>implying</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_{j \in D} ( \delta_{ij} - T_{ij}) q_j + \sum_{j \in B} T_{ij}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\delta_{ij}\)</span> is the Kronecker delta function, which is 1 if <span class="math notranslate nohighlight">\(i = j\)</span> and 0 otherwise.
+We can then write this as a matrix equation</p>
+<div class="math notranslate nohighlight">
+\[
+(I - T^D) q = b
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(I\)</span> is the identity matrix, <span class="math notranslate nohighlight">\(T^D\)</span> is the entries of the transition matrik where both <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> are in <span class="math notranslate nohighlight">\(D\)</span>, and <span class="math notranslate nohighlight">\(b\)</span> is a vector with entries <span class="math notranslate nohighlight">\(\sum_{j \in B} T_{ij}\)</span> for all <span class="math notranslate nohighlight">\(i\)</span> in <span class="math notranslate nohighlight">\(D\)</span>.</p>
+</section>
+</section>
+<section id="tikhonov-regularization">
+<h2>Tikhonov Regularization<a class="headerlink" href="#tikhonov-regularization" title="Link to this heading">#</a></h2>
+<p>In practice, we often have to deal with noisy data, which can lead to overfitting.
+We also might also have many more parameters than data, or have a matrix with small singular values, leading to numerical instability.
+To deal with these issues, we use <em>regularization</em>.  In regularization, we modify the problem to make it more stable or to prevent overfitting,
+at the cost of introducing some bias.</p>
+<p>One simple way of regularizing a problem is to simply drop singular values that are below a certain threshold.   This is certainly not a bad approach, but maybe we want something a little more gradual that we can tune.</p>
+<p>One common approach is to add a penalty term to the least squares problem.  This is called Tikhonov regularization.  Rather than solving our standard least squares problem, we instead solve the problem</p>
+<div class="math notranslate nohighlight">
+\[
+W_{\text{reg}} = \text{argmin}_W \| X W - Y\|_2^2 + \alpha \| W\|_2^2
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\alpha\)</span> is a parameter that we can tune to control the amount of regularization.
+This problem can be solved by taking the SVD of <span class="math notranslate nohighlight">\(X\)</span> and solving the following equation</p>
+<div class="math notranslate nohighlight">
+\[
+W_{\text{reg}} = V (\Sigma^2 + \alpha I)^{-1} \Sigma U^\dagger Y
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Sigma^2\)</span> is the matrix with the square of the singular values of <span class="math notranslate nohighlight">\(\Sigma\)</span> on the diagonal and zeros elsewhere.
+As we increase the <span class="math notranslate nohighlight">\(\alpha\)</span>, we slowly reduce noise sensitivity, at the cost of introducing more bias.
+To choose the best value of <span class="math notranslate nohighlight">\(\alpha\)</span>, one very simple approach is to use the L-curve method.
+In this method, we plot the norm of the residual <span class="math notranslate nohighlight">\(\| X W - Y\|_2^2\)</span> as a function of <span class="math notranslate nohighlight">\(\| W\|_2^2\)</span> for different values of <span class="math notranslate nohighlight">\(\alpha\)</span>.
+on a log-log plot.  We then look for the point where the curve has the sharpest bend: this is a  good value of <span class="math notranslate nohighlight">\(\alpha\)</span> to choose.</p>
 </section>
 </section>
 
@@ -531,10 +639,13 @@ W_{\text{LS}} = V \Sigma^{+} U^\dagger  Y
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intro-to-linear-regression">Intro to Linear Regression</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#least-squares">Least Squares</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intro-to-linear-regression">Intro to Linear Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#least-squares">Least Squares</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-and-basis-regression">Polynomial and Basis Regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#application-calculating-the-committor-function">Application: Calculating the Committor Function</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tikhonov-regularization">Tikhonov Regularization</a></li>
 </ul>
   </nav></div>
 
