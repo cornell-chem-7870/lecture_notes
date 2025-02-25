@@ -374,7 +374,10 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#application-calculating-the-committor-function">Application: Calculating the Committor Function</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tikhonov-regularization">Tikhonov Regularization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tikhonov-regularization">Tikhonov Regularization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deriving-tikhonov-regularization">Deriving Tikhonov regularization</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -579,6 +582,48 @@ As we increase the <span class="math notranslate nohighlight">\(\alpha\)</span>,
 To choose the best value of <span class="math notranslate nohighlight">\(\alpha\)</span>, one very simple approach is to use the L-curve method.
 In this method, we plot the norm of the residual <span class="math notranslate nohighlight">\(\| X W - Y\|_2^2\)</span> as a function of <span class="math notranslate nohighlight">\(\| W\|_2^2\)</span> for different values of <span class="math notranslate nohighlight">\(\alpha\)</span>.
 on a log-log plot.  We then look for the point where the curve has the sharpest bend: this is a  good value of <span class="math notranslate nohighlight">\(\alpha\)</span> to choose.</p>
+<section id="deriving-tikhonov-regularization">
+<h3>Deriving Tikhonov regularization<a class="headerlink" href="#deriving-tikhonov-regularization" title="Link to this heading">#</a></h3>
+<p>To derive this expression, we again take the SVD of <span class="math notranslate nohighlight">\(X\)</span>.<br />
+For simplicity, this time we assume that <span class="math notranslate nohighlight">\(U\)</span>, <span class="math notranslate nohighlight">\(\Sigma\)</span>, <span class="math notranslate nohighlight">\(V\)</span> are real.
+We can then write the least squares problem as</p>
+  <!-- and write the quantity we are minimizing as  -->
+<div class="math notranslate nohighlight">
+\[
+\| X W - Y\|_2^2 + \alpha \| W\|_2^2 
+= \| U \Sigma V^t W - Y\|_2^2 + \alpha \| W\|_2^2 
+= \| \Sigma V^t W - U^t Y\|_2^2 + \alpha \| V^t W\|_2^2
+\]</div>
+<p>We have again used the fact that both <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span> are orthogonal matrices.
+Again, defining <span class="math notranslate nohighlight">\(Z = V^t W\)</span>, we can write this as</p>
+<div class="math notranslate nohighlight">
+\[
+\| \Sigma Z - U^t Y\|_2^2 + \alpha \| Z\|_2^2
+= \sum_{i=1}^M (\sigma_i z_i - (U^t Y)_i)^2 + \alpha  z_i^2
+= \sum_{i=1}^M \sigma_i^2 z_i^2 - 2 \sigma_i z_i (U^t Y)_i
+ + (U^t Y)_i^2 
+\]</div>
+<p>To calculate the minimum, we take the derivative with respect to <span class="math notranslate nohighlight">\(z_i\)</span> and set it to zero.  This gives</p>
+<div class="math notranslate nohighlight">
+\[
+2 (\sigma_i^2 + \alpha) z_i = 2 \sigma_i (U^t Y)_i
+\]</div>
+<p>or</p>
+<div class="math notranslate nohighlight">
+\[
+z_i = \frac{\sigma_i (U^t Y)_i}{\sigma_i^2 + \alpha}
+\]</div>
+<p>Writing this as a matrix equation, we have</p>
+<div class="math notranslate nohighlight">
+\[
+Z = \left( \Sigma^2 + \alpha I \right)^{-1} \Sigma U^t Y
+\]</div>
+<p>This gives us the solution for <span class="math notranslate nohighlight">\(Z\)</span>.  To get the solution for <span class="math notranslate nohighlight">\(W\)</span>, we use the fact that <span class="math notranslate nohighlight">\(Z = V^t W\)</span>, and write</p>
+<div class="math notranslate nohighlight">
+\[
+W_{\text{reg}} = V Z = V \left( \Sigma^2 + \alpha I \right)^{-1} \Sigma U^t Y
+\]</div>
+</section>
 </section>
 </section>
 
@@ -645,7 +690,10 @@ on a log-log plot.  We then look for the point where the curve has the sharpest 
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#application-calculating-the-committor-function">Application: Calculating the Committor Function</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tikhonov-regularization">Tikhonov Regularization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tikhonov-regularization">Tikhonov Regularization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deriving-tikhonov-regularization">Deriving Tikhonov regularization</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

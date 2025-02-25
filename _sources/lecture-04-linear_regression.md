@@ -151,9 +151,7 @@ f_1(x_n) & f_2(x_n) & \cdots & f_m(x_n) \\
 \end{bmatrix}
 $$
 
-
 ### Application: Calculating the Committor Function
-
 
 We consider a system with $N$ states, which hops from one state withthe following matrix of transition probabilities:
 
@@ -226,4 +224,63 @@ As we increase the $\alpha$, we slowly reduce noise sensitivity, at the cost of 
 To choose the best value of $\alpha$, one very simple approach is to use the L-curve method. 
 In this method, we plot the norm of the residual $\| X W - Y\|_2^2$ as a function of $\| W\|_2^2$ for different values of $\alpha$.
 on a log-log plot.  We then look for the point where the curve has the sharpest bend: this is a  good value of $\alpha$ to choose.
+
+### Deriving Tikhonov regularization
+
+To derive this expression, we again take the SVD of $X$.  
+For simplicity, this time we assume that $U$, $\Sigma$, $V$ are real.
+We can then write the least squares problem as
+  <!-- and write the quantity we are minimizing as  -->
+
+$$
+\| X W - Y\|_2^2 + \alpha \| W\|_2^2 
+= \| U \Sigma V^t W - Y\|_2^2 + \alpha \| W\|_2^2 
+= \| \Sigma V^t W - U^t Y\|_2^2 + \alpha \| V^t W\|_2^2
+$$
+
+We have again used the fact that both $U$ and $V$ are orthogonal matrices.
+Again, defining $Z = V^t W$, we can write this as 
+
+$$
+\| \Sigma Z - U^t Y\|_2^2 + \alpha \| Z\|_2^2
+= \sum_{i=1}^M (\sigma_i z_i - (U^t Y)_i)^2 + \alpha  z_i^2
+= \sum_{i=1}^M \sigma_i^2 z_i^2 - 2 \sigma_i z_i (U^t Y)_i
+ + (U^t Y)_i^2 
+$$
+
+To calculate the minimum, we take the derivative with respect to $z_i$ and set it to zero.  This gives
+
+$$
+2 (\sigma_i^2 + \alpha) z_i = 2 \sigma_i (U^t Y)_i
+$$
+
+or
+
+$$
+z_i = \frac{\sigma_i (U^t Y)_i}{\sigma_i^2 + \alpha}
+$$
+
+Writing this as a matrix equation, we have
+
+$$
+Z = \left( \Sigma^2 + \alpha I \right)^{-1} \Sigma U^t Y
+$$
+
+This gives us the solution for $Z$.  To get the solution for $W$, we use the fact that $Z = V^t W$, and write
+
+$$
+W_{\text{reg}} = V Z = V \left( \Sigma^2 + \alpha I \right)^{-1} \Sigma U^t Y
+$$
+
+
+
+
+
+
+
+
+
+
+
+
 
