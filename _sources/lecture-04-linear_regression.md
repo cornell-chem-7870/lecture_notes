@@ -14,6 +14,11 @@ kernelspec:
 # Linear Regression and Least Squares
 
 ## Learning Objectives
+- Understand the concept of linear regression and how it can be used to fit data.
+- Understand the concept of least squares and how it can be solved using the SVD.
+- Gain an understanding of how to use linear regression for problems in chemistry
+- Understand the concept of regularization and how it can be used to stabilize linear regression problems.
+
 
 ## Intro to Linear Regression
 
