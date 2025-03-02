@@ -9,3 +9,7 @@ parts:
     - file: lecture-01-intro_vectors.md
     - file: lecture-02-coding_matrices_in_python.md
     - file: lecture-03-matrix_decompositions.md
+    - file: lecture-04-linear_regression.md
+  - caption: Part 2. Probability
+    chapters:
+    - file: lecture-05-probablity.md
