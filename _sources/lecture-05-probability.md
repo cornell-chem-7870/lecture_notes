@@ -15,6 +15,12 @@ kernelspec:
 
 ## Learning Objectives
 
+- Understand the basic concepts of probability theory and what a probability space is.
+- Understand what a Random Variable is and how it is used to describe random phenomena.
+- Be proficient in using and manipulating probability mass and density functions.
+- Connect probability theory to the concept of free energy in statistical mechanics.
+
+
 ## Probability and Chemistry
 
 Randomness is everywhere in chemistry.  Just to name a few examples:
@@ -109,7 +115,6 @@ $$
 P([0, \infty)) = \int_0^\infty \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x - \mu)^2}{2\sigma^2}\right) dx = \frac{1}{2}.
 $$
 
-
 ### Changing Variables Changes the PDF
 
 One of the most important properties of probability density functions is that they change under a change of variables.  For instance, consider a random variable $X$ with PDF $p(x)$ for a real number $x$.  Let $Y = f(X)$ be a new random variable, where $f$ is an monotonic (always increasing or always decreasing) and differentiable function.  The PDF of $Y$ is given by
@@ -118,6 +123,26 @@ $$
 p_Y(y) = p_X(f^{-1}(y)) \left|\frac{d}{dy} f^{-1}(y)\right|,
 $$
 where $f^{-1}(y)$ is the inverse function of $f$.  This is a consequence of the fact that the probability of $Y$ being in an interval $[a, b]$ is the same as the probability of $X$ being in the interval $[f^{-1}(a), f^{-1}(b)]$.
+
+### Sampling from a Probability Distribution
+
+Given a probability mass or density function, how might we draw samples from it?  This is a fundamental, but also extremely nontrivial, question: finding ways to efficiently sample random variables
+is a going to be a major theme in our immediate future.  For now, we will focus on the simplest case: sampling from a distribution with a known probability mass function.
+We assume that we have access to a random number generator that can produce random numbers uniformly distributed between 0 and 1.  Then, we can sample from a discrete distribution as follows:
+
+1. Generate a random number $r$ between 0 and 1.
+2. For each possible value of the random variable, sum the probability of that value to a running total.  When the running total exceeds $r$, return that value.
+
+For instance, consider the die example.  We can generate a random number $r$ between 0 and 1, and then return 1 if $r < 1/6$, 2 if $1/6 \leq r < 2/6$, and so on.  
+
+Graphically, what we have done is built a "cumulative distribution function", which is the sum of the probability mass function up to a certain value.  We can generalize this to continuous random variables as well.  For a given probability density, we can integrate the PDF up to a certain value to get the cumulative distribution function.
+
+$$
+F(x) = \int_{-\infty}^x p(x') dx'.
+$$
+
+Note that this is a monotonically increasing function that goes from 0 to 1.
+To sample from the distribution by generating a random number $r$ between 0 and 1, and returning the value of $x$ such that $F(x) = r$.  This is known as the "inverse transform method".
 
 ## Doing things with Random Variables
 
@@ -131,17 +156,36 @@ In classical statistical mechanics, observables are functions of random variable
 
 (An enterprising reader might ask, isn't $Y = f(X)$ itself a random variable?  The answer is yes, and as it happens calculating the expected value of $Y$ over the probability distribution for $Y$  is equivalent to calculating the expected value of $f(X)$ over the probability distribution for $X$.  This is known as the "law of the unconscious statistician", or LOTUS.)
 
+Finally, we note that we can also calculate probabilities as expectation values using an "indicator function" $I_A(x)$, which is 1 if $x \in A$ and 0 otherwise.  The probability of $X$ being in the set $A$ is given by $P(X \in A) = \langle I_A(X) \rangle$.
 
-### Conditional Probabilities:
 
-Conditional probabilities are a way of quantifying the probability of an event given that another event has occurred.  The conditional probability of event $A$ given event $B$ is denoted $P(A|B)$.  This is the probability of $A$ occurring, given that $B$ has occurred.  For instance, the probability of rolling a two on a die, given that the number is even, is $P(\{2\}|\{2, 4, 6\}) = 1/3$.  The conditional probability of rolling a one on a die, given that the number is even, is $P(\{1\}|\{2, 4, 6\}) = 0$.
+## Connection with Free Energy
 
-The conditional probability is, in general, given by 
+The free energy is a central quantity in statistical mechanics and thermodynamics.   Typically, we write it as the log of the partition function, 
 
 $$
-P(A|B) = \frac{P(A \cap B)}{P(B)}.
+F = - k_B T \log Z =  k_B T \log \int e^{-\beta H(x)} dx,
 $$
 
-where $P(A \cap B)$ is the probability that both $A$ and $B$ occur, often called the "joint probability" of $A$ and $B$.
+where $H(x)$ is the Hamiltonian of the system, $T$ is the temperature, and $k_B$ is the Boltzmann constant.  
+<!-- The partition function is a sum over all possible states of the system, weighted by the Boltzmann factor $e^{-\beta H(x)}$.  The free energy is a measure of the system's ability to do work, and is related to the probability of observing a particular state of the system.  In particular, the probability of observing a state $x$ is given by -->
+Similarly, we might evaluate the free energy of a specific state $A$ by only integrating over that state:
 
-For continuous random variables.
+$$
+F_A = - k_B T \log \int_A e^{-\beta H(x)} dx.
+$$
+
+(As a concrete example, if $A$ is an interval in one dimension, the integral would be evaluated as $\int_a^b e^{-\beta H(x)} dx$.)
+Now, let us consider a free energy difference between two states $A$ and $B$:
+
+$$
+\Delta F = F_A - F_B = - k_B T \log \frac{\int_A e^{-\beta H(x)} dx}{\int_B e^{-\beta H(x)} dx} 
+$$
+
+Dividing both the numerator and denominator by $\int e^{-\beta H(x)} dx$, and observing that $p(x) = e^{-\beta H(x)}/ \int e^{-\beta H(x)} dx$, we find
+
+$$
+\Delta F = - k_B T \log \frac{\int_A p(x) dx}{\int_B p(x) dx} = - k_B T \log \frac{P(A)}{P(B)}.
+$$
+
+In other words, the free energy difference between two states is proportional to the log of the ratio of the probabilities of observing those states.  

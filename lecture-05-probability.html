@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -65,6 +65,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-05-probability';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Conditional Probability and Bayes Rule" href="lecture-06-bayes-rule.html" />
     <link rel="prev" title="Linear Regression and Least Squares" href="lecture-04-linear_regression.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -179,6 +180,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Probability</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Intro to Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture-06-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
 </ul>
 
     </div>
@@ -385,13 +387,14 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-mass-functions-pmfs">Probability Mass Functions (PMFs)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-density-functions-pdfs">Probability Density Functions (PDFs)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-variables-changes-the-pdf">Changing Variables Changes the PDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-from-a-probability-distribution">Sampling from a Probability Distribution</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#doing-things-with-random-variables">Doing things with Random Variables</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-values">Expected Values</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-probabilities">Conditional Probabilities:</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-with-free-energy">Connection with Free Energy</a></li>
 </ul>
             </nav>
         </div>
@@ -407,6 +410,12 @@
 <h1>Intro to Probability<a class="headerlink" href="#intro-to-probability" title="Link to this heading">#</a></h1>
 <section id="learning-objectives">
 <h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Understand the basic concepts of probability theory and what a probability space is.</p></li>
+<li><p>Understand what a Random Variable is and how it is used to describe random phenomena.</p></li>
+<li><p>Be proficient in using and manipulating probability mass and density functions.</p></li>
+<li><p>Connect probability theory to the concept of free energy in statistical mechanics.</p></li>
+</ul>
 </section>
 <section id="probability-and-chemistry">
 <h2>Probability and Chemistry<a class="headerlink" href="#probability-and-chemistry" title="Link to this heading">#</a></h2>
@@ -516,6 +525,24 @@ p_Y(y) = p_X(f^{-1}(y)) \left|\frac{d}{dy} f^{-1}(y)\right|,
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(f^{-1}(y)\)</span> is the inverse function of <span class="math notranslate nohighlight">\(f\)</span>.  This is a consequence of the fact that the probability of <span class="math notranslate nohighlight">\(Y\)</span> being in an interval <span class="math notranslate nohighlight">\([a, b]\)</span> is the same as the probability of <span class="math notranslate nohighlight">\(X\)</span> being in the interval <span class="math notranslate nohighlight">\([f^{-1}(a), f^{-1}(b)]\)</span>.</p>
 </section>
+<section id="sampling-from-a-probability-distribution">
+<h3>Sampling from a Probability Distribution<a class="headerlink" href="#sampling-from-a-probability-distribution" title="Link to this heading">#</a></h3>
+<p>Given a probability mass or density function, how might we draw samples from it?  This is a fundamental, but also extremely nontrivial, question: finding ways to efficiently sample random variables
+is a going to be a major theme in our immediate future.  For now, we will focus on the simplest case: sampling from a distribution with a known probability mass function.
+We assume that we have access to a random number generator that can produce random numbers uniformly distributed between 0 and 1.  Then, we can sample from a discrete distribution as follows:</p>
+<ol class="arabic simple">
+<li><p>Generate a random number <span class="math notranslate nohighlight">\(r\)</span> between 0 and 1.</p></li>
+<li><p>For each possible value of the random variable, sum the probability of that value to a running total.  When the running total exceeds <span class="math notranslate nohighlight">\(r\)</span>, return that value.</p></li>
+</ol>
+<p>For instance, consider the die example.  We can generate a random number <span class="math notranslate nohighlight">\(r\)</span> between 0 and 1, and then return 1 if <span class="math notranslate nohighlight">\(r &lt; 1/6\)</span>, 2 if <span class="math notranslate nohighlight">\(1/6 \leq r &lt; 2/6\)</span>, and so on.</p>
+<p>Graphically, what we have done is built a “cumulative distribution function”, which is the sum of the probability mass function up to a certain value.  We can generalize this to continuous random variables as well.  For a given probability density, we can integrate the PDF up to a certain value to get the cumulative distribution function.</p>
+<div class="math notranslate nohighlight">
+\[
+F(x) = \int_{-\infty}^x p(x') dx'.
+\]</div>
+<p>Note that this is a monotonically increasing function that goes from 0 to 1.
+To sample from the distribution by generating a random number <span class="math notranslate nohighlight">\(r\)</span> between 0 and 1, and returning the value of <span class="math notranslate nohighlight">\(x\)</span> such that <span class="math notranslate nohighlight">\(F(x) = r\)</span>.  This is known as the “inverse transform method”.</p>
+</section>
 </section>
 <section id="doing-things-with-random-variables">
 <h2>Doing things with Random Variables<a class="headerlink" href="#doing-things-with-random-variables" title="Link to this heading">#</a></h2>
@@ -526,18 +553,35 @@ p_Y(y) = p_X(f^{-1}(y)) \left|\frac{d}{dy} f^{-1}(y)\right|,
 Similarly, if <span class="math notranslate nohighlight">\(X\)</span> is continuous and we have a probability density, the variance is given by <span class="math notranslate nohighlight">\(\langle X^2 \rangle = \int x^2 p(x) dx\)</span>.  For an arbitrary function <span class="math notranslate nohighlight">\(f(X)\)</span>, the expected value is given by <span class="math notranslate nohighlight">\(\langle f(X) \rangle = \sum_x f(x) p(x)\)</span> for discrete random variables, and <span class="math notranslate nohighlight">\(\langle f(X) \rangle = \int f(x) p(x) dx\)</span> for continuous random variables.
 In classical statistical mechanics, observables are functions of random variables, and the expected value of the observable is the average value we would expect to measure if we repeated the experiment many times.</p>
 <p>(An enterprising reader might ask, isn’t <span class="math notranslate nohighlight">\(Y = f(X)\)</span> itself a random variable?  The answer is yes, and as it happens calculating the expected value of <span class="math notranslate nohighlight">\(Y\)</span> over the probability distribution for <span class="math notranslate nohighlight">\(Y\)</span>  is equivalent to calculating the expected value of <span class="math notranslate nohighlight">\(f(X)\)</span> over the probability distribution for <span class="math notranslate nohighlight">\(X\)</span>.  This is known as the “law of the unconscious statistician”, or LOTUS.)</p>
+<p>Finally, we note that we can also calculate probabilities as expectation values using an “indicator function” <span class="math notranslate nohighlight">\(I_A(x)\)</span>, which is 1 if <span class="math notranslate nohighlight">\(x \in A\)</span> and 0 otherwise.  The probability of <span class="math notranslate nohighlight">\(X\)</span> being in the set <span class="math notranslate nohighlight">\(A\)</span> is given by <span class="math notranslate nohighlight">\(P(X \in A) = \langle I_A(X) \rangle\)</span>.</p>
 </section>
-<section id="conditional-probabilities">
-<h3>Conditional Probabilities:<a class="headerlink" href="#conditional-probabilities" title="Link to this heading">#</a></h3>
-<p>Conditional probabilities are a way of quantifying the probability of an event given that another event has occurred.  The conditional probability of event <span class="math notranslate nohighlight">\(A\)</span> given event <span class="math notranslate nohighlight">\(B\)</span> is denoted <span class="math notranslate nohighlight">\(P(A|B)\)</span>.  This is the probability of <span class="math notranslate nohighlight">\(A\)</span> occurring, given that <span class="math notranslate nohighlight">\(B\)</span> has occurred.  For instance, the probability of rolling a two on a die, given that the number is even, is <span class="math notranslate nohighlight">\(P(\{2\}|\{2, 4, 6\}) = 1/3\)</span>.  The conditional probability of rolling a one on a die, given that the number is even, is <span class="math notranslate nohighlight">\(P(\{1\}|\{2, 4, 6\}) = 0\)</span>.</p>
-<p>The conditional probability is, in general, given by</p>
+</section>
+<section id="connection-with-free-energy">
+<h2>Connection with Free Energy<a class="headerlink" href="#connection-with-free-energy" title="Link to this heading">#</a></h2>
+<p>The free energy is a central quantity in statistical mechanics and thermodynamics.   Typically, we write it as the log of the partition function,</p>
 <div class="math notranslate nohighlight">
 \[
-P(A|B) = \frac{P(A \cap B)}{P(B)}.
+F = - k_B T \log Z =  k_B T \log \int e^{-\beta H(x)} dx,
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(P(A \cap B)\)</span> is the probability that both <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> occur, often called the “joint probability” of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>.</p>
-<p>For continuous random variables.</p>
-</section>
+<p>where <span class="math notranslate nohighlight">\(H(x)\)</span> is the Hamiltonian of the system, <span class="math notranslate nohighlight">\(T\)</span> is the temperature, and <span class="math notranslate nohighlight">\(k_B\)</span> is the Boltzmann constant.</p>
+<!-- The partition function is a sum over all possible states of the system, weighted by the Boltzmann factor $e^{-\beta H(x)}$.  The free energy is a measure of the system's ability to do work, and is related to the probability of observing a particular state of the system.  In particular, the probability of observing a state $x$ is given by -->
+<p>Similarly, we might evaluate the free energy of a specific state <span class="math notranslate nohighlight">\(A\)</span> by only integrating over that state:</p>
+<div class="math notranslate nohighlight">
+\[
+F_A = - k_B T \log \int_A e^{-\beta H(x)} dx.
+\]</div>
+<p>(As a concrete example, if <span class="math notranslate nohighlight">\(A\)</span> is an interval in one dimension, the integral would be evaluated as <span class="math notranslate nohighlight">\(\int_a^b e^{-\beta H(x)} dx\)</span>.)
+Now, let us consider a free energy difference between two states <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta F = F_A - F_B = - k_B T \log \frac{\int_A e^{-\beta H(x)} dx}{\int_B e^{-\beta H(x)} dx} 
+\]</div>
+<p>Dividing both the numerator and denominator by <span class="math notranslate nohighlight">\(\int e^{-\beta H(x)} dx\)</span>, and observing that <span class="math notranslate nohighlight">\(p(x) = e^{-\beta H(x)}/ \int e^{-\beta H(x)} dx\)</span>, we find</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta F = - k_B T \log \frac{\int_A p(x) dx}{\int_B p(x) dx} = - k_B T \log \frac{P(A)}{P(B)}.
+\]</div>
+<p>In other words, the free energy difference between two states is proportional to the log of the ratio of the probabilities of observing those states.</p>
 </section>
 </section>
 
@@ -580,6 +624,15 @@ P(A|B) = \frac{P(A \cap B)}{P(B)}.
         <p class="prev-next-title">Linear Regression and Least Squares</p>
       </div>
     </a>
+    <a class="right-next"
+       href="lecture-06-bayes-rule.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Conditional Probability and Bayes Rule</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -611,13 +664,14 @@ P(A|B) = \frac{P(A \cap B)}{P(B)}.
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-mass-functions-pmfs">Probability Mass Functions (PMFs)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-density-functions-pdfs">Probability Density Functions (PDFs)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-variables-changes-the-pdf">Changing Variables Changes the PDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-from-a-probability-distribution">Sampling from a Probability Distribution</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#doing-things-with-random-variables">Doing things with Random Variables</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-values">Expected Values</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-probabilities">Conditional Probabilities:</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-with-free-energy">Connection with Free Energy</a></li>
 </ul>
   </nav></div>
 
