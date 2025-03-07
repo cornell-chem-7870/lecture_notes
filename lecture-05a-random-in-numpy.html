@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Conditional Probability and Bayes Rule &#8212; My sample book</title>
+    <title>Using Random Numbers in Numpy &#8212; My sample book</title>
   
   
   
@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -62,10 +62,11 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-06-bayes-rule';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-05a-random-in-numpy';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Using Random Numbers in Numpy" href="lecture-05a-random-in-numpy.html" />
+    <link rel="next" title="Conditional Probability and Bayes Rule" href="lecture-06-bayes-rule.html" />
+    <link rel="prev" title="Intro to Probability" href="lecture-05-probability.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -179,8 +180,8 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Probability</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="lecture-05-probability.html">Intro to Probability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-05a-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Conditional Probability and Bayes Rule</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Using Random Numbers in Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture-06-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
 </ul>
 
     </div>
@@ -257,7 +258,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-06-bayes-rule.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-05a-random-in-numpy.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -287,7 +288,7 @@
       
       
       
-      <li><a href="_sources/lecture-06-bayes-rule.md" target="_blank"
+      <li><a href="_sources/lecture-05a-random-in-numpy.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -363,7 +364,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Conditional Probability and Bayes Rule</h1>
+    <h1>Using Random Numbers in Numpy</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -373,8 +374,10 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-probabilities">Conditional Probabilities:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-random-numbers-in-numpy">Sampling random Numbers in Numpy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudo-random-number-generators-and-setting-the-seed">Pseudo-Random Number Generators and Setting the Seed</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-very-very-very-simple-prng">A very, very, very simple PRNG</a></li>
 </ul>
 </li>
 </ul>
@@ -388,38 +391,98 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="conditional-probability-and-bayes-rule">
-<h1>Conditional Probability and Bayes Rule<a class="headerlink" href="#conditional-probability-and-bayes-rule" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="using-random-numbers-in-numpy">
+<h1>Using Random Numbers in Numpy<a class="headerlink" href="#using-random-numbers-in-numpy" title="Link to this heading">#</a></h1>
 <section id="learning-objectives">
 <h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Understand the Concept of Conditional Probability.</p></li>
+<li><p>Learn to use the <code class="docutils literal notranslate"><span class="pre">numpy.random</span></code> module to generate random numbers.</p></li>
+<li><p>Understand what pseudo-random number generators are and the importance of setting the seed.</p></li>
 </ul>
-<section id="conditional-probabilities">
-<h3>Conditional Probabilities:<a class="headerlink" href="#conditional-probabilities" title="Link to this heading">#</a></h3>
-<p>Conditional probabilities are a way of quantifying the probability of an event given that  event has occurred.  The conditional probability of event <span class="math notranslate nohighlight">\(A\)</span> given event <span class="math notranslate nohighlight">\(B\)</span> is denoted <span class="math notranslate nohighlight">\(P(A|B)\)</span>.  This is the probability of <span class="math notranslate nohighlight">\(A\)</span> occurring, given that <span class="math notranslate nohighlight">\(B\)</span> has occurred.  For instance, the probability of rolling a two on a die, given that the number is even, is <span class="math notranslate nohighlight">\(P(\{2\}|\{2, 4, 6\}) = 1/3\)</span>.  The conditional probability of rolling a one on a die, given that the number is even, is <span class="math notranslate nohighlight">\(P(\{1\}|\{2, 4, 6\}) = 0\)</span>.</p>
-<p>The conditional probability is, in general, given by</p>
+</section>
+<section id="sampling-random-numbers-in-numpy">
+<h2>Sampling random Numbers in Numpy<a class="headerlink" href="#sampling-random-numbers-in-numpy" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">numpy</span></code> library has a submodule called <code class="docutils literal notranslate"><span class="pre">numpy.random</span></code> that provides a suite of functions for generating random(ish) numbers.  This suite contains functions for generating random numbers from a base distribution, such as</p>
+<ul class="simple">
+<li><p>The uniform distribution between 0 and 1,</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1"># 10 random numbers between 0 and 1</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="c1"># 2x3 array of random numbers between 0 and 1</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>The standard normal distribution,</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1"># 10 random numbers from a normal (Gaussian) distribution with mean 0 and standard deviation 1</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="c1"># 2x3 array of random numbers from a normal distribution</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Random integers drawn from a specified range,</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="c1"># 10 random integers between 1 and 6</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="c1"># 5x2 array of random integers between -2 and 2</span>
+</pre></div>
+</div>
+<p>Numpy also has more bespoke functions for generating random numbers from specific distributions, such as the binomial, Poisson, and exponential distributions.  For example:</p>
+<ul class="simple">
+<li><p>To generate 10 random numbers from a binomial distribution with 10 trials and a success probability of 0.5, we can use</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>To generate 4 random numbers from a Poisson distribution with a rate of 2, we can use</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>To generate a 4x7 grid of random numbers from a Gaussian distribution with a mean of 2 and a standard deviation of 0.5, we can use</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Numpy also has utilities for shuffling arrays, generating random permutations, and selecting random elements from an array.  For example:</p>
+<ul class="simple">
+<li><p>To shuffle an array in place, we can use</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can also use <code class="docutils literal notranslate"><span class="pre">np.random.permutation(x)</span></code> to return a shuffled copy of the array.</p>
+<ul class="simple">
+<li><p>To select a random element from an array, we can use</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">np.random.choice</span></code> function also allows us to select multiple elements from an array, with or without replacement.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># select 3 elements without replacement</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># select 3 elements with replacement</span>
+</pre></div>
+</div>
+<p>For further information on the <code class="docutils literal notranslate"><span class="pre">numpy.random</span></code> module, see the <a class="reference external" href="https://numpy.org/doc/stable/reference/random/index.html">Numpy documentation</a>.</p>
+</section>
+<section id="pseudo-random-number-generators-and-setting-the-seed">
+<h2>Pseudo-Random Number Generators and Setting the Seed<a class="headerlink" href="#pseudo-random-number-generators-and-setting-the-seed" title="Link to this heading">#</a></h2>
+<p>An enterprising student might ask, “How can a computer, a deterministic machine, generate random numbers?”  The answer is that, in general, they can’t.  Instead, computers use pseudo-random number generators (PRNGs) to generate sequences of numbers that appear random.</p>
+<section id="a-very-very-very-simple-prng">
+<h3>A very, very, very simple PRNG<a class="headerlink" href="#a-very-very-very-simple-prng" title="Link to this heading">#</a></h3>
+<p>To demonstrate the concept of a PRNG, we give a very basic example of a PRNG that generates a sequence of numbers that appear random.  This PRNG is called the “linear congruential generator” and is defined by the recurrence relation</p>
 <div class="math notranslate nohighlight">
 \[
-P(A|B) = \frac{P(A \cap B)}{P(B)}.
+X_{n+1} = (a X_n + c) \mod m,
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(P(A \cap B)\)</span> is the probability that both <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> occur, often called the “joint probability” of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>.</p>
-<p>One specific case is where we ask, “what is the probability mass function given that a condition is true”?  Effectively, we are asking for the probability of observing a specific value of a random variable given event.  This is known as the “conditional probability mass function.”  Applying the definition of conditional probability, we have</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-p(x | A) = \begin{cases}
-\frac{p(x)}{\sum_{x' \in A} p(x)} &amp; \text{if } x \in A, \\
-0 &amp; \text{otherwise}.
-\end{cases}
-\end{split}\]</div>
-<p>Similarly, we can write a “conditional probability density function” as</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-p(x | A) = \begin{cases}
-\frac{p(x)}{\int_A p(x) dx} &amp; \text{if } x \in A, \\
-0 &amp; \text{otherwise}.
-\end{cases}
-\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(X_0\)</span> is the “seed” of the PRNG, and <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(c\)</span>, and <span class="math notranslate nohighlight">\(m\)</span> are constants that define the PRNG.  The sequence of numbers generated by this PRNG is deterministic and periodic, but the period can be very long if a, c, and m are chosen well (typically, as large prime numbers).  Consequently, for most purposes, the sequence appears random.</p>
+<p>Setting different seeds gives us different patterns of “random” numbers.  However, using the same seed gives us the same sequence of “random” numbers.  This is important for debugging and reproducibility: you might have seen the line</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>in the homework tests.  This line sets the seed of the PRNG to 0, ensuring the test runs the same way every time.</p>
+<p>A note: objectively, the linear congruential generator is not the best PRNG.  Modern PRNGs such as the Mersenne Twister, are much more sophisticated and have better properties.  However, the linear congruential generator is simple and easy to understand, making it a good starting point for understanding PRNGs.</p>
 </section>
 </section>
 </section>
@@ -455,13 +518,22 @@ p(x | A) = \begin{cases}
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="lecture-05a-random-in-numpy.html"
+       href="lecture-05-probability.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Using Random Numbers in Numpy</p>
+        <p class="prev-next-title">Intro to Probability</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="lecture-06-bayes-rule.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Conditional Probability and Bayes Rule</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -480,8 +552,10 @@ p(x | A) = \begin{cases}
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-probabilities">Conditional Probabilities:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-random-numbers-in-numpy">Sampling random Numbers in Numpy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudo-random-number-generators-and-setting-the-seed">Pseudo-Random Number Generators and Setting the Seed</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-very-very-very-simple-prng">A very, very, very simple PRNG</a></li>
 </ul>
 </li>
 </ul>
