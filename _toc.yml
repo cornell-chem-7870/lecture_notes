@@ -12,4 +12,6 @@ parts:
     - file: lecture-04-linear_regression.md
   - caption: Part 2. Probability
     chapters:
-    - file: lecture-05-probablity.md
+    - file: lecture-05-probability.md
+    - file: lecture-05a-random-in-numpy.md
+    - file: lecture-06-bayes-rule.md
