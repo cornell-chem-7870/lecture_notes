@@ -377,6 +377,11 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-probabilities">Conditional Probabilities:</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-rule">Bayes Rule</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-inference">Bayesian Inference</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references-on-bayes-rule">References on Bayes Rule:</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -394,6 +399,7 @@
 <h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Understand the Concept of Conditional Probability.</p></li>
+<li><p>Develop a familiarity with using an indicator function, the delta function, and the different between the two.</p></li>
 </ul>
 <section id="conditional-probabilities">
 <h3>Conditional Probabilities:<a class="headerlink" href="#conditional-probabilities" title="Link to this heading">#</a></h3>
@@ -420,6 +426,52 @@ p(x | A) = \begin{cases}
 0 &amp; \text{otherwise}.
 \end{cases}
 \end{split}\]</div>
+<p>Conditional expectations obey the ``law of total probability’’ which states that for any event <span class="math notranslate nohighlight">\(A\)</span> such that (a) the events <span class="math notranslate nohighlight">\(A_i\)</span> are mutually exclusive and (b) at least one of the <span class="math notranslate nohighlight">\(A_i\)</span> must occur, then</p>
+<div class="math notranslate nohighlight">
+\[
+E[X] = \sum_{i} E[X|A_i] P(A_i).
+\]</div>
+<p>or for a continuous random variable</p>
+<div class="math notranslate nohighlight">
+\[
+E[X] = \int E[X|A] p(A) dA.
+\]</div>
+</section>
+</section>
+<section id="bayes-rule">
+<h2>Bayes Rule<a class="headerlink" href="#bayes-rule" title="Link to this heading">#</a></h2>
+<p>The equations above  suggest a relationship between the conditional probabilities <span class="math notranslate nohighlight">\(P(A|B)\)</span> and <span class="math notranslate nohighlight">\(P(B|A)\)</span>.  Indeed, this relationship is given by <em>Bayes Rule</em>:</p>
+<div class="math notranslate nohighlight">
+\[
+P(A|B) = \frac{P(B|A)P(A)}{P(B)}.
+\]</div>
+<p>Bayes Rule is crucial tool for inference and decision making.  A classic example is in medical diagnosis.  Suppose a patient has a rare disease that affects 1 in 10,000 people.  A test for the disease is 99% accurate, meaning that the probability of a false positive is 1%.  If a patient tests positive for the disease, what is the probability that they actually have the disease?  Let <span class="math notranslate nohighlight">\(D\)</span> be the event that the patient has the disease, and <span class="math notranslate nohighlight">\(T\)</span> be the event that the patient tests positive.  We are asked to find <span class="math notranslate nohighlight">\(P(D|T)\)</span>.  We can use Bayes Rule to write this as</p>
+<div class="math notranslate nohighlight">
+\[
+P(D|T) = \frac{P(T|D)P(D)}{P(T)}.
+\]</div>
+<p>We know that <span class="math notranslate nohighlight">\(P(D) = 1/10000\)</span>, <span class="math notranslate nohighlight">\(P(T|D) = 0.99\)</span>, and <span class="math notranslate nohighlight">\(P(T|D^c) = 0.01\)</span>.  We can calculate <span class="math notranslate nohighlight">\(P(T)\)</span> using the law of total probability:</p>
+<div class="math notranslate nohighlight">
+\[
+P(T) = P(T|D)P(D) + P(T|D^c)P(D^c) = 0.99 \times 0.0001 + 0.01 \times 0.9999.
+\]</div>
+<p>Plugging in the values, we find that <span class="math notranslate nohighlight">\(P(D|T) \approx 0.0098\)</span>, meaning that the patient has less than a 1% chance of having the disease, even after testing positive.  This is because the disease is so rare: the vast majority of people we test do not have the disease, so even a very accurate test will produce many false positives.</p>
+<section id="bayesian-inference">
+<h3>Bayesian Inference<a class="headerlink" href="#bayesian-inference" title="Link to this heading">#</a></h3>
+<p>Bayesian inference is a method of statistical inference that uses Bayes Rule to update our beliefs about a hypothesis.  As discussed previously, in Bayesian statistics probability is a measure of our belief in which hypotheses are true.  Consequently, we begin by assigning a prior probability to each hypothesis, <span class="math notranslate nohighlight">\(P(H)\)</span>.   The prior encodes how strongly we believe a given hypothesis could be correct before we have seen any data.
+Then, we are given a set of data <span class="math notranslate nohighlight">\(D\)</span>, and we want to update our beliefs about the hypothesis.  In other words, we want to calculate the posterior probability of the hypothesis given the data, <span class="math notranslate nohighlight">\(P(H|D)\)</span>.  Bayes Rule tells us that</p>
+<div class="math notranslate nohighlight">
+\[
+P(H|D) = \frac{P(D|H)P(H)}{P(D)}.
+\]</div>
+<p>The term <span class="math notranslate nohighlight">\(P(D|H)\)</span> is called the <em>likelihood</em> of observing the data: it can be interpreted as the probability that, if a hypothetical experiment were to be performed where the hypothesis <span class="math notranslate nohighlight">\(H\)</span> is true, the data <span class="math notranslate nohighlight">\(D\)</span> would be observed.  The term <span class="math notranslate nohighlight">\(P(D)\)</span> is the evidence, or the probability of observing the data under any hypothesis.  Applying this formala then gives us a new probability distribution over the hypotheses, called the <em>posterior</em> probability.  We can use the posterior to make decisions or predictions.  For instance, we can see how much more we belief one hypothesis over another, by calculating the ratio of the posterior probabilities, called the <em>Bayes factor</em>.  We can also calculate the expected value of a hypothesis given the data, called the <em>posterior expectation</em>, or calculate other averages over the space of hypotheses.</p>
+</section>
+<section id="references-on-bayes-rule">
+<h3>References on Bayes Rule:<a class="headerlink" href="#references-on-bayes-rule" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>ThreeBlueOneBrown, of whom I am a huge fan, has a <a class="reference external" href="https://www.youtube.com/watch?v=HZGCoVF3YvM">great video</a> on Bayes Rule.</p></li>
+<li><p>Nature has an article on Bayesian statistics that is a little more involved, you can find it <a class="reference external" href="https://doi.org/10.1038/s43586-020-00001-2">here</a>.</p></li>
+</ul>
 </section>
 </section>
 </section>
@@ -482,6 +534,11 @@ p(x | A) = \begin{cases}
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-probabilities">Conditional Probabilities:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-rule">Bayes Rule</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-inference">Bayesian Inference</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references-on-bayes-rule">References on Bayes Rule:</a></li>
 </ul>
 </li>
 </ul>
