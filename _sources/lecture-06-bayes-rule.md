@@ -16,8 +16,7 @@ kernelspec:
 ## Learning Objectives
 
 - Understand the Concept of Conditional Probability.
-- Develop a familiarity with using an indicator function, the delta function, and the different between the two.
-
+- Understand Bayes Rule, and how it is applied in inference.
 
 ### Conditional Probabilities:
 
