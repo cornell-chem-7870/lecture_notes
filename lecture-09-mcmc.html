@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Monte Carlo &#8212; My sample book</title>
+    <title>Markov Chain Monte Carlo &#8212; My sample book</title>
   
   
   
@@ -62,11 +62,10 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-08-monte-carlo';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-09-mcmc';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Markov Chain Monte Carlo" href="lecture-09-mcmc.html" />
-    <link rel="prev" title="Bayesian Inference" href="lecture-07-bayesian-inference.html" />
+    <link rel="prev" title="Monte Carlo" href="lecture-08-monte-carlo.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -183,8 +182,8 @@
 <li class="toctree-l1"><a class="reference internal" href="lecture-05a-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-06-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-07-bayesian-inference.html">Bayesian Inference</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Monte Carlo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-09-mcmc.html">Markov Chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture-08-monte-carlo.html">Monte Carlo</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Markov Chain Monte Carlo</a></li>
 </ul>
 
     </div>
@@ -261,7 +260,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-08-monte-carlo.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-09-mcmc.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -291,7 +290,7 @@
       
       
       
-      <li><a href="_sources/lecture-08-monte-carlo.md" target="_blank"
+      <li><a href="_sources/lecture-09-mcmc.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -367,7 +366,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Monte Carlo</h1>
+    <h1>Markov Chain Monte Carlo</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -378,13 +377,15 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem-evaluating-high-dimensional-integrals">The Problem: Evaluating High-dimensional Integrals</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-methods">Monte Carlo Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-of-monte-carlo">Convergence of Monte Carlo</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-integration-calculating-pi">Monte Carlo Integration: Calculating Pi</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-integration-calculating-posterior-means-by-sampling-the-prior">Monte Carlo Integration: Calculating Posterior Means by Sampling the Prior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Markov Chain Monte Carlo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-using-markov-chains">Sampling using Markov Chains</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gibbs-sampling-and-the-ising-model">Gibbs Sampling and the Ising Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ising-model">The Ising Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
             </nav>
         </div>
@@ -396,141 +397,116 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="monte-carlo">
-<h1>Monte Carlo<a class="headerlink" href="#monte-carlo" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="markov-chain-monte-carlo">
+<h1>Markov Chain Monte Carlo<a class="headerlink" href="#markov-chain-monte-carlo" title="Link to this heading">#</a></h1>
 <section id="learning-objectives">
 <h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Understand the basic mathematical principles behind Monte Carlo methods.</p></li>
-<li><p>Be able to implement simple Monte Carlo Algorithms</p></li>
-<li><p>Understand the convergence rate of Monte Carlo methods and what governs the error.</p></li>
+<li><p>Understand the basic principles behind Markov Chain Monte Carlo (MCMC) methods.</p></li>
+<li><p>Understand how Gibbs sampling works and how to apply it to the Ising model.</p></li>
 </ul>
 </section>
-<section id="the-problem-evaluating-high-dimensional-integrals">
-<h2>The Problem: Evaluating High-dimensional Integrals<a class="headerlink" href="#the-problem-evaluating-high-dimensional-integrals" title="Link to this heading">#</a></h2>
-<p>In Bayesian inference, we might want to calculate the posterior mean, variance, or some other statistic.
-To recap, the posterior distribution is given by Bayes’ theorem,</p>
+<section id="id1">
+<h2>Markov Chain Monte Carlo<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>In the previous examples of Monte Carlo, we sampled from simple distributions such as the uniform distribution or the normal distribution.   But what if we have a complicated distribution?  For instance, in statistical mechanics we might wish to sample from the Boltzmann distribution, which is given by</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(x) = \frac{1}{Z} e^{-\beta H(x)}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(Z\)</span> is the partition function and <span class="math notranslate nohighlight">\(H(x)\)</span> is the Hamiltonian.  In general, <span class="math notranslate nohighlight">\(H\)</span> can be a very complicated function of the system’s state <span class="math notranslate nohighlight">\(x\)</span>.  For instance, in a system of <span class="math notranslate nohighlight">\(N\)</span> particles, <span class="math notranslate nohighlight">\(x\)</span> might be a list of <span class="math notranslate nohighlight">\(3N\)</span> coordinates, and <span class="math notranslate nohighlight">\(H(x)\)</span> might be a sum of pairwise interactions between particles.</p>
+<div class="math notranslate nohighlight">
+\[
+H(q, p) = \sum_{i=1}^N \sum_{j=i+1}^N V(q_i - q_j) + \frac{1}{2} \sum_{i=1}^N V(p_i)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(V\)</span> is the interaction potential between particles and we have separated the coordinates into position coordinates <span class="math notranslate nohighlight">\(q\)</span> and momentum coordinates <span class="math notranslate nohighlight">\(p\)</span>.  If our system has <span class="math notranslate nohighlight">\(N=100\)</span> particles, then <span class="math notranslate nohighlight">\(H\)</span> is a function of <span class="math notranslate nohighlight">\(600\)</span> variables, and there is no easy way to sample from <span class="math notranslate nohighlight">\(p(x)\)</span> directly.  In another example, in Bayesian Inference, we might wish to calculate averages over the posterior distribution, which is given by Bayes’ theorem</p>
 <div class="math notranslate nohighlight">
 \[
 p(\theta|D) = \frac{p(D|\theta)p(\theta)}{p(D)}
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(D\)</span> is the data, <span class="math notranslate nohighlight">\(\theta\)</span> is the parameter, <span class="math notranslate nohighlight">\(p(D|\theta)\)</span> is the likelihood, <span class="math notranslate nohighlight">\(p(\theta)\)</span> is the prior, and <span class="math notranslate nohighlight">\(p(D)\)</span> is the evidence.
-The posterior mean is given by</p>
-<div class="math notranslate nohighlight">
-\[
-E[\theta|D] = \int \theta p(\theta|D)d\theta
-\]</div>
-<p>and the posterior variance is given by</p>
-<div class="math notranslate nohighlight">
-\[
-\text{Var}[\theta|D] = \int (\theta - E[\theta|D])^2 p(\theta|D)d\theta
-\]</div>
-<p>So far, we have calculated these expectations against the posterior distribution either analytically or
-using numerical methods such as grid approximation or numerical integration.
-Unfortunately, these methods do not scale well to high-dimensional problems.
-Calculating the posterior requires evaluating the evidence,</p>
-<div class="math notranslate nohighlight">
-\[
-p(D) = \int p(D|\theta)p(\theta)d\theta
-\]</div>
-<p>If we have a single parameter, this is trivial.  If we have three, we have to evaluate the integral over a three-dimensional space: not impossible, but potentially expensive.
-If we have 100 parameters, we have to evaluate the integral over a 100-dimensional space: this is impossible using numerical integration.</p>
-<p>We have a similar problem in statistical mechanics.
-Most experimental measurements are averages over a large number of particles.
-At thermal equilibrium, these averages are given by the Boltzmann distribution and are given by</p>
-<div class="math notranslate nohighlight">
-\[
-  E[f] = \frac{\int f(x) e^{-\beta H(x)}dx}{\int e^{-\beta H(x')}dx'}
-\]</div>
-<p>where <span class="math notranslate nohighlight">\(f(x)\)</span> is the function we want to calculate, <span class="math notranslate nohighlight">\(H(x)\)</span> is the Hamiltonian, and <span class="math notranslate nohighlight">\(\beta = 1/kT\)</span>.
-Each point <span class="math notranslate nohighlight">\(x\)</span> is a point in the phase space of the system, which is a 6N-dimensional space for a system with N particles.
-Again, this is impossible to calculate using numerical integration for even modest values of N.
-Clearly, we need another way to calculate these integrals.</p>
-</section>
-<section id="monte-carlo-methods">
-<h2>Monte Carlo Methods<a class="headerlink" href="#monte-carlo-methods" title="Link to this heading">#</a></h2>
-<p>So far, we have been considering a random variable and then calculating its expectation by integrating over a probability density.
-Monte Carlo methods flip this paradigm.  Given a high-dimensional integral, we (1) find a way to write it as an expectation over a probability density, and then (2) estimate the expectation using random samples drawn from the corresponding distribution.
-If we choose our random samples well, the law of large numbers tells us that the sample mean will converge to the expected value as the number of samples goes to infinity.</p>
-<section id="convergence-of-monte-carlo">
-<h3>Convergence of Monte Carlo<a class="headerlink" href="#convergence-of-monte-carlo" title="Link to this heading">#</a></h3>
-<p>As a specific example, let’s assume we are estimating the expectation of a function <span class="math notranslate nohighlight">\(f(x)\)</span> over a probability density <span class="math notranslate nohighlight">\(p(x)\)</span>.
-For simplicity, let’s assumed that the true expectation of <span class="math notranslate nohighlight">\(f(x)\)</span> is zero and its variance is <span class="math notranslate nohighlight">\(\sigma^2\)</span>.</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{split}
-E[f] &amp;= \int f(x) p(x) dx  = 0 \\
-\text{Var}[f] &amp;= \int f(x)^2 p(x) dx = \sigma^2
-\end{split}
-\end{split}\]</div>
-<p>We are going to approximate this expectation using a sample mean</p>
-<div class="math notranslate nohighlight">
-\[
-\hat{E}[f] = \frac{1}{N}\sum_{i=1}^N f(x_i)
-\]</div>
-<p>where <span class="math notranslate nohighlight">\(x_i\)</span> are samples drawn independently and identically from the distribution associated with the density <span class="math notranslate nohighlight">\(p(x)\)</span>.  To evaluate
-the error in this estimate, we will calculate the variance of the sample mean.</p>
-<p>We first note that since our samples are drawn independently and identically, they have a probability density</p>
-<div class="math notranslate nohighlight">
-\[
-p(x_1, x_2, \ldots, x_N) = p(x_1)p(x_2)\ldots p(x_N)
-\]</div>
-<p>We immediately see that the expectation of the sample mean is the true expectation</p>
-<div class="math notranslate nohighlight">
-\[
-E[\hat{E}[f]] = E[ \frac{1}{N}\sum_{i=1}^N f(x_i)] = \frac{1}{N}\sum_{i=1}^N \int f(x_i) p(x_1) p(x_2) \ldots p(x_N) dx_i = \int f(x) p(x) dx = 0
-\]</div>
-<p>Consequently, the variance of the sample estimator is just given by the expectation of its square.</p>
-<div class="math notranslate nohighlight">
-\[
-E[\hat{E}[f]^2] = E[\frac{1}{N^2}\sum_{i=1}^N \sum_{j=1}^N f(x_i)f(x_j)] = \frac{1}{N^2}\sum_{i=1}^N \sum_{j=1}^N \int f(x_i)f(x_j) p(x_1) p(x_2) \ldots p(x_N) dx_i dx_j
-\]</div>
-<p>Since the samples are drawn independently, these expectations are zero unless <span class="math notranslate nohighlight">\(i = j\)</span>.  Consequently, the variance of the sample mean is given by</p>
-<div class="math notranslate nohighlight">
-\[
-\text{Var}[\hat{E}[f]] = \frac{1}{N^2}\sum_{i=1}^N \int f(x_i)^2 p(x_i) dx_i = \frac{\sigma^2}{N}
-\]</div>
-<p>This tells us that the variance of the sample mean decreases as <span class="math notranslate nohighlight">\(1/N\)</span>.  Similarly, we expect the root mean square error to decrease as <span class="math notranslate nohighlight">\(1/\sqrt{N}\)</span>.</p>
-</section>
-<section id="monte-carlo-integration-calculating-pi">
-<h3>Monte Carlo Integration: Calculating Pi<a class="headerlink" href="#monte-carlo-integration-calculating-pi" title="Link to this heading">#</a></h3>
-<p>As a simple demonstration of Monte Carlo integration, consider the problem of calculating <span class="math notranslate nohighlight">\(\pi\)</span>.
-The area of a circle is given by <span class="math notranslate nohighlight">\(\pi r^2\)</span>.
-The area of a square that circumscribes the circle, in turn, is given by <span class="math notranslate nohighlight">\(4r^2\)</span>.
-Consequently, if we can calculate the fraction of the area of the square that is covered by the circle, we can calculate <span class="math notranslate nohighlight">\(\pi\)</span>: this fraction is given by <span class="math notranslate nohighlight">\(\pi/4\)</span>.
-This fraction can be written as an expectation over a probability density:</p>
-<div class="math notranslate nohighlight">
-\[
-\frac{\pi}{4} = \int_{-1}^1 \int_{-1}^1 \mathbb{1}(x^2 + y^2 \leq 1) p(x, y) dx dy
-\]</div>
-<p>where <span class="math notranslate nohighlight">\(\mathbb{1}(x^2 + y^2 \leq 1)\)</span> is the indicator function that is 1 if <span class="math notranslate nohighlight">\(x^2 + y^2 \leq 1\)</span> and 0 otherwise,
-and <span class="math notranslate nohighlight">\(p(x, y)\)</span> is the uniform distribution over the square.</p>
-<p>To estimate this integral, we can draw <span class="math notranslate nohighlight">\(N\)</span> samples from the uniform distribution over the square and calculate the fraction of samples that fall within the circle.
-The fraction of samples that fall within the circle will converge to <span class="math notranslate nohighlight">\(\pi/4\)</span> as <span class="math notranslate nohighlight">\(N\)</span> goes to infinity.  In code, this looks as follows:</p>
-</section>
-<section id="monte-carlo-integration-calculating-posterior-means-by-sampling-the-prior">
-<h3>Monte Carlo Integration: Calculating Posterior Means by Sampling the Prior<a class="headerlink" href="#monte-carlo-integration-calculating-posterior-means-by-sampling-the-prior" title="Link to this heading">#</a></h3>
-<p>Lets say we are attempting to calculate the posterior mean of a parameter <span class="math notranslate nohighlight">\(\theta\)</span> and the prior is a multi-dimensional Gaussian distribution.
-We can approximate the posterior mean as follows:</p>
+In prior examples, we have discussed attempting to sample from <span class="math notranslate nohighlight">\(p(\theta)\)</span>, and mentioned how this may not be optimal at large amounts of data, when <span class="math notranslate nohighlight">\(P(D | \theta)\)</span> is very peaked.
+If we could sample from <span class="math notranslate nohighlight">\(p(\theta | D)\)</span> we could avoid this problem.  However, this can be a very complicated distribution, no less so because the evidence <span class="math notranslate nohighlight">\(p(D)\)</span>, much like the partition function <span class="math notranslate nohighlight">\(Z\)</span>, typically cannot be calculated directly.</p>
+<section id="sampling-using-markov-chains">
+<h3>Sampling using Markov Chains<a class="headerlink" href="#sampling-using-markov-chains" title="Link to this heading">#</a></h3>
+<p>To address these problems, we give up on sampling statistically  samples.  Instead, we draw correlated samples through a technique called <code class="docutils literal notranslate"><span class="pre">Markov</span> <span class="pre">chain</span> <span class="pre">Monte</span> <span class="pre">Carlo</span></code> (MCMC).  In MCMC, we draw new samples from a distribution that is conditioned on the prior sample.
+We then repeat this process until we have enough samples.  If we choos our sampling distribution correctly, averages over our samples will converge to the averages over the target distribution.  This is the basic idea behind MCMC.</p>
+<p>Mathematically, we have</p>
 <ol class="arabic simple">
-<li><p>Draw <span class="math notranslate nohighlight">\(N\)</span> samples from the prior distribution.</p></li>
-<li><p>Calculate the likelihood for each sample.</p></li>
-<li><p>Calculate the approximations</p></li>
+<li><p>A distribution <span class="math notranslate nohighlight">\(\pi(x)\)</span> that we want to sample from.</p></li>
+<li><p>A probability density <span class="math notranslate nohighlight">\(p(x_t | x_{t-1})\)</span> that encodes the probability of moving from <span class="math notranslate nohighlight">\(x_{t-1}\)</span> to <span class="math notranslate nohighlight">\(x_t\)</span>. We call this the transition probability.
+(As always, we present our results in terms of continuous variables with probability densities, but the same ideas apply to discrete variables with probability mass functions.)</p></li>
 </ol>
+<p>For the algorithm to work, we require that <span class="math notranslate nohighlight">\(\pi\)</span> is the stationary distribution of the transition probability, i.e.,</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{split}
-p(D) = \int p(D|\theta)p(\theta)d\theta \approx \frac{1}{N}\sum_{i=1}^N p(D|\theta_i) \\
-\int \theta p(\theta|D)d\theta \approx \frac{1}{N}\sum_{i=1}^N \theta_i p(\theta_i|D)
-\end{split}
-\end{split}\]</div>
-<ol class="arabic simple" start="4">
-<li><p>Calculate the posterior mean by dividing the two approximations.</p></li>
-</ol>
-<p>This gives a Monte Carlo estimate of the posterior mean.<br />
-However, some caution is required.  While for small <span class="math notranslate nohighlight">\(N\)</span> this may be an efficient way to calculate the posterior mean, for large <span class="math notranslate nohighlight">\(N\)</span> we expect the likelihood to be very small unless <span class="math notranslate nohighlight">\(\theta\)</span> happens to be close to the true value.
-In this case, the Monte Carlo estimate will have a large variance: most of our samples from <span class="math notranslate nohighlight">\(p(\theta)\)</span> will be far from the true value of <span class="math notranslate nohighlight">\(\theta\)</span> and will have a negligible likelihood.  Consequently, the Monte Carlo estimate will be dominated by the few samples that happen to have a large likelihood, and the estimate will be very noisy.</p>
+\[
+\int p(x_t | x_{t-1}) \pi(x_{t-1}) dx_{t-1} = \pi(x_t)
+\]</div>
+<p>If this condition holds, if we (a) randomly draw a sample <span class="math notranslate nohighlight">\(X_0\)</span> from <span class="math notranslate nohighlight">\(\pi(x)\)</span>, and (b) draw a sample <span class="math notranslate nohighlight">\(X_1\)</span> from <span class="math notranslate nohighlight">\(p(X_1 | X_0)\)</span>, and (c) draw a sample <span class="math notranslate nohighlight">\(X_2\)</span> from <span class="math notranslate nohighlight">\(p(X_2 | X_1)\)</span>, and so on, then each sample <span class="math notranslate nohighlight">\(X_0, X_1, X_2, \ldots\)</span> will be individually distributed according to <span class="math notranslate nohighlight">\(\pi(x)\)</span>.  The sequence of random variables <span class="math notranslate nohighlight">\(X_0, X_1, X_2, \ldots\)</span> is called a Markov chain.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Having <span class="math notranslate nohighlight">\(\pi\)</span> as a stationary distribution of the transition probability is a necessary condition for the algorithm to work, but it is not sufficient.  The transition probability must also be ergodic, meaning that it is possible to get from any state to any other state in a finite number of steps, and be aperiodic, meaning that the chain does not get stuck in a loop.  These are, however, much more difficult conditions to check.</p>
+</div>
 </section>
+</section>
+<section id="gibbs-sampling-and-the-ising-model">
+<h2>Gibbs Sampling and the Ising Model<a class="headerlink" href="#gibbs-sampling-and-the-ising-model" title="Link to this heading">#</a></h2>
+<p>One simple Markov  chain Monte Carlo example is  Gibbs sampling.  In Gibbs sampling, at each step we grab a single coordinate from our description of the system and update it by sampling from the conditional distribution of that coordinate given all the others.
+Specifically, we update <span class="math notranslate nohighlight">\(x^k\)</span>, the <span class="math notranslate nohighlight">\(k\)</span>’th coordinate of <span class="math notranslate nohighlight">\(x\)</span>, by sampling the new value from the conditional distribution</p>
+<div class="math notranslate nohighlight">
+\[
+p(x^k | x^1, \ldots, x^{k-1},  x^{k+1}, \ldots, x^N) = \frac{\pi(x^1, \ldots, x^{k-1}, x^k, x^{k+1}, \ldots, x^N)}{\int \pi(x^1, \ldots, x^N) dx^1, \ldots, dx^{k-1}, dx^{k+1}, \ldots, dx^N}
+\]</div>
+<p>We will show that this process preserves the distribution <span class="math notranslate nohighlight">\(\pi(x)\)</span> later, in our discussion of the Metroplis-Hastings algorithm.
+For now, let’s consider a specific example of Gibbs sampling.</p>
+<!-- Writing this out every time is going to be tiring, so we will adopt a shorthand notation where we write $x^{i \neq k}$ to denote all of the coordinates except for $x^k$.  In this notation, we can write the conditional distribution as
+
+$$
+p(x^k | x^{i \neq k}) = \frac{\pi(x^k, x^{i \neq k})}{\int \pi(y^k, x^{i \neq k})  dy^{ k}}.
+$$ -->
+<section id="the-ising-model">
+<h3>The Ising Model<a class="headerlink" href="#the-ising-model" title="Link to this heading">#</a></h3>
+<p>The Ising model is a simple model of a magnet.  In the Ising model, we have a lattice of spins, each of which can be either up or down.  The energy of the system is given by</p>
+<div class="math notranslate nohighlight">
+\[
+H(s_1, \ldots, s_M) = -J/2 \sum_{j} \sum_{i\in N_j \rangle} s_i s_j
+\]</div>
+<p>where the sum is over nearest neighbors (<span class="math notranslate nohighlight">\(N_j\)</span> are all of the spinns neighboring spin <span class="math notranslate nohighlight">\(j\)</span>), <span class="math notranslate nohighlight">\(s_i\)</span> is the spin at site <span class="math notranslate nohighlight">\(i\)</span> and takes a value of <span class="math notranslate nohighlight">\(+1\)</span> for up and <span class="math notranslate nohighlight">\(-1\)</span> for down, and <span class="math notranslate nohighlight">\(J\)</span> is the coupling constant.  The probability of seeing a collection of spins up or down is given by the Boltzmann distribution</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(s_1, \ldots s_M) = \frac{1}{Z} e^{-\beta H(s_1, \ldots, s_M)}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(Z\)</span> is the partition function.</p>
+<!-- In Gibbs sampling, we randomly pick a single spin (denoted $s_k$) and update it according to the conditional distribution -->
+<p>To apply Gibbs sampling to the Ising model, we randomly pick a single spin (denoted <span class="math notranslate nohighlight">\(s_k\)</span>).
+The conditional distribution of that spin given all the others has the probability mass function</p>
+<div class="math notranslate nohighlight">
+\[
+p(s_k | s_{i \neq k}) = \frac{e^{-\beta H(s_1, \ldots, s_k, \ldots, S_m )  } }{
+    e^{-\beta H(s_1, \ldots, +1, \ldots, S_m )}   + 
+    e^{-\beta H(s_1, \ldots, -1, \ldots, S_m )}
+}
+= 
+\frac{e^{\beta J \sum_{i \in N_k} s_i} }{
+    e^{\beta J \sum_{i \in N_k} 1}   + 
+    e^{\beta -J \sum_{i \in N_k} }
+}
+\]</div>
+<p>This is gives us a simple algorithm for sampling from the Ising Model:</p>
+<ol class="arabic simple">
+<li><p>We pick a random spin <span class="math notranslate nohighlight">\(s_k\)</span>.</p></li>
+<li><p>We calculate the conditional probability of that spin being up or down.</p></li>
+<li><p>We sample from that conditional probability to get the new value of <span class="math notranslate nohighlight">\(s_k\)</span>.</p></li>
+<li><p>We repeat steps 1-3 until we have enough samples.</p></li>
+</ol>
+<p>Note that this conditional probability is a function of only the spins neighboring <span class="math notranslate nohighlight">\(s_k\)</span>.  This means that we can update spins in parallel as long as they are not neighbors.</p>
+</section>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>If you want an example of how to implement Gibbs sampling on a 2D normal distribution where we alternate between sampling from the conditional distribution of <span class="math notranslate nohighlight">\(x\)</span> given <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(y\)</span> given <span class="math notranslate nohighlight">\(x\)</span>, see <a class="reference external" href="https://mr-easy.github.io/2020-05-21-implementing-gibbs-sampling-in-python/">this blog post</a></p></li>
+<li><p>This recorded <a class="reference external" href="https://www.youtube.com/watch?v=vTUwEu53uzs">video lecture</a> gives an introduction to Markov chain Monte Carlo and its applications for Bayesian Inference in Statistics.</p></li>
+</ul>
 </section>
 </section>
 
@@ -565,22 +541,13 @@ In this case, the Monte Carlo estimate will have a large variance: most of our s
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="lecture-07-bayesian-inference.html"
+       href="lecture-08-monte-carlo.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Bayesian Inference</p>
+        <p class="prev-next-title">Monte Carlo</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="lecture-09-mcmc.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Markov Chain Monte Carlo</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -600,13 +567,15 @@ In this case, the Monte Carlo estimate will have a large variance: most of our s
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem-evaluating-high-dimensional-integrals">The Problem: Evaluating High-dimensional Integrals</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-methods">Monte Carlo Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-of-monte-carlo">Convergence of Monte Carlo</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-integration-calculating-pi">Monte Carlo Integration: Calculating Pi</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-integration-calculating-posterior-means-by-sampling-the-prior">Monte Carlo Integration: Calculating Posterior Means by Sampling the Prior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Markov Chain Monte Carlo</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-using-markov-chains">Sampling using Markov Chains</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gibbs-sampling-and-the-ising-model">Gibbs Sampling and the Ising Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ising-model">The Ising Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
   </nav></div>
 

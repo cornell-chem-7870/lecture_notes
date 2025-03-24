@@ -156,7 +156,7 @@ estimate_pi(1000)
 
 Lets say we are attempting to calculate the posterior mean of a parameter $\theta$ and the prior is a multi-dimensional Gaussian distribution.
 We can approximate the posterior mean as follows:
-
+ 
 1. Draw $N$ samples from the prior distribution.
 2. Calculate the likelihood for each sample.
 3. Calculate the approximations
@@ -171,3 +171,5 @@ $$
 4. Calculate the posterior mean by dividing the two approximations.
 
 This gives a Monte Carlo estimate of the posterior mean.  
+However, some caution is required.  While for small $N$ this may be an efficient way to calculate the posterior mean, for large $N$ we expect the likelihood to be very small unless $\theta$ happens to be close to the true value.
+In this case, the Monte Carlo estimate will have a large variance: most of our samples from $p(\theta)$ will be far from the true value of $\theta$ and will have a negligible likelihood.  Consequently, the Monte Carlo estimate will be dominated by the few samples that happen to have a large likelihood, and the estimate will be very noisy.
