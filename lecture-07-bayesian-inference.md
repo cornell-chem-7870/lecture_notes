@@ -19,6 +19,7 @@ kernelspec:
 - Understand how to evaluate the evidence (and when you might not want to).
 - Understand how to use the posterior to make predictions.
 - Become familiar with working in log-space for numerical stability.
+- Understand how to apply Bayesian Inference to linear regression.
 
 ## Bayesian Inference
 

@@ -16,3 +16,5 @@ parts:
     - file: lecture-05a-random-in-numpy.md
     - file: lecture-06-bayes-rule.md
     - file: lecture-07-bayesian-inference.md
+    - file: lecture-08-monte-carlo.md
+    - file: lecture-09-mcmc.md
