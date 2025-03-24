@@ -112,8 +112,8 @@ p(s_k | s_{i \neq k}) = \frac{e^{-\beta H(s_1, \ldots, s_k, \ldots, S_m )  } }{
 }
 = 
 \frac{e^{\beta J \sum_{i \in N_k} s_i} }{
-    e^{\beta J \sum_{i \in N_k} 1}   + 
-    e^{\beta -J \sum_{i \in N_k} }
+    e^{\beta J \sum_{i \in N_k} s_i}   + 
+    e^{\beta -J \sum_{i \in N_k} s_i}
 }
 $$
 
