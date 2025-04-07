@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Monte Carlo &#8212; My sample book</title>
+    <title>Intro to Numerical Integration &#8212; My sample book</title>
   
   
   
@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -62,11 +62,10 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-08-monte-carlo';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-11-ode-intro';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Markov Chain Monte Carlo" href="lecture-09-mcmc.html" />
-    <link rel="prev" title="Bayesian Inference" href="lecture-07-bayesian-inference.html" />
+    <link rel="prev" title="Detailed Balance and the Metropolis-Hastings Algorithm" href="lecture-10-metropolis-hastings.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -178,20 +177,18 @@
 <li class="toctree-l1"><a class="reference internal" href="lecture-04-linear_regression.html">Linear Regression and Least Squares</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Probability</span></p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="lecture-05-probability.html">Intro to Probability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-05a-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-06-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-07-bayesian-inference.html">Bayesian Inference</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture-08-monte-carlo.html">Monte Carlo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-09-mcmc.html">Markov Chain Monte Carlo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-10-metropolis-hastings.html">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3. Numerical Differential Equations</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="lecture-11-ode-intro.html">S</a></li>
-
-
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Intro to Numerical Integration</a></li>
 </ul>
 
     </div>
@@ -268,7 +265,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-08-monte-carlo.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-11-ode-intro.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -298,7 +295,7 @@
       
       
       
-      <li><a href="_sources/lecture-08-monte-carlo.md" target="_blank"
+      <li><a href="_sources/lecture-11-ode-intro.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -374,7 +371,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Monte Carlo</h1>
+    <h1>Intro to Numerical Integration</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -385,13 +382,16 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem-evaluating-high-dimensional-integrals">The Problem: Evaluating High-dimensional Integrals</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-methods">Monte Carlo Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-of-monte-carlo">Convergence of Monte Carlo</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-integration-calculating-pi">Monte Carlo Integration: Calculating Pi</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-integration-calculating-posterior-means-by-sampling-the-prior">Monte Carlo Integration: Calculating Posterior Means by Sampling the Prior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-an-ode">What is an ODE</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-odes-in-chemistry">Examples of ODEs in Chemistry</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-odes-using-forwards-and-backwards-euler">Solving ODEs using Forwards and Backwards Euler</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations-of-forward-euler">Limitations of Forward Euler</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-euler-method">Backward Euler Method</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 </ul>
             </nav>
         </div>
@@ -403,141 +403,168 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="monte-carlo">
-<h1>Monte Carlo<a class="headerlink" href="#monte-carlo" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="intro-to-numerical-integration">
+<h1>Intro to Numerical Integration<a class="headerlink" href="#intro-to-numerical-integration" title="Link to this heading">#</a></h1>
 <section id="learning-objectives">
 <h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Understand the basic mathematical principles behind Monte Carlo methods.</p></li>
-<li><p>Be able to implement simple Monte Carlo Algorithms</p></li>
-<li><p>Understand the convergence rate of Monte Carlo methods and what governs the error.</p></li>
+<li><p>Discuss some Examples of ODEs in chemistry.</p></li>
+<li><p>Connect numerical integration of functions with numerical integration of ODEs.</p></li>
+<li><p>Derive the Forward and Backward Euler methods for ODEs.</p></li>
 </ul>
 </section>
-<section id="the-problem-evaluating-high-dimensional-integrals">
-<h2>The Problem: Evaluating High-dimensional Integrals<a class="headerlink" href="#the-problem-evaluating-high-dimensional-integrals" title="Link to this heading">#</a></h2>
-<p>In Bayesian inference, we might want to calculate the posterior mean, variance, or some other statistic.
-To recap, the posterior distribution is given by Bayes’ theorem,</p>
+<section id="what-is-an-ode">
+<h2>What is an ODE<a class="headerlink" href="#what-is-an-ode" title="Link to this heading">#</a></h2>
+<p>An ODE, or ordinary differential equation, is an equation that relates a function to its derivatives.  Denoting the function as (y(t)), an ODE can be expressed in the form:</p>
 <div class="math notranslate nohighlight">
 \[
-p(\theta|D) = \frac{p(D|\theta)p(\theta)}{p(D)}
+\frac{dy(t)}{dt} = f(t, y(t))
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(D\)</span> is the data, <span class="math notranslate nohighlight">\(\theta\)</span> is the parameter, <span class="math notranslate nohighlight">\(p(D|\theta)\)</span> is the likelihood, <span class="math notranslate nohighlight">\(p(\theta)\)</span> is the prior, and <span class="math notranslate nohighlight">\(p(D)\)</span> is the evidence.
-The posterior mean is given by</p>
+<p>where (f) is a function of time (t) and the value of the function at that time, (y(t)).
+Note that <span class="math notranslate nohighlight">\(y\)</span> may be a vector, in
+Our goal is to find the function (y(t)) that satisfies this equation.
+In many cases, we can attempt to solve this equation analytically, by a variety of methods, including separation of variables, integrating factors, and so forth.
+But in general, this is not the case.  Then, we need to solve the ODE <em>numerically</em>: using a computer, we attempt to construct an approximate solution.</p>
+<section id="examples-of-odes-in-chemistry">
+<h3>Examples of ODEs in Chemistry<a class="headerlink" href="#examples-of-odes-in-chemistry" title="Link to this heading">#</a></h3>
+<p>ODES show up in multiple areas of chemistry.  Two common examples are:</p>
+<ul class="simple">
+<li><p><strong>Chemical Kinetics</strong>: The rate of change of concentration of reactants and products in a chemical reaction can be described by ODEs. For example, the rate of a first-order reaction can be expressed as:</p></li>
+</ul>
 <div class="math notranslate nohighlight">
-\[
-E[\theta|D] = \int \theta p(\theta|D)d\theta
-\]</div>
-<p>and the posterior variance is given by</p>
+\[ \frac{d[A]}{dt} = -k[A] \]</div>
+<p>where ([A]) is the concentration of reactant A and (k) is the rate constant.
+For higher-order reactions, the rate equations can be more complex, involving multiple reactants and products.  For instance, consider the Iodine clock reaction, with rate equations given below.</p>
 <div class="math notranslate nohighlight">
-\[
-\text{Var}[\theta|D] = \int (\theta - E[\theta|D])^2 p(\theta|D)d\theta
-\]</div>
-<p>So far, we have calculated these expectations against the posterior distribution either analytically or
-using numerical methods such as grid approximation or numerical integration.
-Unfortunately, these methods do not scale well to high-dimensional problems.
-Calculating the posterior requires evaluating the evidence,</p>
-<div class="math notranslate nohighlight">
-\[
-p(D) = \int p(D|\theta)p(\theta)d\theta
-\]</div>
-<p>If we have a single parameter, this is trivial.  If we have three, we have to evaluate the integral over a three-dimensional space: not impossible, but potentially expensive.
-If we have 100 parameters, we have to evaluate the integral over a 100-dimensional space: this is impossible using numerical integration.</p>
-<p>We have a similar problem in statistical mechanics.
-Most experimental measurements are averages over a large number of particles.
-At thermal equilibrium, these averages are given by the Boltzmann distribution and are given by</p>
-<div class="math notranslate nohighlight">
-\[
-  E[f] = \frac{\int f(x) e^{-\beta H(x)}dx}{\int e^{-\beta H(x')}dx'}
-\]</div>
-<p>where <span class="math notranslate nohighlight">\(f(x)\)</span> is the function we want to calculate, <span class="math notranslate nohighlight">\(H(x)\)</span> is the Hamiltonian, and <span class="math notranslate nohighlight">\(\beta = 1/kT\)</span>.
-Each point <span class="math notranslate nohighlight">\(x\)</span> is a point in the phase space of the system, which is a 6N-dimensional space for a system with N particles.
-Again, this is impossible to calculate using numerical integration for even modest values of N.
-Clearly, we need another way to calculate these integrals.</p>
-</section>
-<section id="monte-carlo-methods">
-<h2>Monte Carlo Methods<a class="headerlink" href="#monte-carlo-methods" title="Link to this heading">#</a></h2>
-<p>So far, we have been considering a random variable and then calculating its expectation by integrating over a probability density.
-Monte Carlo methods flip this paradigm.  Given a high-dimensional integral, we (1) find a way to write it as an expectation over a probability density, and then (2) estimate the expectation using random samples drawn from the corresponding distribution.
-If we choose our random samples well, the law of large numbers tells us that the sample mean will converge to the expected value as the number of samples goes to infinity.</p>
-<section id="convergence-of-monte-carlo">
-<h3>Convergence of Monte Carlo<a class="headerlink" href="#convergence-of-monte-carlo" title="Link to this heading">#</a></h3>
-<p>As a specific example, let’s assume we are estimating the expectation of a function <span class="math notranslate nohighlight">\(f(x)\)</span> over a probability density <span class="math notranslate nohighlight">\(p(x)\)</span>.
-For simplicity, let’s assumed that the true expectation of <span class="math notranslate nohighlight">\(f(x)\)</span> is zero and its variance is <span class="math notranslate nohighlight">\(\sigma^2\)</span>.</p>
+\[\begin{split} 
+\begin{split}
+    \frac{d[I_3^{-}]}{dt} &amp;= k_1[I^{-}]^3 - k_2[I_3^{-}][S_2O_3^{2-}]^2 \\
+    \frac{d[I^{-}]}{dt} &amp;= - k_1 [I^{-}]^3 + 3 k_2 [I_3^{-}][S_2O_3^{2-}]^2 \\
+    \frac{d[S_2O_3^{2-}]}{dt} &amp;= - k_2[I_3^{-}][S_2O_3^{2-}]^2 S.
+\end{split}
+\end{split}\]</div>
+<ul class="simple">
+<li><p><strong>Hamiltonian Dynamics</strong>: The motion of particles in a system can be described by Hamilton’s equations, which are a set of first-order ODEs.  In classical mechanics, the equations of motion for a particle can be expressed as:</p></li>
+</ul>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{split}
-E[f] &amp;= \int f(x) p(x) dx  = 0 \\
-\text{Var}[f] &amp;= \int f(x)^2 p(x) dx = \sigma^2
+    \frac{dx}{dt} &amp;= \frac{\partial H}{\partial p} \\
+    \frac{dp}{dt} &amp;= -\frac{\partial H}{\partial x}
 \end{split}
 \end{split}\]</div>
-<p>We are going to approximate this expectation using a sample mean</p>
+<p>where (H) is the Hamiltonian function, (x) is the position, and (p) is the momentum of the particle.  For example, consider a simple harmonic oscillator with Hamiltonian given by:</p>
 <div class="math notranslate nohighlight">
-\[
-\hat{E}[f] = \frac{1}{N}\sum_{i=1}^N f(x_i)
-\]</div>
-<p>where <span class="math notranslate nohighlight">\(x_i\)</span> are samples drawn independently and identically from the distribution associated with the density <span class="math notranslate nohighlight">\(p(x)\)</span>.  To evaluate
-the error in this estimate, we will calculate the variance of the sample mean.</p>
-<p>We first note that since our samples are drawn independently and identically, they have a probability density</p>
-<div class="math notranslate nohighlight">
-\[
-p(x_1, x_2, \ldots, x_N) = p(x_1)p(x_2)\ldots p(x_N)
-\]</div>
-<p>We immediately see that the expectation of the sample mean is the true expectation</p>
-<div class="math notranslate nohighlight">
-\[
-E[\hat{E}[f]] = E[ \frac{1}{N}\sum_{i=1}^N f(x_i)] = \frac{1}{N}\sum_{i=1}^N \int f(x_i) p(x_1) p(x_2) \ldots p(x_N) dx_i = \int f(x) p(x) dx = 0
-\]</div>
-<p>Consequently, the variance of the sample estimator is just given by the expectation of its square.</p>
-<div class="math notranslate nohighlight">
-\[
-E[\hat{E}[f]^2] = E[\frac{1}{N^2}\sum_{i=1}^N \sum_{j=1}^N f(x_i)f(x_j)] = \frac{1}{N^2}\sum_{i=1}^N \sum_{j=1}^N \int f(x_i)f(x_j) p(x_1) p(x_2) \ldots p(x_N) dx_i dx_j
-\]</div>
-<p>Since the samples are drawn independently, these expectations are zero unless <span class="math notranslate nohighlight">\(i = j\)</span>.  Consequently, the variance of the sample mean is given by</p>
-<div class="math notranslate nohighlight">
-\[
-\text{Var}[\hat{E}[f]] = \frac{1}{N^2}\sum_{i=1}^N \int f(x_i)^2 p(x_i) dx_i = \frac{\sigma^2}{N}
-\]</div>
-<p>This tells us that the variance of the sample mean decreases as <span class="math notranslate nohighlight">\(1/N\)</span>.  Similarly, we expect the root mean square error to decrease as <span class="math notranslate nohighlight">\(1/\sqrt{N}\)</span>.</p>
+\[ H(x, p) = \frac{p^2}{2m} + \frac{1}{2} k x^2 \]</div>
+<p>where (m) is the mass of the particle and (k) is the spring constant.</p>
 </section>
-<section id="monte-carlo-integration-calculating-pi">
-<h3>Monte Carlo Integration: Calculating Pi<a class="headerlink" href="#monte-carlo-integration-calculating-pi" title="Link to this heading">#</a></h3>
-<p>As a simple demonstration of Monte Carlo integration, consider the problem of calculating <span class="math notranslate nohighlight">\(\pi\)</span>.
-The area of a circle is given by <span class="math notranslate nohighlight">\(\pi r^2\)</span>.
-The area of a square that circumscribes the circle, in turn, is given by <span class="math notranslate nohighlight">\(4r^2\)</span>.
-Consequently, if we can calculate the fraction of the area of the square that is covered by the circle, we can calculate <span class="math notranslate nohighlight">\(\pi\)</span>: this fraction is given by <span class="math notranslate nohighlight">\(\pi/4\)</span>.
-This fraction can be written as an expectation over a probability density:</p>
+</section>
+<section id="solving-odes-using-forwards-and-backwards-euler">
+<h2>Solving ODEs using Forwards and Backwards Euler<a class="headerlink" href="#solving-odes-using-forwards-and-backwards-euler" title="Link to this heading">#</a></h2>
+<p>To solve these equations, we first consider a simpler case: when <span class="math notranslate nohighlight">\(f\)</span> is only a function of <span class="math notranslate nohighlight">\(t\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[
-\frac{\pi}{4} = \int_{-1}^1 \int_{-1}^1 \mathbb{1}(x^2 + y^2 \leq 1) p(x, y) dx dy
+\frac{dy(t)}{dt} = f(t)
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(\mathbb{1}(x^2 + y^2 \leq 1)\)</span> is the indicator function that is 1 if <span class="math notranslate nohighlight">\(x^2 + y^2 \leq 1\)</span> and 0 otherwise,
-and <span class="math notranslate nohighlight">\(p(x, y)\)</span> is the uniform distribution over the square.</p>
-<p>To estimate this integral, we can draw <span class="math notranslate nohighlight">\(N\)</span> samples from the uniform distribution over the square and calculate the fraction of samples that fall within the circle.
-The fraction of samples that fall within the circle will converge to <span class="math notranslate nohighlight">\(\pi/4\)</span> as <span class="math notranslate nohighlight">\(N\)</span> goes to infinity.  In code, this looks as follows:</p>
-</section>
-<section id="monte-carlo-integration-calculating-posterior-means-by-sampling-the-prior">
-<h3>Monte Carlo Integration: Calculating Posterior Means by Sampling the Prior<a class="headerlink" href="#monte-carlo-integration-calculating-posterior-means-by-sampling-the-prior" title="Link to this heading">#</a></h3>
-<p>Lets say we are attempting to calculate the posterior mean of a parameter <span class="math notranslate nohighlight">\(\theta\)</span> and the prior is a multi-dimensional Gaussian distribution.
-We can approximate the posterior mean as follows:</p>
+<p>Given the value of <span class="math notranslate nohighlight">\(y\)</span> at time <span class="math notranslate nohighlight">\(0\)</span>, we wish to find the value of <span class="math notranslate nohighlight">\(y\)</span> at a time <span class="math notranslate nohighlight">\(T\)</span> in the future.
+A simple way to do this is to divide the time interval from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(T\)</span> into <span class="math notranslate nohighlight">\(n\)</span> equal intervals, each of length <span class="math notranslate nohighlight">\(\Delta t = \frac{T}{n}\)</span>,
+and then approximate the value of <span class="math notranslate nohighlight">\(y\)</span> at each time step using a left Riemann sum.</p>
+<div class="math notranslate nohighlight">
+\[
+y(T) = y(0) + \sum_{i=0}^{n-1} f(i \Delta t) \Delta t
+\]</div>
+<p>Note that we can also write this as an iterative equation:</p>
+<div class="math notranslate nohighlight">
+\[
+y((i+1) \Delta t) = y(i \Delta t) + f(i \Delta t) \Delta t
+\]</div>
+<p>Repeatedly substituting this equation gives us the value of <span class="math notranslate nohighlight">\(y\)</span> at any time <span class="math notranslate nohighlight">\(T\)</span> in the future.</p>
+<p>We are going to use this approach to solve ODEs in general.  Now, considering the case where <span class="math notranslate nohighlight">\(f\)</span> can also depend on <span class="math notranslate nohighlight">\(y\)</span>, we can write the equation as:</p>
+<div class="math notranslate nohighlight">
+\[
+y((i+1) \Delta t) = y(i \Delta t) + f(i \Delta t, y(i \Delta t)) \Delta t
+\]</div>
+<p>This is known as the Forward Euler method.  The algorithm  proceeds according to the following pseudocode:</p>
 <ol class="arabic simple">
-<li><p>Draw <span class="math notranslate nohighlight">\(N\)</span> samples from the prior distribution.</p></li>
-<li><p>Calculate the likelihood for each sample.</p></li>
-<li><p>Calculate the approximations</p></li>
+<li><p>Calculate the time step <span class="math notranslate nohighlight">\(\Delta t = \frac{T}{n}\)</span>.</p></li>
+<li><p>Set <span class="math notranslate nohighlight">\(y(0) = y_0\)</span>.</p></li>
+<li><p>For <span class="math notranslate nohighlight">\(i = 0\)</span> to <span class="math notranslate nohighlight">\(n-1\)</span>:</p>
+<ul class="simple">
+<li><p>Use the equation above to calculate <span class="math notranslate nohighlight">\(y((i+1) \Delta t)\)</span>.</p></li>
+</ul>
+</li>
+<li><p>Return <span class="math notranslate nohighlight">\(y(T)\)</span>.</p></li>
 </ol>
+<section id="limitations-of-forward-euler">
+<h3>Limitations of Forward Euler<a class="headerlink" href="#limitations-of-forward-euler" title="Link to this heading">#</a></h3>
+<p>For instance, it can cause the solute to “blow up” if the time step is too large or if we are trying to integrate over very long periods of time.  Consider solving a simple harmonic oscillator using Forward Euler, with <span class="math notranslate nohighlight">\(k = m = 1\)</span>.  The equation of motion is given by:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{split}
-p(D) = \int p(D|\theta)p(\theta)d\theta \approx \frac{1}{N}\sum_{i=1}^N p(D|\theta_i) \\
-\int \theta p(\theta|D)d\theta \approx \frac{1}{N}\sum_{i=1}^N \theta_i p(\theta_i|D)
+    \frac{dx}{dt} &amp;= v \\
+    \frac{dv}{dt} &amp;= - x
 \end{split}
 \end{split}\]</div>
-<ol class="arabic simple" start="4">
-<li><p>Calculate the posterior mean by dividing the two approximations.</p></li>
-</ol>
-<p>This gives a Monte Carlo estimate of the posterior mean.<br />
-However, some caution is required.  While for small <span class="math notranslate nohighlight">\(N\)</span> this may be an efficient way to calculate the posterior mean, for large <span class="math notranslate nohighlight">\(N\)</span> we expect the likelihood to be very small unless <span class="math notranslate nohighlight">\(\theta\)</span> happens to be close to the true value.
-In this case, the Monte Carlo estimate will have a large variance: most of our samples from <span class="math notranslate nohighlight">\(p(\theta)\)</span> will be far from the true value of <span class="math notranslate nohighlight">\(\theta\)</span> and will have a negligible likelihood.  Consequently, the Monte Carlo estimate will be dominated by the few samples that happen to have a large likelihood, and the estimate will be very noisy.</p>
+<p>We start with <span class="math notranslate nohighlight">\(x(0) = 1\)</span> and <span class="math notranslate nohighlight">\(v(0) = 0\)</span>: initially, our energy is given by <span class="math notranslate nohighlight">\(E = \frac{1}{2} 1^2 + \frac{1}{2} 0^2 = \frac{1}{2}\)</span>.
+Now, let’s take a step of <span class="math notranslate nohighlight">\(\Delta t = 0.1\)</span> and see what happens to the energy of the system.
+Our Forward Euler algorithm  gives us</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{split}
+    x(0.1) &amp;= x(0) + v(0) \Delta t = 1 + 0 \cdot 0.1 = 1 \\
+    v(0.1) &amp;= v(0) - x(0) \Delta t = 0 - 1 \cdot 0.1 = -0.1
+\end{split}
+\end{split}\]</div>
+<p>Our new energy is given is given by <span class="math notranslate nohighlight">\( E = \frac{1}{2} 1^2 + \frac{1}{2} (-0.1)^2 = \frac{1}{2} + 0.005 = 0.505\)</span>.
+Now, let’s take another step of <span class="math notranslate nohighlight">\(\Delta t = 0.1\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{split}
+    x(0.2) &amp;= x(0.1) + v(0.1) \Delta t = 1 - 0.1 \cdot 0.1 = 0.99 \\
+    v(0.2) &amp;= v(0.1) - x(0.1) \Delta t = -0.1 - 1 \cdot 0.1 = -0.2
+\end{split}
+\end{split}\]</div>
+<p>Our new energy is given is given by <span class="math notranslate nohighlight">\( E = \frac{1}{2} (0.99)^2 + \frac{1}{2} (-0.2)^2 = \frac{1}{2} (0.9801) + 0.02 = 0.49005 + 0.02 = 0.51005\)</span>.
+This is a problem: the energy of the system is increasing, and it will continue to increase until the system blows up.<br />
+Graphically, if we plot the position and velocity of the system as a function of time, we see that the system is oscillating, but the amplitude of the oscillation is increasing and gradually spiralling out.</p>
+<p>The speed at which the energy increases with both the time step and the force constant.  This is a specific example of a more general trend:</p>
+<ul class="simple">
+<li><p>Large values of the derivative make our Forward Euler method unstable: we say an ODE with large derivatives is <em>stiff</em>.</p></li>
+<li><p>Large time steps make our Forward Euler method unstable.</p></li>
+</ul>
+<p>Consequently, if our system is very stiff, we often need to use very small time steps to get a reasonable answer.</p>
 </section>
+<section id="backward-euler-method">
+<h3>Backward Euler Method<a class="headerlink" href="#backward-euler-method" title="Link to this heading">#</a></h3>
+<p>Our unhappiness with Forwards Euler motivates us to look for a different approach.
+Fortunately, left Riemann sums are not the only way to approximate integrals.</p>
+<!-- We can also use right Riemann sums, or trapezoidal sums, or Simpson's rule, etc. -->
+<p>Let’s try a different approach: using the right Riemann sum instead of the left Riemann sum.
+If we do this, the iteration becomes</p>
+<div class="math notranslate nohighlight">
+\[
+y((i+1) \Delta t) = y(i \Delta t) + f((i+1) \Delta t, y((i+1) \Delta t)) \Delta t
+\]</div>
+<p>This is known as the Backward Euler method.
+Unfortunately, we have paid a price: we need to solve this equation for <span class="math notranslate nohighlight">\(y((i+1) \Delta t)\)</span>, in each step of the equation.
+A simple approach might be to use a fixed-point iteration.  We start with an initial guess for <span class="math notranslate nohighlight">\(y((i+1) \Delta t)\)</span>, and then repeatedly substitute this value into the right-hand side of the equation until we converge to a solution.
+More generally, we might use a root-finding algorithm, such as gradient descent or Newton’s method, to find the solution.
+(Root finding will be the subject of a future lectures.)
+Methods where we need to solve an equation for self-consistency are called <em>implicit</em> methods, in contrast to the <em>explicit</em> methods such as Forward Euler.</p>
+<p>If we apply the Backward Euler method to the simple harmonic oscillator, instead of seeing the energy continuously increase we see it continuously <em>decrease</em>
+and both <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(v\)</span> will spiral inwards to 0.
+This is… better.  At least, the energy is not blowing up.
+In fact, backwards Euler is much more stable than forwards Euler: if you need to solve an ODE and are running into issues with it being stiff, Backwards Euler can be a good choice.
+The drawback is that we need to solve an equation at each time step, which can require evaluating <span class="math notranslate nohighlight">\(f\)</span> multiple times per step and be computationally expensive.</p>
+</section>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>We have found two methods for solving ODEs: Forward Euler and Backward Euler.
+One is explicit and easy to implement, but can be unstable for stiff equations.
+The other is implicit and more stable, but requires solving an equation at each time step.
+Neither of them preserve the energy of the system, which is a problem if we are trying to do physical simulations.
+Our next goal is to find a method that is both explicit and preserves the system’s energy.</p>
 </section>
 </section>
 
@@ -572,22 +599,13 @@ In this case, the Monte Carlo estimate will have a large variance: most of our s
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="lecture-07-bayesian-inference.html"
+       href="lecture-10-metropolis-hastings.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Bayesian Inference</p>
+        <p class="prev-next-title">Detailed Balance and the Metropolis-Hastings Algorithm</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="lecture-09-mcmc.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Markov Chain Monte Carlo</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -607,13 +625,16 @@ In this case, the Monte Carlo estimate will have a large variance: most of our s
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem-evaluating-high-dimensional-integrals">The Problem: Evaluating High-dimensional Integrals</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-methods">Monte Carlo Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-of-monte-carlo">Convergence of Monte Carlo</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-integration-calculating-pi">Monte Carlo Integration: Calculating Pi</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monte-carlo-integration-calculating-posterior-means-by-sampling-the-prior">Monte Carlo Integration: Calculating Posterior Means by Sampling the Prior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-an-ode">What is an ODE</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-odes-in-chemistry">Examples of ODEs in Chemistry</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-odes-using-forwards-and-backwards-euler">Solving ODEs using Forwards and Backwards Euler</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations-of-forward-euler">Limitations of Forward Euler</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-euler-method">Backward Euler Method</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 </ul>
   </nav></div>
 

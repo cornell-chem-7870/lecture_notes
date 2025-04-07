@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>The Metropolis-Hastings Algorithm &#8212; My sample book</title>
+    <title>Detailed Balance and the Metropolis-Hastings Algorithm &#8212; My sample book</title>
   
   
   
@@ -65,6 +65,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-10-metropolis-hastings';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="S" href="lecture-11-ode-intro.html" />
+    <link rel="prev" title="Markov Chain Monte Carlo" href="lecture-09-mcmc.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -115,8 +117,6 @@
     <div class="bd-container__inner bd-page-width">
       
       
-      
-        
       
       <dialog id="pst-primary-sidebar-modal"></dialog>
       <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
@@ -178,13 +178,20 @@
 <li class="toctree-l1"><a class="reference internal" href="lecture-04-linear_regression.html">Linear Regression and Least Squares</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Probability</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="lecture-05-probability.html">Intro to Probability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-05a-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-06-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-07-bayesian-inference.html">Bayesian Inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-08-monte-carlo.html">Monte Carlo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-09-mcmc.html">Markov Chain Monte Carlo</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3. Numerical Differential Equations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="lecture-11-ode-intro.html">S</a></li>
+
+
 </ul>
 
     </div>
@@ -367,7 +374,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>The Metropolis-Hastings Algorithm</h1>
+    <h1>Detailed Balance and the Metropolis-Hastings Algorithm</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -377,8 +384,12 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-balance">Detailed Balance</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#specific-examples-of-the-metropolis-hastings-algorithm">Specific Examples of the Metropolis-Hastings Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-balance">Detailed Balance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gibbs-sampler-and-detailed-balance">The Gibbs Sampler and Detailed Balance</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-metropolis-hastings-algorithm">The Metropolis-Hastings Algorithm</a></li>
 </ul>
             </nav>
         </div>
@@ -390,23 +401,18 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="the-metropolis-hastings-algorithm">
-<h1>The Metropolis-Hastings Algorithm<a class="headerlink" href="#the-metropolis-hastings-algorithm" title="Link to this heading">#</a></h1>
-<p>The Metropolis-Hastings algorithm is a generalization of the Gibbs sampling algorithm.  In the Metropolis-Hastings algorithm, we propose a new state <span class="math notranslate nohighlight">\(x'\)</span> from a proposal distribution <span class="math notranslate nohighlight">\(q(x' | x)\)</span>, and then accept the new state with probability</p>
-<div class="math notranslate nohighlight">
-\[
-\alpha(x, x') = \min\left(1, \frac{\pi(x') q(x | x')}{\pi(x) q(x' | x)}\right)
-\]</div>
-<p>If we accept the new state, we set <span class="math notranslate nohighlight">\(x = x'\)</span>, otherwise we keep the old state.<br />
-The transition probability for Metropolis Hastings is given by</p>
-<div class="math notranslate nohighlight">
-\[
-p(x' | x) = q(x' | x) \alpha(x, x') + \delta(x' - x) (1 - \int q(x' | x) \alpha(x, x') dx')
-\]</div>
-<p>where <span class="math notranslate nohighlight">\(\delta(x' - x)\)</span> is delta function.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="detailed-balance-and-the-metropolis-hastings-algorithm">
+<h1>Detailed Balance and the Metropolis-Hastings Algorithm<a class="headerlink" href="#detailed-balance-and-the-metropolis-hastings-algorithm" title="Link to this heading">#</a></h1>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Generalize Gibbs Sampling to the Metropolis-Hastings algorithm.</p></li>
+<li><p>Connect Detailed Balance to preserving the target distribution.</p></li>
+</ul>
+</section>
 <section id="detailed-balance">
 <h2>Detailed Balance<a class="headerlink" href="#detailed-balance" title="Link to this heading">#</a></h2>
-<p>To show that the Metropolis-Hastings algorithm works, we first show that obeys a property called “detailed balance”:</p>
+<p>Last class, we considered the Gibbs sampler.  We said, without any particular justification, that the Gibbs sampler preserves the target distribution.  To show that this is true, we first observe that the Gibbs sampler obeys a property called “detailed balance”:</p>
 <div class="math notranslate nohighlight">
 \[
 \pi(x) p(x' | x)  = \pi(x') p(x | x')
@@ -417,17 +423,52 @@ as</p>
 \[
 \int \pi(x) p(x' | x) dx = \int \pi(x') p(x | x') dx = \pi(x')
 \]</div>
-<p>To show that the Metropolis-Hastings algorithm obeys detailed balance, we consider two cases.  If <span class="math notranslate nohighlight">\(x' = x\)</span>, then the equation is trivially satisfied.  If <span class="math notranslate nohighlight">\(x' \neq x\)</span>, then the delta function is zero, and we have</p>
+<section id="the-gibbs-sampler-and-detailed-balance">
+<h3>The Gibbs Sampler and Detailed Balance<a class="headerlink" href="#the-gibbs-sampler-and-detailed-balance" title="Link to this heading">#</a></h3>
+<p>To see that the Gibbs sampler obeys detailed balance, we observe that the transition probability is given by</p>
 <div class="math notranslate nohighlight">
 \[
-\pi(x) p(x' | x) =&amp; \pi(x) q(x' | x) \alpha(x, x') 
-    =  \min \left(\pi(x) q(x' | x), \pi(x') q(x | x')\right) = \pi(x') q(x | x') \alpha(x', x) = \pi(x') p(x | x')
+p(y | x) = p(y_k| x_{i \neq k}) \prod_{i \neq k} \delta(y_i - x_i)
 \]</div>
-<p>Consequently, the Metropolis-Hastings algorithm obeys detailed balance.</p>
+<p>where <span class="math notranslate nohighlight">\(x_k\)</span> is the <span class="math notranslate nohighlight">\(k\)</span>’th variable.  From the definition of detailed balance and of the conditional probability density, we have that</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(x) p(y | x) = \pi(x)  \left( \frac{\pi(x_1, \ldots, y_k, \ldots x_M)}{\int  \pi(x_1, \ldots, z_k, \ldots x_M) } dz_k\right) \left(\prod_{i \neq k} \delta(y_i - x_i)\right)
+\]</div>
+<p>Using the properties of the delta function, this is equal to</p>
+<div class="math notranslate nohighlight">
+\[
+\pi(x) p(y | x) = \pi(y_1, \ldots, x_k, \ldots, y_M)  \left( \frac{\pi(y_1, \ldots, y_k, \ldots y_M)}{\int  \pi(y_1, \ldots, z_k, \ldots y_M) } dz_k\right) \left(\prod_{i \neq k} \delta(x_i - y_i)\right)
+\]</div>
+<p>which is in turn equal to <span class="math notranslate nohighlight">\(\pi(y) p(x | y)\)</span>, so the Gibbs sampler obeys detailed balance.</p>
 </section>
-<section id="specific-examples-of-the-metropolis-hastings-algorithm">
-<h2>Specific Examples of the Metropolis-Hastings Algorithm<a class="headerlink" href="#specific-examples-of-the-metropolis-hastings-algorithm" title="Link to this heading">#</a></h2>
-<p>(If we set <span class="math notranslate nohighlight">\(q(x' | x)\)</span> to be the conditional distribution of the <span class="math notranslate nohighlight">\(i\)</span>’th variable given all the others, then the Metropolis-Hastings algorithm reduces to the Gibbs sampling algorithm.)</p>
+</section>
+<section id="the-metropolis-hastings-algorithm">
+<h2>The Metropolis-Hastings Algorithm<a class="headerlink" href="#the-metropolis-hastings-algorithm" title="Link to this heading">#</a></h2>
+<p>The Metropolis-Hastings algorithm is a generalization of the Gibbs sampling algorithm.  In the Metropolis-Hastings algorithm, we propose a new state <span class="math notranslate nohighlight">\(x'\)</span> from a proposal distribution <span class="math notranslate nohighlight">\(q(x' | x)\)</span>, and then accept the new state with probability</p>
+<div class="math notranslate nohighlight">
+\[
+\alpha(x, x') = \min\left(1, \frac{\pi(x') q(x | x')}{\pi(x) q(x' | x)}\right)
+\]</div>
+<p>If we accept the new state, we set <span class="math notranslate nohighlight">\(x = x'\)</span>, otherwise we keep the old state.<br />
+(In many applications, people choose a symmetric proposal distribution, so that <span class="math notranslate nohighlight">\(q(x' | x) = q(x | x')\)</span>.  This makes evaluating this ratio easier.)
+The transition probability for Metropolis Hastings is given by</p>
+<div class="math notranslate nohighlight">
+\[
+p(x' | x) = q(x' | x) \alpha(x, x') + \delta(x' - x) (1 - \int q(x' | x) \alpha(x, x') dx')
+\]</div>
+<p>To show that the Metropolis-Hastings algorithm obeys detailed balance, we consider two cases.  If <span class="math notranslate nohighlight">\(x' = x\)</span>, then the equation is trivially satisfied.  If <span class="math notranslate nohighlight">\(x' \neq x\)</span>, then the delta function is zero, and we have</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{split}
+\pi(x) p(x' | x) =&amp; \pi(x) q(x' | x) \alpha(x, x') 
+    =  \min \left(\pi(x) q(x' | x), \pi(x') q(x | x')\right) \\
+     =&amp;
+     \pi(x') q(x | x') \alpha(x', x) = \pi(x') p(x | x')
+\end{split}
+\end{split}\]</div>
+<p>Consequently, the Metropolis-Hastings algorithm obeys detailed balance.
+Note that if we set <span class="math notranslate nohighlight">\(q(x' | x)\)</span> to be the conditional distribution of the <span class="math notranslate nohighlight">\(i\)</span>’th variable given all the others, then the Metropolis-Hastings algorithm reduces to the Gibbs sampling algorithm.x</p>
 </section>
 </section>
 
@@ -461,6 +502,24 @@ as</p>
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="lecture-09-mcmc.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Markov Chain Monte Carlo</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="lecture-11-ode-intro.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">S</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -478,8 +537,12 @@ as</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-balance">Detailed Balance</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#specific-examples-of-the-metropolis-hastings-algorithm">Specific Examples of the Metropolis-Hastings Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-balance">Detailed Balance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gibbs-sampler-and-detailed-balance">The Gibbs Sampler and Detailed Balance</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-metropolis-hastings-algorithm">The Metropolis-Hastings Algorithm</a></li>
 </ul>
   </nav></div>
 
