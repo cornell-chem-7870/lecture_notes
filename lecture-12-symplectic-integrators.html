@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Markov Chain Monte Carlo &#8212; My sample book</title>
+    <title>More on Numerical ODEs &#8212; My sample book</title>
   
   
   
@@ -62,11 +62,10 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-09-mcmc';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-12-symplectic-integrators';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Detailed Balance and the Metropolis-Hastings Algorithm" href="lecture-10-metropolis-hastings.html" />
-    <link rel="prev" title="Monte Carlo" href="lecture-08-monte-carlo.html" />
+    <link rel="prev" title="Intro to Numerical Integration" href="lecture-11-ode-intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -178,19 +177,19 @@
 <li class="toctree-l1"><a class="reference internal" href="lecture-04-linear_regression.html">Linear Regression and Least Squares</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Probability</span></p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="lecture-05-probability.html">Intro to Probability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-05a-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-06-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-07-bayesian-inference.html">Bayesian Inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-08-monte-carlo.html">Monte Carlo</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Markov Chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture-09-mcmc.html">Markov Chain Monte Carlo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-10-metropolis-hastings.html">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3. Numerical Differential Equations</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="lecture-11-ode-intro.html">Intro to Numerical Integration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-12-symplectic-integrators.html">More on Numerical ODEs</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">More on Numerical ODEs</a></li>
 </ul>
 
     </div>
@@ -267,7 +266,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-09-mcmc.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-12-symplectic-integrators.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -297,7 +296,7 @@
       
       
       
-      <li><a href="_sources/lecture-09-mcmc.md" target="_blank"
+      <li><a href="_sources/lecture-12-symplectic-integrators.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -373,7 +372,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Markov Chain Monte Carlo</h1>
+    <h1>More on Numerical ODEs</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -384,14 +383,12 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Markov Chain Monte Carlo</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-using-markov-chains">Sampling using Markov Chains</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-symmetric-integrators">Time-symmetric integrators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-leapfrog-integrator">The Leapfrog Integrator</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#symplectic-integrators">Symplectic Integrators</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gibbs-sampling-and-the-ising-model">Gibbs Sampling and the Ising Model</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ising-model">The Ising Model</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluating-error-in-ode-integrators">Evaluating error in ODE integrators.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
             </nav>
@@ -404,115 +401,137 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="markov-chain-monte-carlo">
-<h1>Markov Chain Monte Carlo<a class="headerlink" href="#markov-chain-monte-carlo" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="more-on-numerical-odes">
+<h1>More on Numerical ODEs<a class="headerlink" href="#more-on-numerical-odes" title="Link to this heading">#</a></h1>
 <section id="learning-objectives">
 <h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Understand the basic principles behind Markov Chain Monte Carlo (MCMC) methods.</p></li>
-<li><p>Understand how Gibbs sampling works and how to apply it to the Ising model.</p></li>
+<li><p>Introduce time-symmetric integrators that preserve the energy.</p></li>
+<li><p>Derive the equations for the leapfrog integrator, as commonly used in molecular dynamics.</p></li>
+<li><p>Discuss the concept of a <code class="docutils literal notranslate"><span class="pre">symplectic</span> <span class="pre">integrator</span></code>.</p></li>
+<li><p>Analyse the error in an ODE integrator.</p></li>
 </ul>
 </section>
-<section id="id1">
-<h2>Markov Chain Monte Carlo<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
-<p>In the previous examples of Monte Carlo, we sampled from simple distributions such as the uniform distribution or the normal distribution.   But what if we have a complicated distribution?  For instance, in statistical mechanics we might wish to sample from the Boltzmann distribution, which is given by</p>
+<section id="time-symmetric-integrators">
+<h2>Time-symmetric integrators<a class="headerlink" href="#time-symmetric-integrators" title="Link to this heading">#</a></h2>
+<p>So far, we have introduced two approaches to solving a generic ODE</p>
 <div class="math notranslate nohighlight">
 \[
-\pi(x) = \frac{1}{Z} e^{-\beta H(x)}
+\frac{dy(t)}{dt} = f(t, y(t))
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(Z\)</span> is the partition function and <span class="math notranslate nohighlight">\(H(x)\)</span> is the Hamiltonian.  In general, <span class="math notranslate nohighlight">\(H\)</span> can be a very complicated function of the system’s state <span class="math notranslate nohighlight">\(x\)</span>.  For instance, in a system of <span class="math notranslate nohighlight">\(N\)</span> particles, <span class="math notranslate nohighlight">\(x\)</span> might be a list of <span class="math notranslate nohighlight">\(3N\)</span> coordinates, and <span class="math notranslate nohighlight">\(H(x)\)</span> might be a sum of pairwise interactions between particles.</p>
+<p>where (f) is a function of time (t) and the value of the function at that time, (y(t)).  We have also discussed how to solve this equation numerically, using the forward and backward Euler methods, given respectively by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{split}
+    y(t + \Delta t) &amp;= y(t) + \Delta t f(t, y(t)) \\
+    y(t + \Delta t) &amp;= y(t) + \Delta t f(t+ \Delta t, y(t + \Delta t ))
+\end{split}
+\end{split}\]</div>
+<p>Unfortunately, we are not quite happy with either solution.  Applying these to a simple harmonic oscillator, we saw that the energy either increases to infinity (forward Euler) or decreases to zero (backward Euler).<br />
+To address this, we will try to introduce integrators that obey the symmetries of a physical system.
+One classic one is time-reversal symmetry: if we run the dynamics up to time <span class="math notranslate nohighlight">\(T\)</span>, reverse the arrow of time, and then run the dynamics back to time <span class="math notranslate nohighlight">\(0\)</span>, we should end up where we started.<br />
+For inspiration, we again two turn Riemann integration, and find two integrators that obey this symmetry.  The first is the trapezoidal rule: numerically integrating a function using trapezoid rule gives the same answer if we march left or right.
+If we generalize this to the case of ODEs, we can write down a time-symmetric integrator as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{split}
+    y(t + \Delta t) &amp;= y(t) + \frac{\Delta t}{2} \left( f(t, y(t)) + f(t + \Delta t, y(t + \Delta t)) \right) \\
+    &amp;= y(t) + \frac{\Delta t}{2} \left( f(t, y(t)) + f(t + \Delta t, y(t)) \right)
+\end{split}     
+\end{split}\]</div>
+<p>A quick calculation shows that this is symmetric: integrating backwards in time from <span class="math notranslate nohighlight">\(y(t + \Delta t)\)</span>  puts us back at <span class="math notranslate nohighlight">\(y(t)\)</span>.
+Note that this is an implicit integrator: we need to know the value of <span class="math notranslate nohighlight">\(y(t + \Delta t)\)</span> in order to evaluate the function at that point.<br />
+As with backward Euler, we will need to find a way to solve this equation.  However, the stability and accuracy of this integrator makes this often well worth it.</p>
+<p>The second time-symmetric integrator is inspired by the midpoint rule.  To write this, we actually take a step from two steps back, <span class="math notranslate nohighlight">\(y(t - \Delta t)\)</span>, to <span class="math notranslate nohighlight">\(y(t + \Delta t)\)</span>, and then evaluate the function at the midpoint, <span class="math notranslate nohighlight">\(y(t)\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
-H(q, p) = \sum_{i=1}^N \sum_{j=i+1}^N V(q_i - q_j) + \frac{1}{2} \sum_{i=1}^N V(p_i)
+    y(t + \Delta t) = y(t ) + \Delta t f(t + \Delta t / 2, y(t + \Delta t / 2)) 
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(V\)</span> is the interaction potential between particles and we have separated the coordinates into position coordinates <span class="math notranslate nohighlight">\(q\)</span> and momentum coordinates <span class="math notranslate nohighlight">\(p\)</span>.  If our system has <span class="math notranslate nohighlight">\(N=100\)</span> particles, then <span class="math notranslate nohighlight">\(H\)</span> is a function of <span class="math notranslate nohighlight">\(600\)</span> variables, and there is no easy way to sample from <span class="math notranslate nohighlight">\(p(x)\)</span> directly.  In another example, in Bayesian Inference, we might wish to calculate averages over the posterior distribution, which is given by Bayes’ theorem</p>
+<p>This leaves us with a problem: how do we evaluate the function at the midpoint?  A simple way is we use the same update for the midpoints as well: we combine this update with an update on the midpoint steps:</p>
 <div class="math notranslate nohighlight">
 \[
-p(\theta|D) = \frac{p(D|\theta)p(\theta)}{p(D)}
+    y(t + \Delta t / 2) = y(t - \Delta t / 2) + \Delta t f(t , y(t )) 
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(D\)</span> is the data, <span class="math notranslate nohighlight">\(\theta\)</span> is the parameter, <span class="math notranslate nohighlight">\(p(D|\theta)\)</span> is the likelihood, <span class="math notranslate nohighlight">\(p(\theta)\)</span> is the prior, and <span class="math notranslate nohighlight">\(p(D)\)</span> is the evidence.
-In prior examples, we have discussed attempting to sample from <span class="math notranslate nohighlight">\(p(\theta)\)</span>, and mentioned how this may not be optimal at large amounts of data, when <span class="math notranslate nohighlight">\(P(D | \theta)\)</span> is very peaked.
-If we could sample from <span class="math notranslate nohighlight">\(p(\theta | D)\)</span> we could avoid this problem.  However, this can be a very complicated distribution, no less so because the evidence <span class="math notranslate nohighlight">\(p(D)\)</span>, much like the partition function <span class="math notranslate nohighlight">\(Z\)</span>, typically cannot be calculated directly.</p>
-<section id="sampling-using-markov-chains">
-<h3>Sampling using Markov Chains<a class="headerlink" href="#sampling-using-markov-chains" title="Link to this heading">#</a></h3>
-<p>To address these problems, we give up on sampling statistically  samples.  Instead, we draw correlated samples through a technique called <code class="docutils literal notranslate"><span class="pre">Markov</span> <span class="pre">chain</span> <span class="pre">Monte</span> <span class="pre">Carlo</span></code> (MCMC).  In MCMC, we draw new samples from a distribution that is conditioned on the prior sample.
-We then repeat this process until we have enough samples.  If we choos our sampling distribution correctly, averages over our samples will converge to the averages over the target distribution.  This is the basic idea behind MCMC.</p>
-<p>Mathematically, we have</p>
-<ol class="arabic simple">
-<li><p>A distribution <span class="math notranslate nohighlight">\(\pi(x)\)</span> that we want to sample from.</p></li>
-<li><p>A probability density <span class="math notranslate nohighlight">\(p(x_t | x_{t-1})\)</span> that encodes the probability of moving from <span class="math notranslate nohighlight">\(x_{t-1}\)</span> to <span class="math notranslate nohighlight">\(x_t\)</span>. We call this the transition probability.
-(As always, we present our results in terms of continuous variables with probability densities, but the same ideas apply to discrete variables with probability mass functions.)</p></li>
-</ol>
-<p>For the algorithm to work, we require that <span class="math notranslate nohighlight">\(\pi\)</span> is the stationary distribution of the transition probability, i.e.,</p>
+<p>(Equivalently, we could have doubled our timestep to <span class="math notranslate nohighlight">\(2 \Delta t\)</span>.)
+Unlike the trapezoidal rule, this is an explicit integrator: we can evaluate the function at the midpoint without needing to know the value of <span class="math notranslate nohighlight">\(y(t + \Delta t)\)</span>.</p>
+</section>
+<section id="the-leapfrog-integrator">
+<h2>The Leapfrog Integrator<a class="headerlink" href="#the-leapfrog-integrator" title="Link to this heading">#</a></h2>
+<p>This integrator based on the midpoint rule is particularly convenient when working with Newtonian mechanics.  In this case, we can write the equations of motion as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{split}
+    \frac{dx}{dt} &amp;= v \\
+    \frac{dv}{dt} &amp;= \frac{1}{M} F(t, x)
+\end{split}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(F\)</span> is the force.  (Recall that for Hamiltonian systems, the force is given by <span class="math notranslate nohighlight">\(F = - \partial U / \partial x\)</span>.)  We can then write the leapfrog integrator as follows:</p>
 <div class="math notranslate nohighlight">
 \[
-\int p(x_t | x_{t-1}) \pi(x_{t-1}) dx_{t-1} = \pi(x_t)
+\begin{split}
+x(t + \Delta t) = x(t) + \Delta t v(t + \Delta t / 2)
+v(t + \Delta t / 2) = v(t - \Delta t / 2) + \frac{\Delta t}{M} F(t, x(t))
+\end{split}
 \]</div>
-<p>If this condition holds, if we (a) randomly draw a sample <span class="math notranslate nohighlight">\(X_0\)</span> from <span class="math notranslate nohighlight">\(\pi(x)\)</span>, and (b) draw a sample <span class="math notranslate nohighlight">\(X_1\)</span> from <span class="math notranslate nohighlight">\(p(X_1 | X_0)\)</span>, and (c) draw a sample <span class="math notranslate nohighlight">\(X_2\)</span> from <span class="math notranslate nohighlight">\(p(X_2 | X_1)\)</span>, and so on, then each sample <span class="math notranslate nohighlight">\(X_0, X_1, X_2, \ldots\)</span> will be individually distributed according to <span class="math notranslate nohighlight">\(\pi(x)\)</span>.  The sequence of random variables <span class="math notranslate nohighlight">\(X_0, X_1, X_2, \ldots\)</span> is called a Markov chain.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Having <span class="math notranslate nohighlight">\(\pi\)</span> as a stationary distribution of the transition probability is a necessary condition for the algorithm to work, but it is not sufficient.  The transition probability must also be ergodic, meaning that it is possible to get from any state to any other state in a finite number of steps, and be aperiodic, meaning that the chain does not get stuck in a loop.  These are, however, much more difficult conditions to check.</p>
-</div>
+<p>Note that we never need to evaluate the force at the midpoint, <span class="math notranslate nohighlight">\(F(t + \Delta t / 2, x(t + \Delta t / 2))\)</span>.  We still need to take only a single evaluation of the force, as we would if we were to use forwards or backwards Euler.
+However, this integrator is time-symmetric: we have achieved an important physical symmetry.</p>
+<section id="symplectic-integrators">
+<h3>Symplectic Integrators<a class="headerlink" href="#symplectic-integrators" title="Link to this heading">#</a></h3>
+<p>In fact, both the the trapezoidal rule and the leapfrog integrators obey a special property when applied to Hamiltonian dynamics (i.e., where the force is given by <span class="math notranslate nohighlight">\(F = - \partial U / \partial x\)</span>).<br />
+This property is symplecticity.  While an in-depth treatment of symplecticity is beyond the scope of this course, in words symplecity means that phase space volume is preserved as the dynamics progresses.
+Symplecticity is true for the Hamiltonian equations of motion, and is deeply related to the conservation of energy and angular momentum.<br />
+The trapezoidal rule and leapfrog integrators are both symplectic integrators.  As such, they preserve an invariant that is close to, but not exactly, the system’s energy.</p>
 </section>
 </section>
-<section id="gibbs-sampling-and-the-ising-model">
-<h2>Gibbs Sampling and the Ising Model<a class="headerlink" href="#gibbs-sampling-and-the-ising-model" title="Link to this heading">#</a></h2>
-<p>One simple Markov  chain Monte Carlo example is  Gibbs sampling.  In Gibbs sampling, at each step we grab a single coordinate from our description of the system and update it by sampling from the conditional distribution of that coordinate given all the others.
-Specifically, we update <span class="math notranslate nohighlight">\(x^k\)</span>, the <span class="math notranslate nohighlight">\(k\)</span>’th coordinate of <span class="math notranslate nohighlight">\(x\)</span>, by sampling the new value from the conditional distribution</p>
+<section id="evaluating-error-in-ode-integrators">
+<h2>Evaluating error in ODE integrators.<a class="headerlink" href="#evaluating-error-in-ode-integrators" title="Link to this heading">#</a></h2>
+<p>So how big of an error do these integrators make?  One way to evaluate this is the error in integrating from time <span class="math notranslate nohighlight">\(0\)</span> to time <span class="math notranslate nohighlight">\(T\)</span>.  As a simple example, let’s consider the forwards Euler integrator, reproduced below for your converience.</p>
 <div class="math notranslate nohighlight">
 \[
-p(x^k | x^1, \ldots, x^{k-1},  x^{k+1}, \ldots, x^N) = \frac{\pi(x^1, \ldots, x^{k-1}, x^k, x^{k+1}, \ldots, x^N)}{\int \pi(x^1, \ldots, x^N) dx^1, \ldots, dx^{k-1}, dx^{k+1}, \ldots, dx^N}
+    y(t + \Delta t) = y(t) + \Delta t f(t, y(t)) 
 \]</div>
-<p>We will show that this process preserves the distribution <span class="math notranslate nohighlight">\(\pi(x)\)</span> later, in our discussion of the Metroplis-Hastings algorithm.
-For now, let’s consider a specific example of Gibbs sampling.</p>
-<!-- Writing this out every time is going to be tiring, so we will adopt a shorthand notation where we write $x^{i \neq k}$ to denote all of the coordinates except for $x^k$.  In this notation, we can write the conditional distribution as
-
-$$
-p(x^k | x^{i \neq k}) = \frac{\pi(x^k, x^{i \neq k})}{\int \pi(y^k, x^{i \neq k})  dy^{ k}}.
-$$ -->
-<section id="the-ising-model">
-<h3>The Ising Model<a class="headerlink" href="#the-ising-model" title="Link to this heading">#</a></h3>
-<p>The Ising model is a simple model of a magnet.  In the Ising model, we have a lattice of spins, each of which can be either up or down.  The energy of the system is given by</p>
+<p>We will consider the simplified case where <span class="math notranslate nohighlight">\(f\)</span> is only a function of <span class="math notranslate nohighlight">\(y\)</span>, and not <span class="math notranslate nohighlight">\(t\)</span>.</p>
+<p>We first ask, “how big is the error in the first step?”  To do this, we denote the <em>true</em> solution at time <span class="math notranslate nohighlight">\(t + \Delta t\)</span> as <span class="math notranslate nohighlight">\(y^*(t + \Delta t)\)</span>.  Taylor expanding around <span class="math notranslate nohighlight">\(y(t)\)</span>, we have</p>
 <div class="math notranslate nohighlight">
 \[
-H(s_1, \ldots, s_M) = -J/2 \sum_{j} \sum_{i\in N_j } s_i s_j
+y^*(t + \Delta t) = y(t) + \Delta t f(y(t)) + \frac{1}{2} \Delta t^2 \frac{\partial f}{\partial y} f(y(t))  + O(\Delta t^3)
 \]</div>
-<p>where the sum is over nearest neighbors (<span class="math notranslate nohighlight">\(N_j\)</span> are all of the spins neighboring spin <span class="math notranslate nohighlight">\(j\)</span>), <span class="math notranslate nohighlight">\(s_i\)</span> is the spin at site <span class="math notranslate nohighlight">\(i\)</span> and takes a value of <span class="math notranslate nohighlight">\(+1\)</span> for up and <span class="math notranslate nohighlight">\(-1\)</span> for down, and <span class="math notranslate nohighlight">\(J\)</span> is the coupling constant.  The probability of seeing a collection of spins up or down is given by the Boltzmann distribution</p>
+<p>where we have used the fact that <span class="math notranslate nohighlight">\(dy/dt = f(y)\)</span> in the chain rule.
+Subtracting this from the forward Euler prediction, we find that the error in the first step is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{split}
+    \epsilon_1 &amp;= y^*(t + \Delta t) - y(t + \Delta t) \\
+    &amp;= \frac{1}{2} \Delta t^2 \frac{\partial f}{\partial y} f(y(t)) + O(\Delta t^3)
+\end{split}
+\end{split}\]</div>
+<p>implyiing that the error scales as <span class="math notranslate nohighlight">\(\Delta t^2\)</span>.
+Now, to go from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(T\)</span>, we need to take <span class="math notranslate nohighlight">\(N = T / \Delta t\)</span> steps. If at each step the error we accumulate scalers as <span class="math notranslate nohighlight">\(\Delta t^2\)</span>, we expect our total error to be <span class="math notranslate nohighlight">\(O(\Delta t)\)</span>.
+We consequently say that the forward Euler integrator is accurate to “first order” in <span class="math notranslate nohighlight">\(\Delta t\)</span>.
+By very similar logic, we can show that the backward Euler integrator is also first order in <span class="math notranslate nohighlight">\(\Delta t\)</span>.</p>
+<p>The trapezoidal rule, on the other hand, is <em>second order</em> in <span class="math notranslate nohighlight">\(\Delta t\)</span>.<br />
+For simplicity, we consider the case where <span class="math notranslate nohighlight">\(f\)</span> is only a function of <span class="math notranslate nohighlight">\(y\)</span>, and not <span class="math notranslate nohighlight">\(t\)</span>.</p>
+<p>We first expand the value of <span class="math notranslate nohighlight">\(f(y(t + \Delta t))\)</span> around <span class="math notranslate nohighlight">\(y(t)\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
-\pi(s_1, \ldots s_M) = \frac{1}{Z} e^{-\beta H(s_1, \ldots, s_M)}
+f(y(t + \Delta t)) =
+f(t, y(t)) + \Delta t \frac{\partial f}{\partial t} (y(t)) f(y(t))  + O(\Delta t^2) 
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(Z\)</span> is the partition function.</p>
-<!-- In Gibbs sampling, we randomly pick a single spin (denoted $s_k$) and update it according to the conditional distribution -->
-<p>To apply Gibbs sampling to the Ising model, we randomly pick a single spin (denoted <span class="math notranslate nohighlight">\(s_k\)</span>).
-The conditional distribution of that spin given all the others has the probability mass function</p>
+<p>Substituting this into the trapezoidal rule, we find that the trapezoidal rule prediction obeys</p>
 <div class="math notranslate nohighlight">
-\[
-p(s_k | s_{i \neq k}) = \frac{e^{-\beta H(s_1, \ldots, s_k, \ldots, S_m )  } }{
-    e^{-\beta H(s_1, \ldots, +1, \ldots, S_m )}   + 
-    e^{-\beta H(s_1, \ldots, -1, \ldots, S_m )}
-}
-= 
-\frac{e^{\beta J \sum_{i \in N_k} s_i} }{
-    e^{\beta J \sum_{i \in N_k} s_i}   + 
-    e^{\beta -J \sum_{i \in N_k} s_i}
-}
-\]</div>
-<p>This is gives us a simple algorithm for sampling from the Ising Model:</p>
-<ol class="arabic simple">
-<li><p>We pick a random spin <span class="math notranslate nohighlight">\(s_k\)</span>.</p></li>
-<li><p>We calculate the conditional probability of that spin being up or down.</p></li>
-<li><p>We sample from that conditional probability to get the new value of <span class="math notranslate nohighlight">\(s_k\)</span>.</p></li>
-<li><p>We repeat steps 1-3 until we have enough samples.</p></li>
-</ol>
-<p>Note that this conditional probability is a function of only the spins neighboring <span class="math notranslate nohighlight">\(s_k\)</span>.  This means that we can update spins in parallel as long as they are not neighbors.</p>
-</section>
+\[\begin{split}
+\begin{split}
+y(t) =&amp; y(t) + \frac{\Delta t}{2}  f(t, y(t))   + \frac{\Delta t}{2} \left( f(t, y(t)) + \Delta t \frac{\partial f}{\partial t} (y(t)) f(y(t))  + O(\Delta t^2) \right) + O(\Delta t^3) \\
+ =&amp; y(t) + \Delta t f(t, y(t)) + \frac{1}{2} \Delta t^2 \frac{\partial f}{\partial t} (y(t)) f(y(t))  + O(\Delta t^3)
+\end{split}
+\end{split}\]</div>
+<p>This is, to <em>third</em> order, the same as the true solution. Consequently, we expect the total error from integrating from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(T\)</span> to be <span class="math notranslate nohighlight">\(O(\Delta t^2)\)</span>, and we say that the trapezoidal rule is a <em>second order</em> integrator.
+The leapfrog integrator is also a second order integrator.  What this means is that, in general, we expect the leapfrog and trapezoidal rule to be more accurate than the forward and backward Euler integrators.</p>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>If you want an example of how to implement Gibbs sampling on a 2D normal distribution where we alternate between sampling from the conditional distribution of <span class="math notranslate nohighlight">\(x\)</span> given <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(y\)</span> given <span class="math notranslate nohighlight">\(x\)</span>, see <a class="reference external" href="https://mr-easy.github.io/2020-05-21-implementing-gibbs-sampling-in-python/">this blog post</a></p></li>
-<li><p>This recorded <a class="reference external" href="https://www.youtube.com/watch?v=vTUwEu53uzs">video lecture</a> gives an introduction to Markov chain Monte Carlo and its applications for Bayesian Inference in Statistics.</p></li>
+<li><p>The best reference on integrators that I know of for applications to chemical systems is <strong>Molecular Dynamics</strong> by Leimkuhler and Matthews.</p></li>
 </ul>
 </section>
 </section>
@@ -548,22 +567,13 @@ p(s_k | s_{i \neq k}) = \frac{e^{-\beta H(s_1, \ldots, s_k, \ldots, S_m )  } }{
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="lecture-08-monte-carlo.html"
+       href="lecture-11-ode-intro.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Monte Carlo</p>
+        <p class="prev-next-title">Intro to Numerical Integration</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="lecture-10-metropolis-hastings.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Detailed Balance and the Metropolis-Hastings Algorithm</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -583,14 +593,12 @@ p(s_k | s_{i \neq k}) = \frac{e^{-\beta H(s_1, \ldots, s_k, \ldots, S_m )  } }{
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Markov Chain Monte Carlo</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-using-markov-chains">Sampling using Markov Chains</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-symmetric-integrators">Time-symmetric integrators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-leapfrog-integrator">The Leapfrog Integrator</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#symplectic-integrators">Symplectic Integrators</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gibbs-sampling-and-the-ising-model">Gibbs Sampling and the Ising Model</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ising-model">The Ising Model</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluating-error-in-ode-integrators">Evaluating error in ODE integrators.</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
   </nav></div>
