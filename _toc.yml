@@ -18,3 +18,9 @@ parts:
     - file: lecture-07-bayesian-inference.md
     - file: lecture-08-monte-carlo.md
     - file: lecture-09-mcmc.md
+    - file: lecture-10-metropolis-hastings.md
+  - caption: Part 3. Numerical Differential Equations
+    chapters:
+    - file: lecture-11-ode-intro.md
+    - file: lecture-12-symplectic-integrators.md
+    - file: lecture-13-pde.md

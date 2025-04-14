@@ -91,10 +91,10 @@ $$ -->
 The Ising model is a simple model of a magnet.  In the Ising model, we have a lattice of spins, each of which can be either up or down.  The energy of the system is given by
 
 $$
-H(s_1, \ldots, s_M) = -J/2 \sum_{j} \sum_{i\in N_j \rangle} s_i s_j
+H(s_1, \ldots, s_M) = -J/2 \sum_{j} \sum_{i\in N_j } s_i s_j
 $$
 
-where the sum is over nearest neighbors ($N_j$ are all of the spinns neighboring spin $j$), $s_i$ is the spin at site $i$ and takes a value of $+1$ for up and $-1$ for down, and $J$ is the coupling constant.  The probability of seeing a collection of spins up or down is given by the Boltzmann distribution
+where the sum is over nearest neighbors ($N_j$ are all of the spins neighboring spin $j$), $s_i$ is the spin at site $i$ and takes a value of $+1$ for up and $-1$ for down, and $J$ is the coupling constant.  The probability of seeing a collection of spins up or down is given by the Boltzmann distribution
 
 $$
 \pi(s_1, \ldots s_M) = \frac{1}{Z} e^{-\beta H(s_1, \ldots, s_M)}
@@ -112,8 +112,8 @@ p(s_k | s_{i \neq k}) = \frac{e^{-\beta H(s_1, \ldots, s_k, \ldots, S_m )  } }{
 }
 = 
 \frac{e^{\beta J \sum_{i \in N_k} s_i} }{
-    e^{\beta J \sum_{i \in N_k} 1}   + 
-    e^{\beta -J \sum_{i \in N_k} }
+    e^{\beta J \sum_{i \in N_k} s_i}   + 
+    e^{\beta -J \sum_{i \in N_k} s_i}
 }
 $$
 
