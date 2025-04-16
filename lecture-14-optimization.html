@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>From ODE to PDE &#8212; My sample book</title>
+    <title>Optimization &#8212; My sample book</title>
   
   
   
@@ -62,11 +62,10 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-13-pde';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-14-optimization';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Optimization" href="lecture-14-optimization.html" />
-    <link rel="prev" title="More on Numerical ODEs" href="lecture-12-symplectic-integrators.html" />
+    <link rel="prev" title="From ODE to PDE" href="lecture-13-pde.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -191,8 +190,8 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="lecture-11-ode-intro.html">Intro to Numerical Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-12-symplectic-integrators.html">More on Numerical ODEs</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">From ODE to PDE</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-14-optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture-13-pde.html">From ODE to PDE</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Optimization</a></li>
 </ul>
 
     </div>
@@ -269,7 +268,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-13-pde.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-14-optimization.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -299,7 +298,7 @@
       
       
       
-      <li><a href="_sources/lecture-13-pde.md" target="_blank"
+      <li><a href="_sources/lecture-14-optimization.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -375,7 +374,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>From ODE to PDE</h1>
+    <h1>Optimization</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -386,14 +385,12 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-pde">What is a PDE?</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recap-on-prior-pde-solvers-we-ve-discussed">Recap on Prior PDE Solvers We’ve Discussed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-intro-to-optimization">An Intro to Optimization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-based-optimization">Gradient Based Optimization</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finite-difference-methods">Finite Difference Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-crank-nicolson-method">The Crank-Nicolson Method</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">Gradient Descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#newton-s-method">Newton’s Method</a></li>
 </ul>
             </nav>
         </div>
@@ -405,182 +402,127 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="from-ode-to-pde">
-<h1>From ODE to PDE<a class="headerlink" href="#from-ode-to-pde" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="optimization">
+<h1>Optimization<a class="headerlink" href="#optimization" title="Link to this heading">#</a></h1>
 <section id="learning-objectives">
 <h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Understand the difference between ODEs and PDEs</p></li>
-<li><p>Understand the basic structure of a PDE</p></li>
-<li><p>Know how to solve a PDE using finite difference methods</p></li>
-<li><p>Be able to implement the Crank-Nicolson method for solving PDEs</p></li>
+<li><p>Briefly discuss optimization and the utility of the gradient</p></li>
+<li><p>Discuss gradient descent and Newton’s method.</p></li>
 </ul>
 </section>
-<section id="what-is-a-pde">
-<h2>What is a PDE?<a class="headerlink" href="#what-is-a-pde" title="Link to this heading">#</a></h2>
-<p>Partial differential equations generalize ordinary differential equations (ODEs) to functions of multiple variables.</p>
-<p>The first part of a PDE is an equation that relating the partial derivatives of a function to each other.
-For instance,</p>
-<ul>
-<li><p>The wave equation describes the propagation of waves in a medium and is given by:</p>
-<div class="math notranslate nohighlight">
-\[
-  \frac{\partial^2 u}{\partial t^2} = c^2 \nabla^2 u(x, t)
-  \]</div>
-<p>where (u) is the wave function, (t) is time, and (\nabla^2) is the Laplacian operator.</p>
-</li>
-<li><p>The Schrodinger equation describes the evolution of quantum states and is given by:</p>
-<div class="math notranslate nohighlight">
-\[
-  i\hbar \frac{\partial \psi}{\partial t} = -\frac{\hbar^2}{2m} \nabla^2 \psi(x) + V(x) \psi(x)
-  \]</div>
-<p>where (\psi) is the wave function, (V) is the potential energy, and (m) is the mass of the particle.</p>
-</li>
-<li><p>The Convection-Diffusion equation describes the transport of substances in a medium.  For an incompressible flow,  it is given by:</p>
-<div class="math notranslate nohighlight">
-\[
-  \frac{\partial u}{\partial t} + v \cdot \nabla u = D \nabla^2 u
-  \]</div>
-<p>where (u) is the concentration of the substance, (v) is the velocity field, and (D) is the diffusion coefficient.</p>
-</li>
-<li><p>The Fokker-Planck equation describes the time evolution of the probability density function of a stochastic process.  It is given by:</p>
-<div class="math notranslate nohighlight">
-\[
-  \frac{\partial P(x, t)}{\partial t} = -\nabla \cdot (v(x) P(x, t)) + D \nabla^2 P(x, t)
-  \]</div>
-<p>where (P) is the probability density function, (v(x)) is the drift velocity, and (D) is the diffusion coefficient.</p>
-</li>
-</ul>
-<p>While these are time-dependent PDEs, we can also have time-independent PDEs.  (Often, these result from looking for steady states for time-dependent equaitons.)  For instance, the Poisson equation describes the potential field in electrostatics and is given by:</p>
-<div class="math notranslate nohighlight">
-\[
-\nabla^2 u(x) = -\frac{\rho(x)}{\epsilon_0}
-\]</div>
-<p>where (u) is the potential, (\rho(x)) is the charge density, and (\epsilon_0) is the permittivity of free space.</p>
-<p>The <em>second</em> part of a PDE is the boundary conditions and initial conditions, which specify how the function behaves at spatial and temporal boundaries respectively.
-The initial conditions specify the state of the system at time (t=0), while the boundary conditions specify the behavior of the system at the spatial boundaries.
-These boundary conditions can be of different types.  Two of note are:</p>
-<ul class="simple">
-<li><p><strong>Dirichlet boundary conditions</strong> specify the value of the function at the boundary.  (The wavefunction going to 0 at the endges of an infinite potential energy wall is an example of this.)</p></li>
-<li><p><strong>Neumann boundary conditions</strong> specify the value of the derivative of the function at the boundary.
-In other cases we might specify a combination of the two, or even a more complex condition.</p></li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>A PDE is not complete with out its boundary and initial conditions!  They are essential to solving the PDE. If they change, the solution may change drastically.</p>
-</div>
-<section id="recap-on-prior-pde-solvers-we-ve-discussed">
-<h3>Recap on Prior PDE Solvers We’ve Discussed<a class="headerlink" href="#recap-on-prior-pde-solvers-we-ve-discussed" title="Link to this heading">#</a></h3>
-<p>We have already written down a PDE solver without discussing it in February!
-In a previous homework, we attempted to solve the Schrodinger equation by</p>
+<section id="an-intro-to-optimization">
+<h2>An Intro to Optimization<a class="headerlink" href="#an-intro-to-optimization" title="Link to this heading">#</a></h2>
+<p>So far we have had many equations where we needed to minimize a quantity.  When we were solving least squares problems, we attempted to find the vector <span class="math notranslate nohighlight">\(m\)</span> that minimized the quantity <span class="math notranslate nohighlight">\(||Ax - b||^2\)</span>.<br />
+When we were attempting to solve ODEs and PDEs, we needed to solve implicit updates such as backward Euler, which required finding <span class="math notranslate nohighlight">\(x_{t+ \Delta t}\)</span> that minimized the difference between <span class="math notranslate nohighlight">\(f(x_{t+\Delta t})\)</span>  and
+<span class="math notranslate nohighlight">\(x_t + \Delta t g(x_{t+\Delta t}) \)</span>.  In all of these cases so far, we have told you “just call this numpy / scipy method” to solve the problem.
+However, for many applications you might want to write your own optimizer, or at least to debug the optimizer you are using.  Consequently, in this section we will drill down on optimizers and how they work.</p>
+<p>Say you have a function <span class="math notranslate nohighlight">\(f(x)\)</span> that you want to minimize.  The basic recipe for most optimization algorithms are as follows:</p>
 <ol class="arabic simple">
-<li><p>Introducing a Basis Set expansion of the wavefunction</p></li>
-<li><p>Writing down a matrix representation of the Hamiltonian that gives the time-evolution of the coefficients.</p></li>
-<li><p>Diagonalizing the Hamiltonian to find the eigenvalues and eigenvectors and use them to time-evolve the system.</p></li>
+<li><p>Move in a direction that you (hope) decreases the value of the function.</p></li>
+<li><p>Do it again.</p></li>
 </ol>
-<p>This is an example of an approach known as a spectral method: we decompose the solution into a linear combination of basis functions and then solve for the coefficients of these basis functions.
-Note that it is necessary that the basis set obeys the boundary conditions of the problem.  For instance, if we are solving the Schrodinger equation with Dirichlet boundary conditions, we need to use a basis set that goes to zero at the boundaries.  (The Fourier basis does not do this, but the sine basis does.)</p>
-<p>Spectral methods are often very powerful approaches, but they have their limitations.  For instance, it is not clear how to apply this to a PDE with non-linear terms.  (The Schrodinger equation is linear in the wavefunction, but other PDEs,
-such as the Kuramoto-Sivashinsky equation <span class="math notranslate nohighlight">\(\partial_t u = -\partial_x^2 u - \partial_x^4 u - \partial_x (u^2)\)</span> are not.)
-Moreover, the basis set expansion is not always the most efficient way to represent the solution: a bad basis set may converge slowly, or lead to ringing artifacts.
-Finally, expanding the size of the basis set can lead to a large dense matrix: increasing computational expense.</p>
+<section id="gradient-based-optimization">
+<h3>Gradient Based Optimization<a class="headerlink" href="#gradient-based-optimization" title="Link to this heading">#</a></h3>
+<p>To get this very subtle and complicated algorithm to work, it helps to have a notion of what directions decrease the function.  For this reason, we focus on <em>gradient-based optimization</em> algorithms: algorithms that use the gradient of the function to determine the direction to move in.
+Nowadays, it is reasonably easy to access the gradient of functions using automatic differentiation: in the mid-to-late 2010’s, there was incredible work put into developing software that can automatically compute the gradient of a function using a procedure known as <em>automatic differentiation</em>: examples include PyTorch, Jax, and Autograd.
+In brief, these software packages keep track of a sequence of operations and use the chain rule to compute the gradient of the resulting function.</p>
 </section>
 </section>
-<section id="finite-difference-methods">
-<h2>Finite Difference Methods<a class="headerlink" href="#finite-difference-methods" title="Link to this heading">#</a></h2>
-<p>Here, we discuss a different approach to solving PDEs, known as finite difference methods.
-In Finite difference methods, we evaluate the function an a grid of points.
-We then approximate the derivatives in the PDE using finite differences,
-similar to the approach we took when discussing ODE solvers.
-For instance, we can approximate the first derivative of a function (u(x)) at point (x) using a forward difference:</p>
+<section id="gradient-descent">
+<h2>Gradient Descent<a class="headerlink" href="#gradient-descent" title="Link to this heading">#</a></h2>
+<p>The most basic gradient-based optimization algorithm is <em>gradient descent</em>.  The idea is to take a step in the direction of the negative gradient of the function.  This is because the gradient points in the direction of steepest ascent, so moving in the opposite direction should decrease the function value.  The update rule for gradient descent is given by:</p>
 <div class="math notranslate nohighlight">
 \[
-\frac{\partial u}{\partial x} \approx \frac{u(x + \Delta x) - u(x)}{\Delta x}
+x_{t+1} = x_t - \alpha \nabla f(x_t)
 \]</div>
-<p>a backward difference:</p>
+<p>where <span class="math notranslate nohighlight">\(\alpha\)</span> is a parameter known as the <em>step size</em> (also called the <em>learning rate</em> in machine learning circles).  Note that we can compare this to solving the following ODE</p>
 <div class="math notranslate nohighlight">
 \[
-\frac{\partial u}{\partial x} \approx \frac{u(x) - u(x - \Delta x)}{\Delta x}
+\frac{dx}{dt} = -\nabla f(x)
 \]</div>
-<p>or a central difference:</p>
+<p>using Forward Euler’s method and setting the timestep to <span class="math notranslate nohighlight">\(\alpha\)</span>.  This gives us some intuition for the effect of the step size.  If <span class="math notranslate nohighlight">\(\alpha\)</span> is too small, we will take a long time to converge to the minimum.<br />
+If <span class="math notranslate nohighlight">\(\alpha\)</span> is too large, our solution may diverge.</p>
+<p>For instance, consider minimizing the function <span class="math notranslate nohighlight">\(f(x) = x^2 + y^2\)</span>, starting at <span class="math notranslate nohighlight">\(x=1, y=1\)</span>.  The gradient is given by <span class="math notranslate nohighlight">\(\nabla f(x) = (2x, 2y)\)</span>.  If we set <span class="math notranslate nohighlight">\(\alpha = 0.2\)</span>, then our first step is given by:</p>
 <div class="math notranslate nohighlight">
 \[
-\frac{\partial u}{\partial x} \approx \frac{u(x + \Delta x) - u(x - \Delta x)}{2 \Delta x}
+x_{t+1} = (1, 1) - 0.2 (2, 2) = (0.6, 0.6)
 \]</div>
-<p>Similarly, we can approximate the second derivative of a function (u(x)) at point (x) using a central difference:</p>
+<p>and our second step is given by:</p>
 <div class="math notranslate nohighlight">
 \[
-\frac{\partial^2 u}{\partial x^2} \approx \frac{u(x + \Delta x) - 2 u(x) + u(x - \Delta x)}{\Delta x^2}
+x_{t+2} = (0.6, 0.6) - 0.2 (1.2, 1.2) = (0.36, 0.36)
 \]</div>
-<p>These operators can be written as matrices as well.  For instance, the second derivative operator can be written as:</p>
+<p>Clearly, we are making progress.  Moreover, our optimization algorithm “slows down” as we get closer to the minimum, so we don’t overshoot.<br />
+Now, let’s try a larger step size.  If we set <span class="math notranslate nohighlight">\(\alpha = 0.4\)</span>, then our first two steps are given by</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-D_2 = \frac{1}{\Delta x^2}
-\begin{pmatrix}
- \ddots &amp; \ddots &amp;\ddots &amp; \ddots &amp; \ddots &amp; \ddots &amp; \ddots \\
- \ddots &amp; 1      &amp;-2     &amp; 1      &amp; 0      &amp; 0      &amp; \ddots \\
- \ddots &amp; 0      &amp;1      &amp; -2     &amp; 1      &amp; 0      &amp; \ddots \\
- \ddots &amp; 0      &amp;0      &amp; 1      &amp; -2     &amp; 1      &amp; \ddots \\
- \ddots &amp; \ddots &amp;\ddots &amp; \ddots &amp; \ddots &amp; \ddots &amp; \ddots
+\begin{split}
+x_{t+1} =&amp; (1, 1) - 0.4 (2, 2) = (0.2, 0.2) \\
+x_{t+2} =&amp; (0.2, 0.2) - 0.4 (0.4, 0.4) = (0.04, 0.04)
+\end{split}
+\end{split}\]</div>
+<p>We are making better progress!  Let’s try a really bigg step size and see what happens and set <span class="math notranslate nohighlight">\(\alpha = 2.0\)</span>.  Bigger is better, right?</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{split}
+x_{t+1} =&amp; (1, 1) - 2.0 (2, 2) = (-3, -3) \\
+x_{t+2} =&amp; (-3, -3) - 2.0 (-6, -6) = (9, 9)
+\end{split}
+\end{split}\]</div>
+<p>Now we are diverging: we see an increase, rather than a  decrease, in the function value.  This leads to a piece of practical advice: if you are using a gradient-based optimizer and you don’t see steady progress, the first step is to consider dropping your step size.</p>
+</section>
+<section id="newton-s-method">
+<h2>Newton’s Method<a class="headerlink" href="#newton-s-method" title="Link to this heading">#</a></h2>
+<p>Gradient descent is a first-order method: it only uses the first derivative of the function to determine the direction to move in.<br />
+This can lead to problems, particularly if our problem is badly scaled.
+For instance, consider optimizing the function <span class="math notranslate nohighlight">\(f(x) = x^2 + 0.001 y^2\)</span> using gradient descent, starting from <span class="math notranslate nohighlight">\(x = 1, y = 1\)</span>, with <span class="math notranslate nohighlight">\(\alpha = 0.2\)</span>. The gradient is given by <span class="math notranslate nohighlight">\(\nabla f(x) = (2x, 0.002y)\)</span>, so our first step is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+x_{t+1} = (1, 1) - 0.2 (2, 0.002) = (0.6, 0.9996)
+\]</div>
+<p>While we are making progress in <span class="math notranslate nohighlight">\(x\)</span>, we are making very little progress in <span class="math notranslate nohighlight">\(y\)</span>.  We could attempt to increase the step size in <span class="math notranslate nohighlight">\(y\)</span>, but this would lead to divergence in <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>There is nothing that fundamentally different from the previous example, we have just scaled our <span class="math notranslate nohighlight">\(y\)</span> coordinate in a different way.  Newton’s method addresses this deficiency by using the second derivative of the function, as well as its first.
+The idea is to use the second derivative to determine the curvature of the function, and then use this information to determine the step size.  The update rule for Newton’s method is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+x_{t+1} = x_t - \alpha H_f(x_t)^{-1} \nabla f(x_t)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\nabla^2 f(x_t)\)</span> is the Hessian of the function at <span class="math notranslate nohighlight">\(x_t\)</span>.  The Hessian is a matrix that contains all of the second derivatives of the function.  For instance, for a function <span class="math notranslate nohighlight">\(f(x,y)\)</span>, the Hessian is given by:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+H_f(x,y) = \begin{pmatrix}
+\frac{\partial^2 f}{\partial x^2} &amp; \frac{\partial^2 f}{\partial x \partial y} \\
+\frac{\partial^2 f}{\partial y \partial x} &amp; \frac{\partial^2 f}{\partial y^2}
 \end{pmatrix}
 \end{split}\]</div>
-<p>(The values in the corners depend on the boundary conditions.)  While this is a large matrix, it is sparse: most of the entries are zero.  This can often lead to much faster computations.</p>
-<p>Once we have these finite difference approximations, we can substitute them into the PDE to get a set of ODEs that give the time-evolution of the function at each point in space.
-For instance, consider the simple diffusion equation</p>
+<p>Considering our previous quadratic example, the Hessian is given by:</p>
 <div class="math notranslate nohighlight">
-\[
-\frac{\partial u}{\partial t} =  \partial_x^2 u(x, t)
-\]</div>
-<p>Applying the finite difference approximation to the second derivative, we get</p>
+\[\begin{split}
+H_f(x,y) = \begin{pmatrix}
+2 &amp; 0 \\
+0 &amp; 0.002
+\end{pmatrix}
+\end{split}\]</div>
+<p>The inverse of the Hessian is then given by</p>
 <div class="math notranslate nohighlight">
-\[
-\frac{\partial u_{i}}{\partial t}(t) = \frac{u_{i+1}(t) - 2 u_{i}(t) + u_{i-1}(t)}{\Delta x^2}
-\]</div>
-<p>where (u_i) is the value of the function at point (i) in space.</p>
-<section id="the-crank-nicolson-method">
-<h3>The Crank-Nicolson Method<a class="headerlink" href="#the-crank-nicolson-method" title="Link to this heading">#</a></h3>
-<p>One of the most common finite difference methods is the Crank-Nicolson method.  In Crank-Nicolson, we</p>
-<ol class="arabic simple">
-<li><p>Use central difference to approximate spacial derivatives in the PDE</p></li>
-<li><p>Integrate the resulting ODEs using the trapezoidal rule.</p></li>
-</ol>
-<p>This is a very stable method, and is commonly used for PDEs that model diffusions or other dissipative processes.
-For other PDEs it is not necessarily the most efficient method, but it is a reasonably ``safe’’ option.</p>
-<p>If we attempt to solve the simple diffusion equation above using the Crank-Nicolson method, we get</p>
-<div class="math notranslate nohighlight">
-\[
-\begin{split}
-    u_i(t + \Delta t) = u_i(t) + \frac{\Delta t}{2} \left( \frac{u_{i+1}(t) - 2 u_{i}(t) + u_{i-1}(t)}{\Delta x^2} + \frac{u_{i+1}(t + \Delta t) - 2 u_{i}(t + \Delta t) + u_{i-1}(t + \Delta t)}{\Delta x^2} \right)
-\end{split}
-\]</div>
-<p>or using the <span class="math notranslate nohighlight">\(D_2\)</span> matrix we defined above:</p>
-<div class="math notranslate nohighlight">
-\[
-    u(t + \Delta t) = u(t) + \frac{\Delta t}{2} \left( D_2 u(t) + D_2 u(t + \Delta t) \right)
-\]</div>
-<p>Note that for this (and for many other PDEs) we can solve for the function at <span class="math notranslate nohighlight">\(u(t + \Delta t)\)</span> using linear algebra:</p>
-<div class="math notranslate nohighlight">
-\[
-    \left( I - \frac{\Delta t}{2} D_2 \right) u(t + \Delta t) = \left( I + \frac{\Delta t}{2} D_2 \right) u(t)
-\]</div>
-<p>implying</p>
-<div class="math notranslate nohighlight">
-\[
-    u(t + \Delta t) = \left( I - \frac{\Delta t}{2} D_2 \right)^{-1} \left( I + \frac{\Delta t}{2} D_2 \right) u(t)
-\]</div>
-<p>(A proof that this matrix is invertible is beyond the scope of this class.)</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>In practice, you don’t actually want to invert the matrix since this very computationally expensive.  Instead, it is better to solve the previous equation,
-observing that it takes the form</p>
-<div class="math notranslate nohighlight">
-\[
-A x = b
-\]</div>
-<p>where <span class="math notranslate nohighlight">\(A = \left( I - \frac{\Delta t}{2} D_2 \right)\)</span>, <span class="math notranslate nohighlight">\(x = u(t + \Delta t)\)</span>, and <span class="math notranslate nohighlight">\(b = \left( I + \frac{\Delta t}{2} D_2 \right) u(t)\)</span>,
-and you can leverage extensive work put into solving sparse linear algebra equations, e.g. the methods in <code class="docutils literal notranslate"><span class="pre">scipy.sparse.linalg</span></code>.</p>
-</div>
-</section>
+\[\begin{split}
+H_f(x,y)^{-1} = \begin{pmatrix}
+\frac{1}{2} &amp; 0 \\
+0 &amp; 500
+\end{pmatrix}
+\end{split}\]</div>
+<p>Setting <span class="math notranslate nohighlight">\(\alpha=1\)</span>, our0.2update rule is given by
+$<span class="math notranslate nohighlight">\(
+x_{t+1} = \begin{pmatrix}1 \\ 1 \end{pmatrix} - 0.2 \begin{pmatrix}
+0.5 &amp; 0 \\
+0 &amp; 500
+\end{pmatrix} \begin{pmatrix}
+2  \\
+0.002
+\end{pmatrix} = (0.8, 0.8)
+\)</span>$</p>
+<p>This a much more reasonable step size.  In fact, with <span class="math notranslate nohighlight">\(\alpha=1\)</span>, Newton’s method converges in one step for all quadratic functions, no matter the scaling.</p>
 </section>
 </section>
 
@@ -615,22 +557,13 @@ and you can leverage extensive work put into solving sparse linear algebra equat
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="lecture-12-symplectic-integrators.html"
+       href="lecture-13-pde.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">More on Numerical ODEs</p>
+        <p class="prev-next-title">From ODE to PDE</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="lecture-14-optimization.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Optimization</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -650,14 +583,12 @@ and you can leverage extensive work put into solving sparse linear algebra equat
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-pde">What is a PDE?</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recap-on-prior-pde-solvers-we-ve-discussed">Recap on Prior PDE Solvers We’ve Discussed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-intro-to-optimization">An Intro to Optimization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-based-optimization">Gradient Based Optimization</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finite-difference-methods">Finite Difference Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-crank-nicolson-method">The Crank-Nicolson Method</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">Gradient Descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#newton-s-method">Newton’s Method</a></li>
 </ul>
   </nav></div>
 

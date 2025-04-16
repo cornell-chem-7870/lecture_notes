@@ -15,6 +15,11 @@ kernelspec:
 
 ## Learning Objectives
 
+- Understand the difference between ODEs and PDEs
+- Understand the basic structure of a PDE
+- Know how to solve a PDE using finite difference methods
+- Be able to implement the Crank-Nicolson method for solving PDEs
+
 ## What is a PDE?
 
 Partial differential equations generalize ordinary differential equations (ODEs) to functions of multiple variables.
@@ -197,4 +202,3 @@ $$
 where $A = \left( I - \frac{\Delta t}{2} D_2 \right)$, $x = u(t + \Delta t)$, and $b = \left( I + \frac{\Delta t}{2} D_2 \right) u(t)$,
 and you can leverage extensive work put into solving sparse linear algebra equations, e.g. the methods in `scipy.sparse.linalg`.
 ```
-
