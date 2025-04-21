@@ -44,10 +44,7 @@ For inspiration, we again two turn Riemann integration, and find two integrators
 If we generalize this to the case of ODEs, we can write down a time-symmetric integrator as follows:
 
 $$
-\begin{split}
-    y(t + \Delta t) &= y(t) + \frac{\Delta t}{2} \left( f(t, y(t)) + f(t + \Delta t, y(t + \Delta t)) \right) \\
-    &= y(t) + \frac{\Delta t}{2} \left( f(t, y(t)) + f(t + \Delta t, y(t)) \right)
-\end{split}     
+    y(t + \Delta t) = y(t) + \frac{\Delta t}{2} \left( f(t, y(t)) + f(t + \Delta t, y(t + \Delta t)) \right) 
 $$
 
 A quick calculation shows that this is symmetric: integrating backwards in time from $y(t + \Delta t)$  puts us back at $y(t)$.

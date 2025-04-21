@@ -192,6 +192,7 @@
 <li class="toctree-l1"><a class="reference internal" href="lecture-11-ode-intro.html">Intro to Numerical Integration</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">More on Numerical ODEs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-13-pde.html">From ODE to PDE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture-14-optimization.html">Optimization</a></li>
 </ul>
 
     </div>
@@ -435,12 +436,9 @@ One classic one is time-reversal symmetry: if we run the dynamics up to time <sp
 For inspiration, we again two turn Riemann integration, and find two integrators that obey this symmetry.  The first is the trapezoidal rule: numerically integrating a function using trapezoid rule gives the same answer if we march left or right.
 If we generalize this to the case of ODEs, we can write down a time-symmetric integrator as follows:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{split}
-    y(t + \Delta t) &amp;= y(t) + \frac{\Delta t}{2} \left( f(t, y(t)) + f(t + \Delta t, y(t + \Delta t)) \right) \\
-    &amp;= y(t) + \frac{\Delta t}{2} \left( f(t, y(t)) + f(t + \Delta t, y(t)) \right)
-\end{split}     
-\end{split}\]</div>
+\[
+    y(t + \Delta t) = y(t) + \frac{\Delta t}{2} \left( f(t, y(t)) + f(t + \Delta t, y(t + \Delta t)) \right) 
+\]</div>
 <p>A quick calculation shows that this is symmetric: integrating backwards in time from <span class="math notranslate nohighlight">\(y(t + \Delta t)\)</span>  puts us back at <span class="math notranslate nohighlight">\(y(t)\)</span>.
 Note that this is an implicit integrator: we need to know the value of <span class="math notranslate nohighlight">\(y(t + \Delta t)\)</span> in order to evaluate the function at that point.<br />
 As with backward Euler, we will need to find a way to solve this equation.  However, the stability and accuracy of this integrator makes this often well worth it.</p>
