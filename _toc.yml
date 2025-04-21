@@ -24,3 +24,4 @@ parts:
     - file: lecture-11-ode-intro.md
     - file: lecture-12-symplectic-integrators.md
     - file: lecture-13-pde.md
+    - file: lecture-14-optimization.md
