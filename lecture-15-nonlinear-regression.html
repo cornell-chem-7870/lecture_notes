@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>From ODE to PDE &#8212; My sample book</title>
+    <title>Nonlinear Regression &#8212; My sample book</title>
   
   
   
@@ -62,11 +62,10 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-13-pde';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-15-nonlinear-regression';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Optimization" href="lecture-14-optimization.html" />
-    <link rel="prev" title="More on Numerical ODEs" href="lecture-12-symplectic-integrators.html" />
+    <link rel="prev" title="Optimization" href="lecture-14-optimization.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -191,9 +190,9 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="lecture-11-ode-intro.html">Intro to Numerical Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-12-symplectic-integrators.html">More on Numerical ODEs</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">From ODE to PDE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture-13-pde.html">From ODE to PDE</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-14-optimization.html">Optimization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-15-nonlinear-regression.html">Nonlinear Regression</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Nonlinear Regression</a></li>
 </ul>
 
     </div>
@@ -270,7 +269,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-13-pde.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-15-nonlinear-regression.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -300,7 +299,7 @@
       
       
       
-      <li><a href="_sources/lecture-13-pde.md" target="_blank"
+      <li><a href="_sources/lecture-15-nonlinear-regression.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -376,7 +375,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>From ODE to PDE</h1>
+    <h1>Nonlinear Regression</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -387,14 +386,11 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-pde">What is a PDE?</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recap-on-prior-pde-solvers-we-ve-discussed">Recap on Prior PDE Solvers We’ve Discussed</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finite-difference-methods">Finite Difference Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-crank-nicolson-method">The Crank-Nicolson Method</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Nonlinear Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-logistic-regression">Example: Logistic Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extension-to-neural-networks">Extension to Neural Networks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-density-estimation">Example: Density Estimation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-learning-force-fields">Example: Learning Force Fields</a></li>
 </ul>
             </nav>
         </div>
@@ -406,182 +402,192 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="from-ode-to-pde">
-<h1>From ODE to PDE<a class="headerlink" href="#from-ode-to-pde" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="nonlinear-regression">
+<h1>Nonlinear Regression<a class="headerlink" href="#nonlinear-regression" title="Link to this heading">#</a></h1>
 <section id="learning-objectives">
 <h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Understand the difference between ODEs and PDEs</p></li>
-<li><p>Understand the basic structure of a PDE</p></li>
-<li><p>Know how to solve a PDE using finite difference methods</p></li>
-<li><p>Be able to implement the Crank-Nicolson method for solving PDEs</p></li>
+<li><p>Discuss the general framework of Nonlinear Regression.</p></li>
+<li><p>Discuss Logistic regression and its loss functional.</p></li>
+<li><p>Give a brief overview of neural networks and their loss functionals.</p></li>
+<li><p>Discuss density estimation.</p></li>
 </ul>
 </section>
-<section id="what-is-a-pde">
-<h2>What is a PDE?<a class="headerlink" href="#what-is-a-pde" title="Link to this heading">#</a></h2>
-<p>Partial differential equations generalize ordinary differential equations (ODEs) to functions of multiple variables.</p>
-<p>The first part of a PDE is an equation that relating the partial derivatives of a function to each other.
-For instance,</p>
-<ul>
-<li><p>The wave equation describes the propagation of waves in a medium and is given by:</p>
+<section id="id1">
+<h2>Nonlinear Regression<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>In the beginning of this class, we repeatedly discussed linear regression: the act of determining a linear relation between two variables.
+Here, we extend this to nonlinear regression.</p>
+<p>In general, nonlinear regression has the following form.
+We have some parameterized function <span class="math notranslate nohighlight">\(f(x, \theta)\)</span>, where <span class="math notranslate nohighlight">\(\theta\)</span> is a vector of parameters.
+Additionally, we have a functional <span class="math notranslate nohighlight">\(L\)</span> that measures the quality for <span class="math notranslate nohighlight">\(f\)</span>, which we call the <em>loss function</em>.
+Our goal is to find the parameters <span class="math notranslate nohighlight">\(\theta\)</span> that minimize the loss functional,</p>
 <div class="math notranslate nohighlight">
 \[
-  \frac{\partial^2 u}{\partial t^2} = c^2 \nabla^2 u(x, t)
-  \]</div>
-<p>where (u) is the wave function, (t) is time, and (\nabla^2) is the Laplacian operator.</p>
-</li>
-<li><p>The Schrodinger equation describes the evolution of quantum states and is given by:</p>
-<div class="math notranslate nohighlight">
-\[
-  i\hbar \frac{\partial \psi}{\partial t} = -\frac{\hbar^2}{2m} \nabla^2 \psi(x) + V(x) \psi(x)
-  \]</div>
-<p>where (\psi) is the wave function, (V) is the potential energy, and (m) is the mass of the particle.</p>
-</li>
-<li><p>The Convection-Diffusion equation describes the transport of substances in a medium.  For an incompressible flow,  it is given by:</p>
-<div class="math notranslate nohighlight">
-\[
-  \frac{\partial u}{\partial t} + v \cdot \nabla u = D \nabla^2 u
-  \]</div>
-<p>where (u) is the concentration of the substance, (v) is the velocity field, and (D) is the diffusion coefficient.</p>
-</li>
-<li><p>The Fokker-Planck equation describes the time evolution of the probability density function of a stochastic process.  It is given by:</p>
-<div class="math notranslate nohighlight">
-\[
-  \frac{\partial P(x, t)}{\partial t} = -\nabla \cdot (v(x) P(x, t)) + D \nabla^2 P(x, t)
-  \]</div>
-<p>where (P) is the probability density function, (v(x)) is the drift velocity, and (D) is the diffusion coefficient.</p>
-</li>
-</ul>
-<p>While these are time-dependent PDEs, we can also have time-independent PDEs.  (Often, these result from looking for steady states for time-dependent equaitons.)  For instance, the Poisson equation describes the potential field in electrostatics and is given by:</p>
-<div class="math notranslate nohighlight">
-\[
-\nabla^2 u(x) = -\frac{\rho(x)}{\epsilon_0}
+\theta^* = \arg \min_\theta L(f(x, \theta), y)
 \]</div>
-<p>where (u) is the potential, (\rho(x)) is the charge density, and (\epsilon_0) is the permittivity of free space.</p>
-<p>The <em>second</em> part of a PDE is the boundary conditions and initial conditions, which specify how the function behaves at spatial and temporal boundaries respectively.
-The initial conditions specify the state of the system at time (t=0), while the boundary conditions specify the behavior of the system at the spatial boundaries.
-These boundary conditions can be of different types.  Two of note are:</p>
-<ul class="simple">
-<li><p><strong>Dirichlet boundary conditions</strong> specify the value of the function at the boundary.  (The wavefunction going to 0 at the endges of an infinite potential energy wall is an example of this.)</p></li>
-<li><p><strong>Neumann boundary conditions</strong> specify the value of the derivative of the function at the boundary.
-In other cases we might specify a combination of the two, or even a more complex condition.</p></li>
-</ul>
+<p>where <span class="math notranslate nohighlight">\(y\)</span> is the data we are trying to fit.
+If <span class="math notranslate nohighlight">\(f\)</span> is differentiable with respect to <span class="math notranslate nohighlight">\(\theta\)</span>, we can use gradient descent or Newton’s method to find the minimum.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>A PDE is not complete with out its boundary and initial conditions!  They are essential to solving the PDE. If they change, the solution may change drastically.</p>
+<p>In the case of linear regression, we had <span class="math notranslate nohighlight">\(f(x, \theta) = Ax + b\)</span>, where <span class="math notranslate nohighlight">\(A\)</span> is a matrix and <span class="math notranslate nohighlight">\(b\)</span> is a vector.
+The loss functional was the mean square <span class="math notranslate nohighlight">\(L(f(x, \theta), y) = ||Ax + b - y||^2\)</span>.</p>
 </div>
-<section id="recap-on-prior-pde-solvers-we-ve-discussed">
-<h3>Recap on Prior PDE Solvers We’ve Discussed<a class="headerlink" href="#recap-on-prior-pde-solvers-we-ve-discussed" title="Link to this heading">#</a></h3>
-<p>We have already written down a PDE solver without discussing it in February!
-In a previous homework, we attempted to solve the Schrodinger equation by</p>
-<ol class="arabic simple">
-<li><p>Introducing a Basis Set expansion of the wavefunction</p></li>
-<li><p>Writing down a matrix representation of the Hamiltonian that gives the time-evolution of the coefficients.</p></li>
-<li><p>Diagonalizing the Hamiltonian to find the eigenvalues and eigenvectors and use them to time-evolve the system.</p></li>
-</ol>
-<p>This is an example of an approach known as a spectral method: we decompose the solution into a linear combination of basis functions and then solve for the coefficients of these basis functions.
-Note that it is necessary that the basis set obeys the boundary conditions of the problem.  For instance, if we are solving the Schrodinger equation with Dirichlet boundary conditions, we need to use a basis set that goes to zero at the boundaries.  (The Fourier basis does not do this, but the sine basis does.)</p>
-<p>Spectral methods are often very powerful approaches, but they have their limitations.  For instance, it is not clear how to apply this to a PDE with non-linear terms.  (The Schrodinger equation is linear in the wavefunction, but other PDEs,
-such as the Kuramoto-Sivashinsky equation <span class="math notranslate nohighlight">\(\partial_t u = -\partial_x^2 u - \partial_x^4 u - \partial_x (u^2)\)</span> are not.)
-Moreover, the basis set expansion is not always the most efficient way to represent the solution: a bad basis set may converge slowly, or lead to ringing artifacts.
-Finally, expanding the size of the basis set can lead to a large dense matrix: increasing computational expense.</p>
+<p>While accurate, the above definition is a bit abstract.  In this lecture, we discuss some more concrete examples.</p>
 </section>
+<section id="example-logistic-regression">
+<h2>Example: Logistic Regression<a class="headerlink" href="#example-logistic-regression" title="Link to this heading">#</a></h2>
+<p>Logistic regression is a common method for binary classification.
+Here, each <span class="math notranslate nohighlight">\(x\)</span> is associated with one of two outcomes which we denote <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(1\)</span>.
+Our goal is to fit a function that predicts the probability of <span class="math notranslate nohighlight">\(x\)</span> being associated with outcome <span class="math notranslate nohighlight">\(1\)</span>.
+To be able to use gradient descent, rather than directly predicting 0’s or 1’s we us a function that goes smoothly between the two: a sigmoid function.
+The sigmoid function is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+    f(x, \theta) = \frac{1}{1 + e^{-\theta^T x}}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\theta\)</span> is a vector of parameters.
+For our loss functional, one option would have been to use the mean square error.  However, this can lead to some practical issues.  The biggest is that gradients can be very small.
+To demonstrate this, let’s consider an example in one dimension.
+We have a point at <span class="math notranslate nohighlight">\(x = 1\)</span>, and the true label is <span class="math notranslate nohighlight">\(y = 0\)</span>.  However, our current parameter is set to <span class="math notranslate nohighlight">\(\theta=10\)</span>.
+Consequently, our prediction is set to</p>
+<div class="math notranslate nohighlight">
+\[
+ \frac{1}{1 + e^{-10}}  \approx 0.9999546
+\]</div>
+<p>For this point, our mean square error is then given by $<span class="math notranslate nohighlight">\((0.9999546 - 0)^2 \approx 0.9999092\)</span><span class="math notranslate nohighlight">\(.  To fix this, let's halve  our parameter, setting it to \)</span>\theta=5$.
+Now, our prediction is given by</p>
+<div class="math notranslate nohighlight">
+\[
+ \frac{1}{1 + e^{-5)}  \approx 0.9933071
+\]</div>
+<p>Our mean square error is now given by $<span class="math notranslate nohighlight">\((0.9933071 - 0)^2 \approx 0.9867\)</span>$.  Despite the fact the we have halved our parameter, our mean square error has barely decreased!</p>
+<p>Consequently, it is common to use a different loss functional, called the <em>cross-entropy loss</em>.
+The cross-entropy loss is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+L(f(x, \theta), y) = -y \log(f(x, \theta)) - (1-y) \log(1-f(x, \theta))
+\]</div>
+<p>Note that since <span class="math notranslate nohighlight">\(y\)</span> is either <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(1\)</span>, this is equivalent to:
+$<span class="math notranslate nohighlight">\(
+L(f(x, \theta), y) = \begin{cases}
+    -\log(f(x, \theta)) &amp; \text{if } y = 1 \\
+    -\log(1-f(x, \theta)) &amp; \text{if } y = 0
+\end{cases}
+\)</span>$</p>
+<p>This loss function has much better properties than the mean square error.  The gradients when we are far from the true solution are much larger.  Moreover, it is convex, which helps with higher-order optimization methods.</p>
 </section>
-<section id="finite-difference-methods">
-<h2>Finite Difference Methods<a class="headerlink" href="#finite-difference-methods" title="Link to this heading">#</a></h2>
-<p>Here, we discuss a different approach to solving PDEs, known as finite difference methods.
-In Finite difference methods, we evaluate the function an a grid of points.
-We then approximate the derivatives in the PDE using finite differences,
-similar to the approach we took when discussing ODE solvers.
-For instance, we can approximate the first derivative of a function (u(x)) at point (x) using a forward difference:</p>
+<section id="extension-to-neural-networks">
+<h2>Extension to Neural Networks<a class="headerlink" href="#extension-to-neural-networks" title="Link to this heading">#</a></h2>
+<p>In general, linear regression is a good go-to method for predicting continuous values, logistic regression is a good go-to method for predicting binary values.
+However, sometimes we might want a more complex function than a linear function.
+In this case we can employ a <em>neural network</em>.
+At their most basic, neural networks are a class of functions that are composed of many layers of linear functions, each followed by a nonlinear function.
+Denoting the nonlinear function as <span class="math notranslate nohighlight">\(\sigma\)</span>, we can write the neural network as</p>
 <div class="math notranslate nohighlight">
 \[
-\frac{\partial u}{\partial x} \approx \frac{u(x + \Delta x) - u(x)}{\Delta x}
+NN(x, \theta) =  \theta_n \sigma (\theta_{n-1} \sigma( \cdots \sigma( \theta_2 \sigma( \theta_1 x))))
 \]</div>
-<p>a backward difference:</p>
+<p>where we have divided our parameters into <span class="math notranslate nohighlight">\(n\)</span> matrices, each denoted <span class="math notranslate nohighlight">\(\theta_i\)</span>.
+Different neural networks differ on the number of layers, if and how we constrain the parameters, and how we choose the nonlinear function <span class="math notranslate nohighlight">\(\sigma\)</span>.
+Common choices for <span class="math notranslate nohighlight">\(\sigma\)</span> include the sigmoid function discussed above,
+the hyperbolic tangent function</p>
 <div class="math notranslate nohighlight">
 \[
-\frac{\partial u}{\partial x} \approx \frac{u(x) - u(x - \Delta x)}{\Delta x}
+\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}},
 \]</div>
-<p>or a central difference:</p>
+<p>and (perhaps the most popular option) the rectified linear unit (ReLU) function</p>
 <div class="math notranslate nohighlight">
 \[
-\frac{\partial u}{\partial x} \approx \frac{u(x + \Delta x) - u(x - \Delta x)}{2 \Delta x}
+\text{ReLU}(x) = \max(0, x)
 \]</div>
-<p>Similarly, we can approximate the second derivative of a function (u(x)) at point (x) using a central difference:</p>
+<p>Once we have chosen the form for our neural network, we tune it to predict values.
+For predicting continuous values, we use a linear loss functional</p>
 <div class="math notranslate nohighlight">
 \[
-\frac{\partial^2 u}{\partial x^2} \approx \frac{u(x + \Delta x) - 2 u(x) + u(x - \Delta x)}{\Delta x^2}
+L(f(x, \theta), y) = ||f(x, \theta) - y||^2
 \]</div>
-<p>These operators can be written as matrices as well.  For instance, the second derivative operator can be written as:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-D_2 = \frac{1}{\Delta x^2}
-\begin{pmatrix}
- \ddots &amp; \ddots &amp;\ddots &amp; \ddots &amp; \ddots &amp; \ddots &amp; \ddots \\
- \ddots &amp; 1      &amp;-2     &amp; 1      &amp; 0      &amp; 0      &amp; \ddots \\
- \ddots &amp; 0      &amp;1      &amp; -2     &amp; 1      &amp; 0      &amp; \ddots \\
- \ddots &amp; 0      &amp;0      &amp; 1      &amp; -2     &amp; 1      &amp; \ddots \\
- \ddots &amp; \ddots &amp;\ddots &amp; \ddots &amp; \ddots &amp; \ddots &amp; \ddots
-\end{pmatrix}
-\end{split}\]</div>
-<p>(The values in the corners depend on the boundary conditions.)  While this is a large matrix, it is sparse: most of the entries are zero.  This can often lead to much faster computations.</p>
-<p>Once we have these finite difference approximations, we can substitute them into the PDE to get a set of ODEs that give the time-evolution of the function at each point in space.
-For instance, consider the simple diffusion equation</p>
+<p>where <span class="math notranslate nohighlight">\(||\cdot||\)</span> is the Euclidean norm.  For predicting binary values, we use the cross-entropy loss functional</p>
 <div class="math notranslate nohighlight">
 \[
-\frac{\partial u}{\partial t} =  \partial_x^2 u(x, t)
+L(f(x, \theta), y) = -y \log(f(x, \theta)) - (1-y) \log(1-f(x, \theta))
 \]</div>
-<p>Applying the finite difference approximation to the second derivative, we get</p>
+<p>where we set</p>
 <div class="math notranslate nohighlight">
 \[
-\frac{\partial u_{i}}{\partial t}(t) = \frac{u_{i+1}(t) - 2 u_{i}(t) + u_{i-1}(t)}{\Delta x^2}
+f(x, \theta) = \frac{1}{1 + e^{-NN(x, \theta)}}s
 \]</div>
-<p>where (u_i) is the value of the function at point (i) in space.</p>
-<section id="the-crank-nicolson-method">
-<h3>The Crank-Nicolson Method<a class="headerlink" href="#the-crank-nicolson-method" title="Link to this heading">#</a></h3>
-<p>One of the most common finite difference methods is the Crank-Nicolson method.  In Crank-Nicolson, we</p>
-<ol class="arabic simple">
-<li><p>Use central difference to approximate spacial derivatives in the PDE</p></li>
-<li><p>Integrate the resulting ODEs using the trapezoidal rule.</p></li>
-</ol>
-<p>This is a very stable method, and is commonly used for PDEs that model diffusions or other dissipative processes.
-For other PDEs it is not necessarily the most efficient method, but it is a reasonably ``safe’’ option.</p>
-<p>If we attempt to solve the simple diffusion equation above using the Crank-Nicolson method, we get</p>
+<p>with <span class="math notranslate nohighlight">\(NN(x, \theta)\)</span> being the neural network we defined above.</p>
+</section>
+<section id="example-density-estimation">
+<h2>Example: Density Estimation<a class="headerlink" href="#example-density-estimation" title="Link to this heading">#</a></h2>
+<p>Given a set of samples <span class="math notranslate nohighlight">\(x_i\)</span> from some probability distribution drawn from an unknown probability density <span class="math notranslate nohighlight">\(\rho\)</span>, we might wish to recover an approximation of the underlying probability density.
+This is known as <em>density estimation</em>.
+One approach to solving this problem is to parameterize a set of possible probability densities <span class="math notranslate nohighlight">\(f(x, \theta)\)</span>, and write down a loss functional that measures the difference between the true probability density and our approximation.
+As it happens, we can generalize the cross-entropy loss functional to do this.</p>
+<p>For general probability densities <span class="math notranslate nohighlight">\(p(x)\)</span> and <span class="math notranslate nohighlight">\(q(x)\)</span>, the cross entropy is given by:</p>
 <div class="math notranslate nohighlight">
 \[
-\begin{split}
-    u_i(t + \Delta t) = u_i(t) + \frac{\Delta t}{2} \left( \frac{u_{i+1}(t) - 2 u_{i}(t) + u_{i-1}(t)}{\Delta x^2} + \frac{u_{i+1}(t + \Delta t) - 2 u_{i}(t + \Delta t) + u_{i-1}(t + \Delta t)}{\Delta x^2} \right)
-\end{split}
+H(p, q) = -\int p(x) \log(q(x)) dx
 \]</div>
-<p>or using the <span class="math notranslate nohighlight">\(D_2\)</span> matrix we defined above:</p>
+<p>This is a measure of how well <span class="math notranslate nohighlight">\(q\)</span> approximates <span class="math notranslate nohighlight">\(p\)</span>: as <span class="math notranslate nohighlight">\(q\)</span> gets closer to <span class="math notranslate nohighlight">\(p\)</span>, the cross-entropy goes down.
+We can use this to define a loss functional for density estimation by replacing <span class="math notranslate nohighlight">\(p\)</span> with the true probability density <span class="math notranslate nohighlight">\(\rho\)</span> and <span class="math notranslate nohighlight">\(q\)</span> with our approximation <span class="math notranslate nohighlight">\(f(x, \theta)\)</span>.
+Substituting this into the cross-entropy, we get:</p>
 <div class="math notranslate nohighlight">
 \[
-    u(t + \Delta t) = u(t) + \frac{\Delta t}{2} \left( D_2 u(t) + D_2 u(t + \Delta t) \right)
+ -\int \rho(x) \log(f(x, \theta)) dx
 \]</div>
-<p>Note that for this (and for many other PDEs) we can solve for the function at <span class="math notranslate nohighlight">\(u(t + \Delta t)\)</span> using linear algebra:</p>
+<p>We can approximate this using an average over our samples to get a loss funcitonal that we can minimize:</p>
 <div class="math notranslate nohighlight">
 \[
-    \left( I - \frac{\Delta t}{2} D_2 \right) u(t + \Delta t) = \left( I + \frac{\Delta t}{2} D_2 \right) u(t)
+L(f(x, \theta), y) = -\frac{1}{N} \sum_{i=1}^N \log(f(x_i, \theta))
 \]</div>
-<p>implying</p>
+<p>where <span class="math notranslate nohighlight">\(N\)</span> is the number of samples.
+Our remaining task is to parameterize <span class="math notranslate nohighlight">\(f\)</span>.  One common approach is to use a <em>Gaussian mixture model</em> (GMM).
+A GMM is a weighted sum of Gaussians, given by:</p>
 <div class="math notranslate nohighlight">
 \[
-    u(t + \Delta t) = \left( I - \frac{\Delta t}{2} D_2 \right)^{-1} \left( I + \frac{\Delta t}{2} D_2 \right) u(t)
+f(x, \theta) = \sum_{i=1}^K w_i \mathcal{N}(x | \mu_i, \Sigma_i)
 \]</div>
-<p>(A proof that this matrix is invertible is beyond the scope of this class.)</p>
+<p>where <span class="math notranslate nohighlight">\(w_i\)</span> is the weight of the <span class="math notranslate nohighlight">\(i\)</span>th Gaussian, <span class="math notranslate nohighlight">\(\mu_i\)</span> is the mean of the <span class="math notranslate nohighlight">\(i\)</span>th Gaussian, and <span class="math notranslate nohighlight">\(\Sigma_i\)</span> is the covariance of the <span class="math notranslate nohighlight">\(i\)</span>th Gaussian.
+The weights <span class="math notranslate nohighlight">\(w_i\)</span> are constrained to be non-negative and sum to 1, while the means <span class="math notranslate nohighlight">\(\mu_i\)</span> and covariances <span class="math notranslate nohighlight">\(\Sigma_i\)</span> can be any real-valued matrix.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>In practice, you don’t actually want to invert the matrix since this very computationally expensive.  Instead, it is better to solve the previous equation,
-observing that it takes the form</p>
-<div class="math notranslate nohighlight">
-\[
-A x = b
-\]</div>
-<p>where <span class="math notranslate nohighlight">\(A = \left( I - \frac{\Delta t}{2} D_2 \right)\)</span>, <span class="math notranslate nohighlight">\(x = u(t + \Delta t)\)</span>, and <span class="math notranslate nohighlight">\(b = \left( I + \frac{\Delta t}{2} D_2 \right) u(t)\)</span>,
-and you can leverage extensive work put into solving sparse linear algebra equations, e.g. the methods in <code class="docutils literal notranslate"><span class="pre">scipy.sparse.linalg</span></code>.</p>
+<p>Depending on the dimension of the data, gradient-based optimizers may not be the best choice for this problem.
+If you are interested in pursuing this direction for your research, it may be worth looking into the <em>Expectation-Maximization</em> (EM) algorithm.</p>
 </div>
 </section>
+<section id="example-learning-force-fields">
+<h2>Example: Learning Force Fields<a class="headerlink" href="#example-learning-force-fields" title="Link to this heading">#</a></h2>
+<p>Force fields are physical models that predict the potential energy of a system based on its configuration.
+This potential energy is, in principle, computable from first principles using quantum mechanics.
+However, this is often far to computationally expensive to be practical.  Instead, we approximate this energy by a sum of particle-particle interactions.  For instance, electrostatic interactions are given by the Coulomb potential:</p>
+<div class="math notranslate nohighlight">
+\[
+V(r) = \frac{q_1 q_2}{r}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(q_1\)</span> and <span class="math notranslate nohighlight">\(q_2\)</span> are the (effective) charges of the two particles, and <span class="math notranslate nohighlight">\(r\)</span> is the distance between them.
+Interatomic repulsion and van der Waals interactions are given by the Lennard-Jones potential:</p>
+<div class="math notranslate nohighlight">
+\[
+V(r) = 4 \epsilon \left( \left( \frac{\sigma}{r} \right)^{12} - \left( \frac{\sigma}{r} \right)^{6} \right)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\epsilon\)</span> is the depth of the potential well, and <span class="math notranslate nohighlight">\(\sigma\)</span> is the distance at which the potential is zero.
+We might also have additional terms that depend on the angle between three particles, or the dihedral angle between four particles.
+However, in all of these cases we need to tune parameters of these functions to approximate the quantum mechanical energies as well as possible.</p>
+<p>This is a linear regression problem: we have a set of quantum energies <span class="math notranslate nohighlight">\(y\)</span>, a complicated function <span class="math notranslate nohighlight">\(f\)</span> that approximates them given a structure <span class="math notranslate nohighlight">\(x\)</span>, and we want to find the parameters that minimize the difference between the two.
+Again, we can calculate the mean-squared in the predicted and the true energies.  But this often isn’t enough to get good force fields.
+The reason for this is that even if a function converges, that doesn’t mean its derivative converges.
+As a classic example, consider the function <span class="math notranslate nohighlight">\(1 / k \sin(k x)\)</span>.  As <span class="math notranslate nohighlight">\(k\)</span> goes to infinity, this function converges to <span class="math notranslate nohighlight">\(0\)</span> for all <span class="math notranslate nohighlight">\(x\)</span>.  However, its derivative diverges.
+This is a problem for force fields, because the forces are given by the derivative of the potential energy with respect to the coordinates.
+Consequently, we need to ensure that the forces converge as well.</p>
+<p>This is the basis for the <em>force matching</em> method.
+In this method, we minimize the difference between the forces predicted by our model and the forces predicted by quantum mechanics, in addition to the difference between the energies.
+The loss functional is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+L(f(x, \theta), y) = ||f(x, \theta) - y||^2 + ||\sum_i (\frac{\partial}{\partial x_i} f(x, \theta) - f_{iy})||^2
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(f_{iy}\)</span> is the force predicted by quantum mechanics in coordinate <span class="math notranslate nohighlight">\(i\)</span> for the <span class="math notranslate nohighlight">\(y\)</span>th sampled configuration.</p>
 </section>
 </section>
 
@@ -616,22 +622,13 @@ and you can leverage extensive work put into solving sparse linear algebra equat
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="lecture-12-symplectic-integrators.html"
+       href="lecture-14-optimization.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">More on Numerical ODEs</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="lecture-14-optimization.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">Optimization</p>
       </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -651,14 +648,11 @@ and you can leverage extensive work put into solving sparse linear algebra equat
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-pde">What is a PDE?</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recap-on-prior-pde-solvers-we-ve-discussed">Recap on Prior PDE Solvers We’ve Discussed</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finite-difference-methods">Finite Difference Methods</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-crank-nicolson-method">The Crank-Nicolson Method</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Nonlinear Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-logistic-regression">Example: Logistic Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extension-to-neural-networks">Extension to Neural Networks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-density-estimation">Example: Density Estimation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-learning-force-fields">Example: Learning Force Fields</a></li>
 </ul>
   </nav></div>
 
