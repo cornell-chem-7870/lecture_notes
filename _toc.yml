@@ -26,3 +26,4 @@ parts:
     - file: lecture-13-pde.md
     - file: lecture-14-optimization.md
     - file: lecture-15-nonlinear-regression.md
+    - file: lecture-16-autograd.md
