@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Automatic Differentiation and JaX &#8212; My sample book</title>
+    <title>&lt;no title&gt; &#8212; My sample book</title>
   
   
   
@@ -60,10 +60,9 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-16-autograd';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'autodrag_notebook';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Nonlinear Regression" href="lecture-15-nonlinear-regression.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -114,6 +113,8 @@
     <div class="bd-container__inner bd-page-width">
       
       
+      
+        
       
       <dialog id="pst-primary-sidebar-modal"></dialog>
       <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
@@ -185,13 +186,13 @@
 <li class="toctree-l1"><a class="reference internal" href="lecture-10-metropolis-hastings.html">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3. Numerical Differential Equations</span></p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="lecture-11-ode-intro.html">Intro to Numerical Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-12-symplectic-integrators.html">More on Numerical ODEs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-13-pde.html">From ODE to PDE</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-14-optimization.html">Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-15-nonlinear-regression.html">Nonlinear Regression</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Automatic Differentiation and JaX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture-16-autograd.html">Automatic Differentiation and JaX</a></li>
 </ul>
 
     </div>
@@ -268,7 +269,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-16-autograd.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fautodrag_notebook.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -298,7 +299,7 @@
       
       
       
-      <li><a href="_sources/lecture-16-autograd.md" target="_blank"
+      <li><a href="_sources/autodrag_notebook.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -308,7 +309,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.md</span>
+<span class="btn__text-container">.ipynb</span>
 </a>
 </li>
       
@@ -374,7 +375,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Automatic Differentiation and JaX</h1>
+    <h1><no title></h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -383,18 +384,9 @@
                 <h2> Contents </h2>
             </div>
             <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jax">JaX</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradients-in-jax">Gradients in JaX</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices-for-gradients-in-jax">Best Practices for Gradients in JaX</a></li>
+                <ul class="simple visible nav section-nav flex-column">
 </ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#speeding-up-jax-with-jit-and-vmap">Speeding up JaX with JIT and vmap</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vmap">Vmap</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reading">Further Reading</a></li>
-</ul>
+
             </nav>
         </div>
     </div>
@@ -405,29 +397,26 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="automatic-differentiation-and-jax">
-<h1>Automatic Differentiation and JaX<a class="headerlink" href="#automatic-differentiation-and-jax" title="Link to this heading">#</a></h1>
-<p>Automatic differentiation is a computing technique that uses chain rule to evaluate the gradients of functions.  Without getting into the details, the idea behind autograd is to keep track of the operations that are performed on the variables, and then use this information to compute the gradients via chain rule.</p>
-<section id="jax">
-<h2>JaX<a class="headerlink" href="#jax" title="Link to this heading">#</a></h2>
-<p>JaX is a library that provides automatic differentiation and GPU/TPU support. It is designed to be used with NumPy-like arrays and functions.  In fact, part of JaX is a drop-in replacement for NumPy.  Instead of importing NumPy, you import jax.numpy.</p>
-<div class="cell docutils container">
+  <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
-
-<span class="n">a</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">])</span>
-
-<span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-21 10:07:48.398067: E external/xla/xla/stream_executor/cuda/cuda_platform.cc:51] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: CUDA_ERROR_UNKNOWN: unknown error
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-21 10:07:33.410816: E external/xla/xla/stream_executor/cuda/cuda_platform.cc:51] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: CUDA_ERROR_UNKNOWN: unknown error
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -457,12 +446,9 @@
 <span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
 
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
-<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">a</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">b</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">])</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">a</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">b</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">])</span>
 
 <span class="nn">File ~/mambaforge/envs/compmethods/lib/python3.11/site-packages/jax/_src/numpy/lax_numpy.py:5548,</span> in <span class="ni">array</span><span class="nt">(object, dtype, copy, order, ndmin, device)</span>
 <span class="g g-Whitespace">   </span><span class="mi">5546</span> <span class="k">else</span><span class="p">:</span>
@@ -528,195 +514,204 @@
 </div>
 </div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>JaX is not the only library that provides automatic differentiation.  As of writing, there are several other libraries that provide similar functionality: most notably pytorch, which is arguably used more than JaX.  However, since JaX mirrors numpy and we have already learned numpy, it is a good choice for us.</p>
-</div>
-</section>
-<section id="gradients-in-jax">
-<h2>Gradients in JaX<a class="headerlink" href="#gradients-in-jax" title="Link to this heading">#</a></h2>
-<p>However, JaX adds additional functionality to NumPy.  For example, JaX can automatically differentiate functions that are defined using JaX operations.  This is done using the <code class="docutils literal notranslate"><span class="pre">grad</span></code> function, which takes a function as input and returns a new function that computes the gradient of the input function.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">grad</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">5</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>  <span class="c1"># df is a function that computes the gradient of f</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># prints the gradient of f at x = 2.0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array(6., dtype=float32)
 </pre></div>
 </div>
 </div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">value_and_grad</span></code> function is a convenience function that computes both the value and the gradient of a function at a given point.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">value_and_grad</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">5</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
-<span class="n">value</span><span class="p">,</span> <span class="n">grad_value</span> <span class="o">=</span> <span class="n">value_and_grad</span><span class="p">(</span><span class="n">f</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># value is f(x), grad_value is df(x)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>  <span class="c1"># prints the value of f at x = 2.0</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">grad_value</span><span class="p">)</span>  <span class="c1"># prints the gradient of f at x = 2.0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1"># a_jx = jax.device_put(a)</span>
+<span class="n">a_jx</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">a_jx</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;jaxlib.xla_extension.ArrayImpl&#39;&gt;
 </pre></div>
 </div>
 </div>
 </div>
-<p>You can specify which variables to differentiate with respect to by using the <code class="docutils literal notranslate"><span class="pre">argnums</span></code> argument.  By default, <code class="docutils literal notranslate"><span class="pre">argnums</span></code> is set to 0, which means that the first argument of the function is differentiated.  You can set <code class="docutils literal notranslate"><span class="pre">argnums</span></code> to a tuple of integers to differentiate with respect to multiple arguments.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">grad</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">y</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
-<span class="n">df_dx</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">argnums</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># df_dx is a function that computes the gradient of f with respect to x</span>
-<span class="n">df_dy</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">argnums</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># df_dy is a function that computes the gradient of f with respect to y</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df_dx</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>  <span class="c1"># prints the gradient of f with respect to x at x = 2.0, y = 3.0</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df_dy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>  <span class="c1"># prints the gradient of f with respect to y at x = 2.0, y = 3.0</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>The <code class="docutils literal notranslate"><span class="pre">grad</span></code> function can also be used to compute higher-order derivatives.  For example, the second derivative of a function can be computed by taking the gradient of the gradient.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d2f</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>  <span class="c1"># d2f is a function that computes the second derivative of f</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">d2f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># prints the second derivative of f at x = 2.0</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>JaX also has functions that calculate more complicated derivatives, such as Jacobians and Hessians.  For intance, the Hessian of a function (second-derivative matrix) can be computed using the <code class="docutils literal notranslate"><span class="pre">hessian</span></code> function.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">hessian</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
-<span class="n">hess</span> <span class="o">=</span> <span class="n">hessian</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>  <span class="c1"># hess is a function that computes the Hessian of f</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">hess</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># prints the Hessian of f at x = [1.0, 2.0, 3.0]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>99.0
 </pre></div>
 </div>
 </div>
 </div>
-<p>For multivalued functions, JaX provides the <code class="docutils literal notranslate"><span class="pre">jacfwd</span></code> and <code class="docutils literal notranslate"><span class="pre">jacrev</span></code> functions to compute the Jacobian matrix.  The <code class="docutils literal notranslate"><span class="pre">jacfwd</span></code> function computes the Jacobian using forward-mode differentiation, while the <code class="docutils literal notranslate"><span class="pre">jacrev</span></code> function computes the Jacobian using reverse-mode differentiation.<br />
-The difference between these methods is somewhat beyond our scope.<br />
-However, that forward-mode differentiation is more efficient for functions with a small number of inputs and a large number of outputs, while reverse-mode differentiation is more efficient for functions with a large number of inputs and a small number of outputs.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">jacfwd</span><span class="p">,</span> <span class="n">jacrev</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grad_f</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">grad_f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
-<span class="n">jac</span> <span class="o">=</span> <span class="n">jacfwd</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>  <span class="c1"># jac is a function that computes the Jacobian of f using forward-mode differentiation</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">jac</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># prints the Jacobian of f at x = [1.0, 2.0]</span>
-<span class="n">jac</span> <span class="o">=</span> <span class="n">jacrev</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>  <span class="c1"># jac is a function that computes the Jacobian of f using reverse-mode differentiation</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">jac</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># prints the Jacobian of f at x = [1.0, 2.0]</span>
+<span class="n">hess_f</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">hessian</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[12. 27. 48.]
 </pre></div>
 </div>
 </div>
 </div>
-<section id="best-practices-for-gradients-in-jax">
-<h3>Best Practices for Gradients in JaX<a class="headerlink" href="#best-practices-for-gradients-in-jax" title="Link to this heading">#</a></h3>
-<ol class="arabic simple">
-<li><p>Use JaX operations instead of NumPy operations whenever possible.  While you can call NumPy operations on JaX arrays, this breaks the autograd functionality.</p></li>
-<li><p>Keep functions ``pure’’.  This means that the functions should not have side effects, such as modifying global variables or printing to the console.</p></li>
-</ol>
-</section>
-</section>
-<section id="speeding-up-jax-with-jit-and-vmap">
-<h2>Speeding up JaX with JIT and vmap<a class="headerlink" href="#speeding-up-jax-with-jit-and-vmap" title="Link to this heading">#</a></h2>
-<p>JaX also provides a Just-In-Time (JIT) compilation feature that can significantly speed up the execution of functions.  By default, python code is “interpreted”.  This means that the code is executed line by line.  JIT compilation, on the other hand, introspects the code and converts into a set of instructions that can be executed more efficiently.  (If you are familiar with C, C++, or Fortran, these languages compile everything.)  To use JIT compilation, you can use the <code class="docutils literal notranslate"><span class="pre">jit</span></code> function, which takes a function as input and returns a new function that is JIT-compiled.  The first time the JIT-compiled function is called, it will take longer to execute, but subsequent calls will be much faster.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">jit</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">5</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
-<span class="n">jit_f</span> <span class="o">=</span> <span class="n">jit</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>  <span class="c1"># jit_f is a JIT-compiled version of f</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">jit_f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># prints the value of f at x = 2.0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">f_vector_valued</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                       <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>JIT compilation is not always faster.  For small functions, the overhead of JIT compilation may outweigh the benefits.  However, for large functions or functions that are called many times, JIT compilation can provide a significant speedup.</p>
-</div>
-<p>If you want to define a function that is immediately JIT-compiled, you can use the <code class="docutils literal notranslate"><span class="pre">&#64;jit</span></code> decorator.  This is a convenient way to JIT-compile a function without having to call the <code class="docutils literal notranslate"><span class="pre">jit</span></code> function explicitly.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">jit</span>
-
-<span class="nd">@jit</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">5</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># prints the value of f at x = 2.0</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>When used correctly, JIT compilation can provide a significant speedup.  However, not every function can be JIT compiled.  Functions whose behavior is not well-defined or that have side effects cannot be JIT compiled.  This includes functions that use random number generation, functions that affect global variables, functions that initialize arrays of size that cannot be determined at compile time, and many other examples.<br />
-Much of the difficulties with JIT compilations are why JaX has a reputation of being very complicated.  However, if you are careful, you can use JIT compilation to speed up your code significantly.</p>
-<section id="vmap">
-<h3>Vmap<a class="headerlink" href="#vmap" title="Link to this heading">#</a></h3>
-<p>JaX also provides a <code class="docutils literal notranslate"><span class="pre">vmap</span></code> function that allows you to vectorize functions: take a function that operates on a single input and convert it into a function that operates on a batch of inputs.  When done correctly, vmap can help broadcast operations over multiple inputs without the need for slow <code class="docutils literal notranslate"><span class="pre">for</span></code> loops in python, or complicated numpy array indexing tricks.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">vmap</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">5</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jac_fwd_f</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacfwd</span><span class="p">(</span><span class="n">f_vector_valued</span><span class="p">)</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
-<span class="n">vmap_f</span> <span class="o">=</span> <span class="n">vmap</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>  <span class="c1"># vmap_f is a vectorized version of f</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">jac_fwd_f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">vmap_f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># prints the value of f at x = [1.0, 2.0, 3.0]</span>
+<span class="n">jac_rev_f</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">f_vector_valued</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">jac_rev_f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 2.  4.  1.]
+ [ 1.  1. -6.]]
+[[ 2.  4.  1.]
+ [ 1.  1. -6.]]
 </pre></div>
 </div>
 </div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>vmap is not the same as JIT compilation.  JIT compilation is used to speed up the execution of a single function, while vmap is used to vectorize a function so that it can operate on a batch of inputs.  However, you can use both JIT compilation and vmap together to get the best of both worlds.</p>
-</div>
-<p>To specify which arguments to vectorize over, you can use the <code class="docutils literal notranslate"><span class="pre">in_axes</span></code> argument.  By default, <code class="docutils literal notranslate"><span class="pre">in_axes</span></code> is set to 0, which means that the first argument of the function is vectorized.  You can set <code class="docutils literal notranslate"><span class="pre">in_axes</span></code> to a tuple of integers to vectorize over multiple arguments.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">vmap</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jac_rev_f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array([[ 2.,  4.,  1.],
+       [ 1.,  1., -6.]], dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sum_two_arrays</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">c</span><span class="o">**</span><span class="p">(</span><span class="mf">.5</span><span class="p">)</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">y</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
+<span class="n">grad_wrt_first</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jacrev</span><span class="p">(</span><span class="n">sum_two_arrays</span><span class="p">,</span> <span class="n">argnums</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">])</span>
-
-<span class="n">vmap_f</span> <span class="o">=</span> <span class="n">vmap</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">in_axes</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>  <span class="c1"># vmap_f is a vectorized version of f</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">vmap_f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>  <span class="c1"># prints the value of f at x = [1.0, 2.0, 3.0] and y = [4.0, 5.0, 6.0]</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">grad_wrt_first</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(Array([[1., 0., 0.],
+       [0., 1., 0.],
+       [0., 0., 1.]], dtype=float32), Array([[ 8.,  0.,  0.],
+       [ 0., 10.,  0.],
+       [ 0.,  0., 12.]], dtype=float32))
 </pre></div>
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="further-reading">
-<h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h2>
-<p>If you are interested in learning more about JaX, I recommend the official JaX documentation, which is available <a class="reference external" href="https://docs.jax.dev/en/latest/">here</a>.</p>
-</section>
-</section>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">jit</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">large_entries</span> <span class="o">=</span> <span class="n">x</span><span class="p">[(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">large_entries</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">f_jit</span> <span class="o">=</span><span class="n">jit</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_jit</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traced&lt;ShapedArray(float32[5])&gt;with&lt;DynamicJaxprTrace&gt;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/erik/mambaforge/envs/compmethods/lib/python3.11/site-packages/jax/_src/numpy/array_methods.py:122: UserWarning: Explicitly requested dtype int requested in astype is not available, and will be truncated to dtype int32. To enable more dtypes, set the jax_enable_x64 configuration option or the JAX_ENABLE_X64 shell environment variable. See https://github.com/jax-ml/jax#current-gotchas for more.
+  return lax_numpy.astype(self, dtype, copy=copy, device=device)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array([1., 1., 1., 1., 1.], dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_jit</span><span class="o">.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/erik/mambaforge/envs/compmethods/lib/python3.11/site-packages/jax/_src/numpy/array_methods.py:122: UserWarning: Explicitly requested dtype int requested in astype is not available, and will be truncated to dtype int32. To enable more dtypes, set the jax_enable_x64 configuration option or the JAX_ENABLE_X64 shell environment variable. See https://github.com/jax-ml/jax#current-gotchas for more.
+  return lax_numpy.astype(self, dtype, copy=copy, device=device)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;jax._src.stages.Traced at 0x71abc079c450&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">vmap</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">vmapped_f</span> <span class="o">=</span> <span class="n">vmap</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">in_axes</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">]])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vmapped_f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[30. 74.]
+</pre></div>
+</div>
+</div>
+</div>
 
     <script type="text/x-thebe-config">
     {
@@ -748,15 +743,6 @@ Much of the difficulties with JIT compilations are why JaX has a reputation of b
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="lecture-15-nonlinear-regression.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Nonlinear Regression</p>
-      </div>
-    </a>
 </div>
                 </footer>
               
@@ -773,18 +759,9 @@ Much of the difficulties with JIT compilations are why JaX has a reputation of b
     <i class="fa-solid fa-list"></i> Contents
   </div>
   <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jax">JaX</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradients-in-jax">Gradients in JaX</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices-for-gradients-in-jax">Best Practices for Gradients in JaX</a></li>
+    <ul class="simple visible nav section-nav flex-column">
 </ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#speeding-up-jax-with-jit-and-vmap">Speeding up JaX with JIT and vmap</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vmap">Vmap</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reading">Further Reading</a></li>
-</ul>
+
   </nav></div>
 
 </div></div>

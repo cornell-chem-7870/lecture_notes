@@ -194,7 +194,7 @@
 <li class="toctree-l1"><a class="reference internal" href="lecture-13-pde.html">From ODE to PDE</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-14-optimization.html">Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-15-nonlinear-regression.html">Nonlinear Regression</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-16-autograd.html">Automatic Differentiation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture-16-autograd.html">Automatic Differentiation and JaX</a></li>
 </ul>
 
     </div>
@@ -486,10 +486,10 @@ then our vectors and scalars form a <strong>vector space</strong>.</p></li>
 <ol class="arabic simple">
 <li><p><strong>Linearity in the first argument</strong>: <span class="math notranslate nohighlight">\((au+v) \cdot w = a(u \cdot w) + v \cdot w\)</span>.</p></li>
 <li><p><strong>Symmetry</strong>: <span class="math notranslate nohighlight">\(u \cdot v = \overline{v \cdot u}\)</span>.</p></li>
-<li><p><strong>Positive Definite</strong>: <span class="math notranslate nohighlight">\(u \cdot u \geq 0\)</span> and <span class="math notranslate nohighlight">\(u \cdot u = 0\)</span> if and only if <span class="math notranslate nohighlight">\(u = 0\)</span>.
-Equipped with these operations, we have formed an <strong>inner product space</strong>.
-(Note: you might have heard of the term “Hilbert Space” in your quantum mechanics classes.  A Hilbert space is an inner product space with a few more technical properties we won’t discuss here.)</p></li>
+<li><p><strong>Positive Definite</strong>: <span class="math notranslate nohighlight">\(u \cdot u \geq 0\)</span> and <span class="math notranslate nohighlight">\(u \cdot u = 0\)</span> if and only if <span class="math notranslate nohighlight">\(u = 0\)</span>.</p></li>
 </ol>
+<p>Equipped with these operations, we have formed an <strong>inner product space</strong>.
+(Note: you might have heard of the term “Hilbert Space” in your quantum mechanics classes.  A Hilbert space is an inner product space with a few more technical properties we won’t discuss here.)</p>
 <p>These somewhat abstract properties allow us to impose a consistent structure on a wide variety of objects.  For instance, we can define an inner product space of functions whose square-integral is finite.
 Our “vectors” add elementwise:
 <span class="math notranslate nohighlight">\( (f+g)(x) = f(x) + g(x) \)</span>.  Similarly, a function times a scalar is defined by multiplying the function by the scalar:
@@ -529,7 +529,7 @@ If <span class="math notranslate nohighlight">\(x \cdot y\)</span> is zero, we s
 <h2>Introduction to Matrices<a class="headerlink" href="#introduction-to-matrices" title="Link to this heading">#</a></h2>
 <p>We have a natural way of generalizing addition to vectors.  We now turn to a second question: how should we generalize multiplication?
 In fact, we have already introduced one possible generalization: the dot product, which “multiplies” two vectors to produce a scalar.
-This gives us an idea; if we have a vector with <span class="math notranslate nohighlight">\(M entries, we can perform \)</span>K<span class="math notranslate nohighlight">\( different dot products to get a new vector with \)</span>K$ entries.</p>
+This gives us an idea; if we have a vector with <span class="math notranslate nohighlight">\(M\)</span> entries, we can perform <span class="math notranslate nohighlight">\(K\)</span> different dot products to get a new vector with <span class="math notranslate nohighlight">\(K\)</span> entries.</p>
 <p>To help make this practical, we introduce a new notation.  We write the first vector in a dot product as a row of numbers (a “row vector”) and the second vector as a column of numbers (a “column vector”).</p>
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{bmatrix} 1 &amp; 2 &amp; 3 \end{bmatrix} \begin{bmatrix} 4 \\ 5 \\ 6 \end{bmatrix} = 1 \cdot 4 + 2 \cdot 5 + 3 \cdot 6 = 32 \end{split}\]</div>

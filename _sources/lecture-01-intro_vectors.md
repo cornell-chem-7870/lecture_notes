@@ -74,6 +74,7 @@ We then further introduce a **dot product** operation, which takes two vectors a
 1.  **Linearity in the first argument**: $(au+v) \cdot w = a(u \cdot w) + v \cdot w$.
 2.  **Symmetry**: $u \cdot v = \overline{v \cdot u}$.
 3.  **Positive Definite**: $u \cdot u \geq 0$ and $u \cdot u = 0$ if and only if $u = 0$.
+
 Equipped with these operations, we have formed an **inner product space**.
 (Note: you might have heard of the term "Hilbert Space" in your quantum mechanics classes.  A Hilbert space is an inner product space with a few more technical properties we won't discuss here.)
 
@@ -118,7 +119,7 @@ $$ \cos(\theta) = \psi_1 \cdot \psi_2 = \int \psi_1^* \psi_2 dx $$
 ## Introduction to Matrices
 We have a natural way of generalizing addition to vectors.  We now turn to a second question: how should we generalize multiplication?
 In fact, we have already introduced one possible generalization: the dot product, which "multiplies" two vectors to produce a scalar.
-This gives us an idea; if we have a vector with $M entries, we can perform $K$ different dot products to get a new vector with $K$ entries.
+This gives us an idea; if we have a vector with $M$ entries, we can perform $K$ different dot products to get a new vector with $K$ entries.
 
 To help make this practical, we introduce a new notation.  We write the first vector in a dot product as a row of numbers (a "row vector") and the second vector as a column of numbers (a "column vector").
 

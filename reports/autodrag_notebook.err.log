@@ -18,20 +18,13 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import numpy as np
-import jax.numpy as jnp
-
 a = jnp.array([1.0, 2.0, 3.0])
-b = jnp.array([4.0, 5.0, 6.0])
+b = jnp.array([4., 5., 6.])
 
-c = a + b
-print(c)
-print(c.shape)
-print(type(c))
 ------------------
 
 ----- stderr -----
-2026-01-21 10:07:48.398067: E external/xla/xla/stream_executor/cuda/cuda_platform.cc:51] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: CUDA_ERROR_UNKNOWN: unknown error
+2026-01-21 10:07:33.410816: E external/xla/xla/stream_executor/cuda/cuda_platform.cc:51] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: CUDA_ERROR_UNKNOWN: unknown error
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
@@ -61,12 +54,9 @@ File [0;32m~/mambaforge/envs/compmethods/lib/python3.11/site-packages/jaxlib/xl
 During handling of the above exception, another exception occurred:
 
 [0;31mRuntimeError[0m                              Traceback (most recent call last)
-Cell [0;32mIn[1], line 4[0m
-[1;32m      1[0m [38;5;28;01mimport[39;00m[38;5;250m [39m[38;5;21;01mnumpy[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[38;5;21;01mnp[39;00m
-[1;32m      2[0m [38;5;28;01mimport[39;00m[38;5;250m [39m[38;5;21;01mjax[39;00m[38;5;21;01m.[39;00m[38;5;21;01mnumpy[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[38;5;21;01mjnp[39;00m
-[0;32m----> 4[0m a [38;5;241m=[39m [43mjnp[49m[38;5;241;43m.[39;49m[43marray[49m[43m([49m[43m[[49m[38;5;241;43m1.0[39;49m[43m,[49m[43m [49m[38;5;241;43m2.0[39;49m[43m,[49m[43m [49m[38;5;241;43m3.0[39;49m[43m][49m[43m)[49m
-[1;32m      5[0m b [38;5;241m=[39m jnp[38;5;241m.[39marray([[38;5;241m4.0[39m, [38;5;241m5.0[39m, [38;5;241m6.0[39m])
-[1;32m      7[0m c [38;5;241m=[39m a [38;5;241m+[39m b
+Cell [0;32mIn[2], line 1[0m
+[0;32m----> 1[0m a [38;5;241m=[39m [43mjnp[49m[38;5;241;43m.[39;49m[43marray[49m[43m([49m[43m[[49m[38;5;241;43m1.0[39;49m[43m,[49m[43m [49m[38;5;241;43m2.0[39;49m[43m,[49m[43m [49m[38;5;241;43m3.0[39;49m[43m][49m[43m)[49m
+[1;32m      2[0m b [38;5;241m=[39m jnp[38;5;241m.[39marray([[38;5;241m4.[39m, [38;5;241m5.[39m, [38;5;241m6.[39m])
 
 File [0;32m~/mambaforge/envs/compmethods/lib/python3.11/site-packages/jax/_src/numpy/lax_numpy.py:5548[0m, in [0;36marray[0;34m(object, dtype, copy, order, ndmin, device)[0m
 [1;32m   5546[0m [38;5;28;01melse[39;00m:

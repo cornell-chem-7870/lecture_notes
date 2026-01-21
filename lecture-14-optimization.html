@@ -194,7 +194,7 @@
 <li class="toctree-l1"><a class="reference internal" href="lecture-13-pde.html">From ODE to PDE</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture-15-nonlinear-regression.html">Nonlinear Regression</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-16-autograd.html">Automatic Differentiation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture-16-autograd.html">Automatic Differentiation and JaX</a></li>
 </ul>
 
     </div>
@@ -491,7 +491,7 @@ The idea is to use the second derivative to determine the curvature of the funct
 \[
 x_{t+1} = x_t - \alpha H_f(x_t)^{-1} \nabla f(x_t)
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(\nabla^2 f(x_t)\)</span> is the Hessian of the function at <span class="math notranslate nohighlight">\(x_t\)</span>.  The Hessian is a matrix that contains all of the second derivatives of the function.  For instance, for a function <span class="math notranslate nohighlight">\(f(x,y)\)</span>, the Hessian is given by:</p>
+<p>where <span class="math notranslate nohighlight">\(H_f(x_t) = \nabla^2 f(x_t)\)</span> is the Hessian of the function at <span class="math notranslate nohighlight">\(x_t\)</span>.  The Hessian is a matrix that contains all of the second derivatives of the function.  For instance, for a function <span class="math notranslate nohighlight">\(f(x,y)\)</span>, the Hessian is given by:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 H_f(x,y) = \begin{pmatrix}
