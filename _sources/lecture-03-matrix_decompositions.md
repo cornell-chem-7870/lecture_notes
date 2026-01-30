@@ -80,7 +80,7 @@ $$
 A = \begin{bmatrix} 0 & 1 \\ 0 & 0 \end{bmatrix}
 $$
 
-This matrix has only one eigenvalue, 0, with eigenvectors $\begin{bmatrix} 1 \\ 0 \end{bmatrix}$ and $\begin{bmatrix} 0 \\ 1 \end{bmatrix}$.
+This matrix has only one eigenvalue, 0, with a single eigenvector $\begin{bmatrix} 1 \\ 0 \end{bmatrix}$.
 
 ## Eigendecomposition
 
@@ -227,9 +227,8 @@ However, in many applications many of the singular values are small.  Consequent
 
 #### Principal Component Analysis
 
-This concept of ``low-rank approximation'' is also the basis of the Principal Component Analysis (PCA) algorithm, which is used to reduce the dimensionality of data.  
-Assume we have a data matrix of size $m \times n$: each row is a different data point, and each column is a different feature.
-In PCA, we first ``center'' each column (i.e., subtract the mean of each column from each element of the column), so that each column is zero-mean.
+This concept of 'low-rank approximation' is also the basis of the Principal Component Analysis (PCA) algorithm, which is used to reduce the dimensionality of data. Assume we have a data matrix of size $m \times n$: each row is a different data point, and each column is a different feature.
+In PCA, we first 'center' each column (i.e., subtract the mean of each column from each element of the column), so that each column is zero-mean.
 Then, we compute the SVD of the data matrix, and then keep only the largest singular values and their corresponding columns in $U$ and $V$.
 We can then interpret the columns of $V$ as the principal components of the data: the directions in which the data varies the most.
 The column of $U$ then tells us how much each data point varies in each of these directions.
