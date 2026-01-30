@@ -398,6 +398,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrices-as-linear-transformations">Matrices as Linear Transformations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-multiplication">Matrix Multiplication</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-matrix-operations">Basic Matrix Operations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-and-the-matrix-inversion">The Identity and the Matrix Inversion</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-examples-of-matrices-in-chemistry">Some Examples of Matrices in Chemistry</a><ul class="nav section-nav flex-column">
@@ -407,7 +408,6 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-linear-regression">Multivariate Linear Regression</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-and-the-matrix-inversion">The Identity and the Matrix Inversion</a></li>
 </ul>
             </nav>
         </div>
@@ -626,6 +626,26 @@ The trace operation satisfies the following properties:</p>
 </li>
 </ul>
 </section>
+<section id="the-identity-and-the-matrix-inversion">
+<h3>The Identity and the Matrix Inversion<a class="headerlink" href="#the-identity-and-the-matrix-inversion" title="Link to this heading">#</a></h3>
+<p>One of the most important matrices is the <strong>identity matrix</strong>, traditionally, denoted as <span class="math notranslate nohighlight">\(I\)</span>, which is a square matrix with ones on the diagonal and zeros elsewhere.  For instance, the 2-by-2 identity matrix is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{bmatrix} \end{split}\]</div>
+<p>The identity matrix has the property that multiplying any matrix (or vector) by the identity matrix gives the original matrix:
+Just as we can define the inverse of a number, we can (attempt to) define the inverse of a matrix.
+The inverse of a matrix <span class="math notranslate nohighlight">\(A\)</span> is a matrix <span class="math notranslate nohighlight">\(A^{-1}\)</span> such that <span class="math notranslate nohighlight">\(AA^{-1} = A^{-1}A = I\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left( \begin{bmatrix} 2 &amp; 3 &amp; 1 \\ 4 &amp; 5 &amp; 6 \\ 7 &amp; 8 &amp; 9 \end{bmatrix} \right)^{-1} = \begin{bmatrix} -1/3 &amp; -10 / 9 &amp; 13 / 9 \\ 2/3 &amp; 11 / 9 &amp; 8 / 9 \\ -1/3 &amp;  5 / 9 &amp; -2 / 9 \end{bmatrix} \end{split}\]</div>
+<p>Not all matrices have inverses: any matrix who sends a vector to zero does not have an inverse.
+To show this, let <span class="math notranslate nohighlight">\(v\)</span> be a nonzero vector such that <span class="math notranslate nohighlight">\(Av = 0\)</span>.  If an inverse existed, we would have <span class="math notranslate nohighlight">\(v = I v = A^{-1} A v = A^{-1} 0 = 0\)</span>, which is a contradiction.</p>
+<div class="tip admonition">
+<p class="admonition-title">Exercise</p>
+<p>Is the matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} A =  \begin{bmatrix} 1 &amp; 2 \\ 2 &amp; 4 \end{bmatrix} \end{split}\]</div>
+<p>invertible?  If so, find its inverse.  If not, find a vector <span class="math notranslate nohighlight">\(v\)</span> such that <span class="math notranslate nohighlight">\(Av = 0\)</span>.</p>
+</div>
+</section>
 </section>
 <section id="some-examples-of-matrices-in-chemistry">
 <h2>Some Examples of Matrices in Chemistry<a class="headerlink" href="#some-examples-of-matrices-in-chemistry" title="Link to this heading">#</a></h2>
@@ -691,26 +711,6 @@ X = \begin{bmatrix} x_{11} &amp; x_{12} &amp; \ldots &amp; x_{1k} \\ x_{21} &amp
 \end{split}\]</div>
 <p>In linear regression we then attempt to find a vector <span class="math notranslate nohighlight">\(\beta\)</span> such that <span class="math notranslate nohighlight">\(X \beta\)</span> is as close to <span class="math notranslate nohighlight">\(Y\)</span> as possible.</p>
 </section>
-</section>
-<section id="the-identity-and-the-matrix-inversion">
-<h2>The Identity and the Matrix Inversion<a class="headerlink" href="#the-identity-and-the-matrix-inversion" title="Link to this heading">#</a></h2>
-<p>One of the most important matrices is the <strong>identity matrix</strong>, traditionally, denoted as <span class="math notranslate nohighlight">\(I\)</span>, which is a square matrix with ones on the diagonal and zeros elsewhere.  For instance, the 2-by-2 identity matrix is</p>
-<div class="math notranslate nohighlight">
-\[\begin{split} \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{bmatrix} \end{split}\]</div>
-<p>The identity matrix has the property that multiplying any matrix (or vector) by the identity matrix gives the original matrix:
-Just as we can define the inverse of a number, we can (attempt to) define the inverse of a matrix.
-The inverse of a matrix <span class="math notranslate nohighlight">\(A\)</span> is a matrix <span class="math notranslate nohighlight">\(A^{-1}\)</span> such that <span class="math notranslate nohighlight">\(AA^{-1} = A^{-1}A = I\)</span>.</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\left( \begin{bmatrix} 2 &amp; 3 &amp; 1 \\ 4 &amp; 5 &amp; 6 \\ 7 &amp; 8 &amp; 9 \end{bmatrix} \right)^{-1} = \begin{bmatrix} -1/3 &amp; -10 / 9 &amp; 13 / 9 \\ 2/3 &amp; 11 / 9 &amp; 8 / 9 \\ -1/3 &amp;  5 / 9 &amp; -2 / 9 \end{bmatrix} \end{split}\]</div>
-<p>Not all matrices have inverses: any matrix who sends a vector to zero does not have an inverse.
-To show this, let <span class="math notranslate nohighlight">\(v\)</span> be a nonzero vector such that <span class="math notranslate nohighlight">\(Av = 0\)</span>.  If an inverse existed, we would have <span class="math notranslate nohighlight">\(v = I v = A^{-1} A v = A^{-1} 0 = 0\)</span>, which is a contradiction.</p>
-<div class="tip admonition">
-<p class="admonition-title">Exercise</p>
-<p>Is the matrix</p>
-<div class="math notranslate nohighlight">
-\[\begin{split} A =  \begin{bmatrix} 1 &amp; 2 \\ 2 &amp; 4 \end{bmatrix} \end{split}\]</div>
-<p>invertible?  If so, find its inverse.  If not, find a vector <span class="math notranslate nohighlight">\(v\)</span> such that <span class="math notranslate nohighlight">\(Av = 0\)</span>.</p>
-</div>
 </section>
 </section>
 
@@ -790,6 +790,7 @@ To show this, let <span class="math notranslate nohighlight">\(v\)</span> be a n
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrices-as-linear-transformations">Matrices as Linear Transformations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-multiplication">Matrix Multiplication</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-matrix-operations">Basic Matrix Operations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-and-the-matrix-inversion">The Identity and the Matrix Inversion</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-examples-of-matrices-in-chemistry">Some Examples of Matrices in Chemistry</a><ul class="nav section-nav flex-column">
@@ -799,7 +800,6 @@ To show this, let <span class="math notranslate nohighlight">\(v\)</span> be a n
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-linear-regression">Multivariate Linear Regression</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-identity-and-the-matrix-inversion">The Identity and the Matrix Inversion</a></li>
 </ul>
   </nav></div>
 
