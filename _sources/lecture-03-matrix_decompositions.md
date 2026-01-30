@@ -169,8 +169,8 @@ A matrix $U$ is unitary if its conjugate transpose is its inverse: $U^\dagger = 
 
 Unitary matrices have many nice properties.
 * They preserve the length of vectors: $\|Ux\| = \|x\|$.  
-s is because $\|Ux\|^2 = (Ux)^\dagger Ux = x^\dagger U^\dagger U x = x^\dagger x = \|x\|^2$.
-e generally, they preserve the inner product of vectors: $\langle Ux, Uy \rangle = \langle x, y \rangle$.
+This is because $\|Ux\|^2 = (Ux)^\dagger Ux = x^\dagger U^\dagger U x = x^\dagger x = \|x\|^2$.
+More generally, they preserve the inner product of vectors: $\langle Ux, Uy \rangle = \langle x, y \rangle$.
 * The columns of a unitary matrix are orthonormal.
 * The rows of a unitary matrix are orthonormal.
 * Geometrically, unitary matrices correspond to rotations and reflections: the geometric properties that preserve length.
@@ -194,7 +194,7 @@ $$
 F = \begin{bmatrix} -1 & 0 \\ 0 & 1 \end{bmatrix}
 $$
 
-Consequently, unitary matrices are not useful just useful in quantum mechanics:
+Consequently, unitary matrices are not just useful in quantum mechanics:
 they are useful any time we are interested in preserving length.
 For instance, the action of rotation and reflections on chemical systems are often encoded using unitary matrices.
 In addition to the rotation and reflection matrices above, Wigner-D matrices, which are used to describe the rotation of spherical harmonics, are unitary.
@@ -248,7 +248,7 @@ Consequently, the eigenvectors of the covariance matrix are the same as the colu
 Another application of the SVD is in solving least squares regression problems.
 
 Say we have a matrix $A$ and a vector $b$, and we want to find the vector $x$ that gets as close to solving the equation $Ax = b$ as possible.
-The least squares solution is the vector $x$ that minimizes $\|Ax - b\|^2$.  After some mathematics (we will not go into herFe), it can be shown that the least squares solution is $x = V \Sigma^{-1} U^\dagger b$, where $U$, $\Sigma$, and $V$ are the SVD of $A$.  Moreover, we can also control the number of singular values we use in the solution: by damping the singular values, we can make solutions that may have higher error but are less sensitive to noise. 
+The least squares solution is the vector $x$ that minimizes $\|Ax - b\|^2$.  After some mathematics (we will not go into here), it can be shown that the least squares solution is $x = V \Sigma^{-1} U^\dagger b$, where $U$, $\Sigma$, and $V$ are the SVD of $A$.  Moreover, we can also control the number of singular values we use in the solution: by damping the singular values, we can make solutions that may have higher error but are less sensitive to noise. 
 
 
 #### Orthogonalizing Vectors
