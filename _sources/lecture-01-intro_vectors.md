@@ -180,7 +180,7 @@ $$ \begin{bmatrix} w & x \\ y & z \\ u & v \end{bmatrix} \begin{bmatrix} a & b \
 
 However, we could not multiply a 2-by-3 matrix by a 2-by-2 matrix.
 
-$$ \begin{bmatrix} a & b \\ c & d \\ e & f \end{bmatrix} \begin{bmatrix} w & x \\ y & z \end{bmatrix} = \text{ERROR!} $$
+$$ \begin{bmatrix} a & b & c \\ d & e & f \end{bmatrix} \begin{bmatrix} w & x \\ y & z \end{bmatrix} = \text{ERROR!} $$
 
 Note that matrix multiplication has some key differences from scalar multiplication.
 1.  Matrix multiplication *is* associative: $(AB)C = A(BC)$.
@@ -192,7 +192,9 @@ Note that matrix multiplication has some key differences from scalar multiplicat
 ### Basic Matrix Operations
 Matrices inherent many of the properties of vectors:
 1. **Addition**: We can add two matrices of the same size together by adding their corresponding entries.  For example,
+
 $$ \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} + \begin{bmatrix} 5 & 6 \\ 7 & 8 \end{bmatrix} = \begin{bmatrix} 1+5 & 2+6 \\ 3+7 & 4+8 \end{bmatrix} = \begin{bmatrix} 6 & 8 \\ 10 & 12 \end{bmatrix} $$
+
 2. **Scalar Multiplication**: We can multiply a matrix by a single number by multiplying each entry by that number.  For example,
 $$ 2 \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} = \begin{bmatrix} 2 \cdot 1 & 2 \cdot 2 \\ 2 \cdot 3 & 2 \cdot 4 \end{bmatrix} = \begin{bmatrix} 2 & 4 \\ 6 & 8 \end{bmatrix} $$
 In fact, we can consider matrices _themselves_ as vectors: we can add them and multiply by them scalars.  There are also multiple possible ways to define a "dot product" between two matrices. One simple way is to stack the entries into a bigger vector and take the dot product of the resulting vectors: this is known as the **Frobenius inner product**.

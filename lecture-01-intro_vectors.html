@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -579,7 +579,7 @@ For instance, if we have a 2-by-3 matrix and a 3-by-2 matrix, we can multiply th
 \[\begin{split} \begin{bmatrix} w &amp; x \\ y &amp; z \\ u &amp; v \end{bmatrix} \begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix} = \begin{bmatrix} wa + xb &amp; wb + xd \\ ya + zc &amp; yb + zd \\ ua + vb &amp; ub + vd \end{bmatrix} \end{split}\]</div>
 <p>However, we could not multiply a 2-by-3 matrix by a 2-by-2 matrix.</p>
 <div class="math notranslate nohighlight">
-\[\begin{split} \begin{bmatrix} a &amp; b \\ c &amp; d \\ e &amp; f \end{bmatrix} \begin{bmatrix} w &amp; x \\ y &amp; z \end{bmatrix} = \text{ERROR!} \end{split}\]</div>
+\[\begin{split} \begin{bmatrix} a &amp; b &amp; c \\ d &amp; e &amp; f \end{bmatrix} \begin{bmatrix} w &amp; x \\ y &amp; z \end{bmatrix} = \text{ERROR!} \end{split}\]</div>
 <p>Note that matrix multiplication has some key differences from scalar multiplication.</p>
 <ol class="arabic simple">
 <li><p>Matrix multiplication <em>is</em> associative: <span class="math notranslate nohighlight">\((AB)C = A(BC)\)</span>.</p></li>
@@ -591,8 +591,11 @@ For instance, if we have a 2-by-3 matrix and a 3-by-2 matrix, we can multiply th
 <h3>Basic Matrix Operations<a class="headerlink" href="#basic-matrix-operations" title="Link to this heading">#</a></h3>
 <p>Matrices inherent many of the properties of vectors:</p>
 <ol class="arabic simple">
-<li><p><strong>Addition</strong>: We can add two matrices of the same size together by adding their corresponding entries.  For example,
-$<span class="math notranslate nohighlight">\( \begin{bmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{bmatrix} + \begin{bmatrix} 5 &amp; 6 \\ 7 &amp; 8 \end{bmatrix} = \begin{bmatrix} 1+5 &amp; 2+6 \\ 3+7 &amp; 4+8 \end{bmatrix} = \begin{bmatrix} 6 &amp; 8 \\ 10 &amp; 12 \end{bmatrix} \)</span>$</p></li>
+<li><p><strong>Addition</strong>: We can add two matrices of the same size together by adding their corresponding entries.  For example,</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{bmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{bmatrix} + \begin{bmatrix} 5 &amp; 6 \\ 7 &amp; 8 \end{bmatrix} = \begin{bmatrix} 1+5 &amp; 2+6 \\ 3+7 &amp; 4+8 \end{bmatrix} = \begin{bmatrix} 6 &amp; 8 \\ 10 &amp; 12 \end{bmatrix} \end{split}\]</div>
+<ol class="arabic simple" start="2">
 <li><p><strong>Scalar Multiplication</strong>: We can multiply a matrix by a single number by multiplying each entry by that number.  For example,
 $<span class="math notranslate nohighlight">\( 2 \begin{bmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{bmatrix} = \begin{bmatrix} 2 \cdot 1 &amp; 2 \cdot 2 \\ 2 \cdot 3 &amp; 2 \cdot 4 \end{bmatrix} = \begin{bmatrix} 2 &amp; 4 \\ 6 &amp; 8 \end{bmatrix} \)</span>$
 In fact, we can consider matrices <em>themselves</em> as vectors: we can add them and multiply by them scalars.  There are also multiple possible ways to define a “dot product” between two matrices. One simple way is to stack the entries into a bigger vector and take the dot product of the resulting vectors: this is known as the <strong>Frobenius inner product</strong>.</p></li>
