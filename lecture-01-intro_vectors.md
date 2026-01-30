@@ -219,6 +219,28 @@ However, there are also some additional operations we might apply on matrices th
   2.  $\text{tr}(cA) = c \text{tr}(A)$.
   3.  $\text{tr}(AB) = \text{tr}(BA)$.
 
+### The Identity and the Matrix Inversion
+One of the most important matrices is the **identity matrix**, traditionally, denoted as $I$, which is a square matrix with ones on the diagonal and zeros elsewhere.  For instance, the 2-by-2 identity matrix is
+
+$$ \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} $$
+
+The identity matrix has the property that multiplying any matrix (or vector) by the identity matrix gives the original matrix: 
+Just as we can define the inverse of a number, we can (attempt to) define the inverse of a matrix. 
+The inverse of a matrix $A$ is a matrix $A^{-1}$ such that $AA^{-1} = A^{-1}A = I$.
+
+$$\left( \begin{bmatrix} 2 & 3 & 1 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{bmatrix} \right)^{-1} = \begin{bmatrix} -1/3 & -10 / 9 & 13 / 9 \\ 2/3 & 11 / 9 & 8 / 9 \\ -1/3 &  5 / 9 & -2 / 9 \end{bmatrix} $$
+
+Not all matrices have inverses: any matrix who sends a vector to zero does not have an inverse.
+To show this, let $v$ be a nonzero vector such that $Av = 0$.  If an inverse existed, we would have $v = I v = A^{-1} A v = A^{-1} 0 = 0$, which is a contradiction.
+
+```{admonition} Exercise
+:class: tip
+Is the matrix 
+
+$$ A =  \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix} $$
+
+invertible?  If so, find its inverse.  If not, find a vector $v$ such that $Av = 0$.
+```
 
 ## Some Examples of Matrices in Chemistry
 
@@ -295,25 +317,3 @@ In linear regression we then attempt to find a vector $\beta$ such that $X \beta
 
 
 
-## The Identity and the Matrix Inversion
-One of the most important matrices is the **identity matrix**, traditionally, denoted as $I$, which is a square matrix with ones on the diagonal and zeros elsewhere.  For instance, the 2-by-2 identity matrix is
-
-$$ \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} $$
-
-The identity matrix has the property that multiplying any matrix (or vector) by the identity matrix gives the original matrix: 
-Just as we can define the inverse of a number, we can (attempt to) define the inverse of a matrix. 
-The inverse of a matrix $A$ is a matrix $A^{-1}$ such that $AA^{-1} = A^{-1}A = I$.
-
-$$\left( \begin{bmatrix} 2 & 3 & 1 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{bmatrix} \right)^{-1} = \begin{bmatrix} -1/3 & -10 / 9 & 13 / 9 \\ 2/3 & 11 / 9 & 8 / 9 \\ -1/3 &  5 / 9 & -2 / 9 \end{bmatrix} $$
-
-Not all matrices have inverses: any matrix who sends a vector to zero does not have an inverse.
-To show this, let $v$ be a nonzero vector such that $Av = 0$.  If an inverse existed, we would have $v = I v = A^{-1} A v = A^{-1} 0 = 0$, which is a contradiction.
-
-```{admonition} Exercise
-:class: tip
-Is the matrix 
-
-$$ A =  \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix} $$
-
-invertible?  If so, find its inverse.  If not, find a vector $v$ such that $Av = 0$.
-```

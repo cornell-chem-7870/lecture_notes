@@ -105,7 +105,7 @@ $$
 x_{t+1} = x_t - \alpha H_f(x_t)^{-1} \nabla f(x_t)
 $$
 
-where $\nabla^2 f(x_t)$ is the Hessian of the function at $x_t$.  The Hessian is a matrix that contains all of the second derivatives of the function.  For instance, for a function $f(x,y)$, the Hessian is given by:
+where $H_f(x_t) = \nabla^2 f(x_t)$ is the Hessian of the function at $x_t$.  The Hessian is a matrix that contains all of the second derivatives of the function.  For instance, for a function $f(x,y)$, the Hessian is given by:
 
 $$
 H_f(x,y) = \begin{pmatrix}
