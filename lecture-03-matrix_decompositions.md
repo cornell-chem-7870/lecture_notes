@@ -99,10 +99,51 @@ $$
 
 which is clearly an impossibility.  Matrices that are not diagonalizable are called *defective*.  (This always seemed to me like a very mean thing to call a matrix.)
 
-One specific case of interest, however, is when a matrix is *Hermitian*: that is, when $A = A^\dagger$.
+### Application of Eigendecomposition: Exponential of a Matrix
+
+One application of Eigendecompositions is to compute the exponential of a matrix.
+Given a matrix $A$ whose eigendecomposition exists, we can write $A = V \Lambda V^{-1}$.
+Then, 
+
+$$
+e^A = I + A + \frac{A^2}{2!} + \frac{A^3}{3!} + \ldots
+$$
+
+Substituting in the eigendecomposition of $A$, we have
+
+$$
+e^A = V \left( I + \Lambda + \frac{\Lambda^2}{2!} + \frac{\Lambda^3}{3!} + \ldots \right) V^{-1}
+$$
+
+Since $\Lambda$ is diagonal, we can further write
+
+$$
+e^A = V \begin{bmatrix} e^{\lambda_1} & 0 & 0 & \ldots \\ 0 & e^{\lambda_2} & 0 & \ldots \\ 0 & 0 & e^{\lambda_3} & \ldots \\ \vdots & \vdots & \vdots & \ddots \end{bmatrix} V^{-1}
+$$
+
+This is a very useful result: it allows us to compute the exponential of a matrix by computing the exponential of its eigenvalues.
+For instance, consider a matrix of first-order rate constants in a chemical system:
+
+$$
+K = \begin{bmatrix} -k_{12} & k_{21} & 0 \\ k_{12} & -k_{21} - k_{23} & k_{32} \\ 0 & k_{23} & -k_{32} \end{bmatrix}
+$$
+
+If the concentration vector of the system at time $t$ is $c(t)$, then the time evolution of the system is given by the equation
+
+$$
+\frac{dc}{dt} = K c
+$$
+
+The solution to this equation is $c(t) = e^{Kt} c(0)$, where $c(0)$ is the initial concentration vector.  (To prove this, sustitute the definition of the matrix integral into the differential equation, differentiate by $t$, and simplify.)
+We can compute $e^{Kt}$ by computing the eigendecomposition of $K$, and then computing the exponential of the eigenvalues.
+
+
+### Hermitian Matrices  
+
+One specific case of interest, is when a matrix is *Hermitian*: that is, when $A = A^\dagger$.
 A famous theorem in linear algebra, the spectral theorem for Hermitian matrices,
 states that all Hermitian matrices are diagonalizable.
-Moreover,   it immediately follows that 
+Moreover,  it immediately follows that 
 eigenvalues are real, since
 
 $$
@@ -118,10 +159,7 @@ $$
 
 which implies that $v_i^\dagger v_j = 0$.
 
-These two observations form the basis for a lot of quantum mechanics:
-* Since the eigenvalues of a Hermitian matrix are real, the observed values of quantum mechanical observables are real.
-* Since the eigenvectors of a Hermitian matrix are orthogonal, we do not see transitions between different states in quantum mechanics
-when observing a system in a state in which we are in an eigenstate of the observable.
+
 
 This has an important consequence: we can write our eigenvectors in a matrix $V$, such that $V^\dagger V = I$:
 orthogonality implies that
@@ -137,30 +175,10 @@ $$
 A = V \Lambda V^\dagger
 $$
 
-### Application of Eigendecomposition: Exponential of a Matrix
-
-One application of Eigendecompositions is to compute the exponential of a matrix.
-Given a matrix $A$, we can write $A = V \Lambda V^\dagger$.
-Then, we can write
-
-$$
-e^A = I + A + \frac{A^2}{2!} + \frac{A^3}{3!} + \ldots
-$$
-
-Substituting in the eigendecomposition of $A$, we have
-
-$$
-e^A = V \left( I + \Lambda + \frac{\Lambda^2}{2!} + \frac{\Lambda^3}{3!} + \ldots \right) V^\dagger
-$$
-
-Since $\Lambda$ is diagonal, we can further write
-
-$$
-e^A = V \begin{bmatrix} e^{\lambda_1} & 0 & 0 & \ldots \\ 0 & e^{\lambda_2} & 0 & \ldots \\ 0 & 0 & e^{\lambda_3} & \ldots \\ \vdots & \vdots & \vdots & \ddots \end{bmatrix} V^\dagger
-$$
-
-This is a very useful result: it allows us to compute the exponential of a matrix by computing the exponential of its eigenvalues.
-
+The properties of Hermitian matrices form the basis for a lot of quantum mechanics:
+* Since the eigenvalues of a Hermitian matrix are real, the observed values of quantum mechanical observables are real.
+* Since the eigenvectors of a Hermitian matrix are orthogonal, we do not see transitions between different states in quantum mechanics
+when observing a system in a state in which we are in an eigenstate of the observable.
 
 ## Unitary Matrices
 
@@ -174,7 +192,7 @@ e generally, they preserve the inner product of vectors: $\langle Ux, Uy \rangle
 * The columns of a unitary matrix are orthonormal.
 * The rows of a unitary matrix are orthonormal.
 * Geometrically, unitary matrices correspond to rotations and reflections: the geometric properties that preserve length.
-* The eigenvalues of a unitary matrix have absolute value 1.  (If you are not familiar with eigenvalues, keep on reading!)
+* The eigenvalues of a unitary matrix have absolute value 1. 
 
 
 
