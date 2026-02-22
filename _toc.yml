@@ -10,20 +10,20 @@ parts:
     - file: lecture-02-coding_matrices_in_python.md
     - file: lecture-03-matrix_decompositions.md
     - file: lecture-04-linear_regression.md
-  - caption: Part 2. Probability
+  - caption: Part 2. Optimization and Numerical Differential Equations
     chapters:
-    - file: lecture-05-probability.md
-    - file: lecture-05a-random-in-numpy.md
-    - file: lecture-06-bayes-rule.md
-    - file: lecture-07-bayesian-inference.md
-    - file: lecture-08-monte-carlo.md
-    - file: lecture-09-mcmc.md
-    - file: lecture-10-metropolis-hastings.md
-  - caption: Part 3. Numerical Differential Equations
+    - file: optim-01-intro-optimization.md
+    - file: optim-02-nonlinear-regression.md
+    - file: optim-03-autograd.md
+    - file: diffeq-01-ode-intro.md
+    - file: diffeq-02-symplectic-integrators.md
+    - file: diffeq-03-pde.md
+  - caption: Part 3. Probability
     chapters:
-    - file: lecture-11-ode-intro.md
-    - file: lecture-12-symplectic-integrators.md
-    - file: lecture-13-pde.md
-    - file: lecture-14-optimization.md
-    - file: lecture-15-nonlinear-regression.md
-    - file: lecture-16-autograd.md
+    - file: prob-01-probability.md
+    - file: prob-02-random-in-numpy.md
+    - file: prob-03-bayes-rule.md
+    - file: prob-04-bayesian-inference.md
+    - file: prob-05-monte-carlo.md
+    - file: prob-06-mcmc.md
+    - file: prob-07-metropolis-hastings.md
