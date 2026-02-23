@@ -20,22 +20,61 @@ kernelspec:
 
 ## An Intro to Optimization
 
-So far we have had many equations where we needed to minimize a quantity.  When we were solving least squares problems, we attempted to find the vector $m$ that minimized the quantity $||Ax - b||^2$.  
-When we were attempting to solve ODEs and PDEs, we needed to solve implicit updates such as backward Euler, which required finding $x_{t+ \Delta t}$ that minimized the difference between $f(x_{t+\Delta t})$  and 
-$x_t + \Delta t g(x_{t+\Delta t}) $.  In all of these cases so far, we have told you "just call this numpy / scipy method" to solve the problem.
-However, for many applications you might want to write your own optimizer, or at least to debug the optimizer you are using.  Consequently, in this section we will drill down on optimizers and how they work.
+So far, we have discussed minimization problems that could be solved using matrix operations.
+When we were solving least squares problems, we attempted to find the vector $w$ that minimized the quantity $\|Xw - Y\|_2^2$.
+We then chose to regularize this using Tikhonov regularization (also known as ridge regression), which involves minimizing the quantity
+$\|Xw - Y\|_2^2 + \alpha \| w \|_2^2$,
+and showed that this can be calculated using the SVD.
 
-Say you have a function $f(x)$ that you want to minimize.  The basic recipe for most optimization algorithms are as follows:
-1. Move in a direction that you (hope) decreases the value of the function.
+However, this is not the only way we could regularize this problem.
+Another approach is to minimize
+
+$$
+\|Xw - Y\|_2^2 + \alpha \| w \|_1
+$$
+
+where $\| w \|_1 = \sum_i |w_i|$ is the $\ell_1$ norm of $w$, defined as
+
+$$
+\| w \|_1 = \sum_i |w_i|
+$$
+
+This is known as the Lasso problem.  Comparing with the Tikhonov, regularizing with the $\ell_1$ norm has the advantage of producing sparse solutions (i.e., many of the components of $w$ are zero).
+For instance, let's consider a case where $Xw = Y$ takes the following form
+
+$$
+\begin{bmatrix}2 & 1 \\
+1 & 0.5\end{bmatrix} w = \begin{bmatrix}2 \\ 1\end{bmatrix}
+$$
+
+This has infinitely many solutions for $w$, given by $w = (t, 2-2 t)$ for any $t \in \mathbb{R}$.  
+If we regularize with the $\ell_2$ norm, the Tikhonov regularization term is given by $\alpha ( t^2 + (2- 2t)^2)$, which is minimized at $t = \frac{4}{5}$.  This gives us a unique solution of $w = (\frac{4}{5}, \frac{2}{5})$.
+In contrast, if we regularize with the $\ell_1$ norm, the regularization term is given by $\alpha (|t| + |2-2t|)$.  This is minimized at $t=1$, which gives us a unique solution of $w = (1, 0)$.
+More generally, the $\ell_1$ norm is commonly used to promote sparsity in solutions: often a desirable property for interpretability and computational efficiency.  In contrast, the $\ell_2$ norm is commonly used to promote smoothness in solutions since it uses all of the components; often a desirable property for generalization and stability.
+
+However, the Lasso problem cannot be solved using matrix operations.  
+This is an example of a more general problem: we often have a function $f(\theta)$ that we want to minimize, but we cannot solve for the minimum analytically.
+Instead, we apply a numerical optimization algorithm to find an approximate solution.  
+<!-- Say you have a function $f(\theta)$ that you want to minimize.   -->
+The basic recipe for most optimization algorithms are as follows:
+1. Move $\theta$ in a direction that you (hope) decreases the value of the function.
 2. Do it again.
 
-### Gradient Based Optimization
+<!-- Put python code visualizing the difference between the solutions -->
+
+
+
+
+<!-- $x_t + \Delta t g(x_{t+\Delta t}) $.  In all of these cases so far, we have told you "just call this numpy / scipy method" to solve the problem. -->
+<!-- However, for many applications you might want to write your own optimizer, or at least to debug the optimizer you are using.  Consequently, in this section we will drill down on optimizers and how they work. -->
+
+
+## Gradient Descent
 
 To get this very subtle and complicated algorithm to work, it helps to have a notion of what directions decrease the function.  For this reason, we focus on *gradient-based optimization* algorithms: algorithms that use the gradient of the function to determine the direction to move in.
 Nowadays, it is reasonably easy to access the gradient of functions using automatic differentiation: in the mid-to-late 2010's, there was incredible work put into developing software that can automatically compute the gradient of a function using a procedure known as *automatic differentiation*: examples include PyTorch, Jax, and Autograd.
 In brief, these software packages keep track of a sequence of operations and use the chain rule to compute the gradient of the resulting function.
 
-## Gradient Descent
 
 The most basic gradient-based optimization algorithm is *gradient descent*.  The idea is to take a step in the direction of the negative gradient of the function.  This is because the gradient points in the direction of steepest ascent, so moving in the opposite direction should decrease the function value.  The update rule for gradient descent is given by:
 

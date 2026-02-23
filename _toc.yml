@@ -6,14 +6,14 @@ root: intro
 parts: 
   - caption: Part 1. Linear Algebra
     chapters:
-    - file: lecture-01-intro_vectors.md
-    - file: lecture-02-coding_matrices_in_python.md
-    - file: lecture-03-matrix_decompositions.md
-    - file: lecture-04-linear_regression.md
+    - file: linalg-01-intro_vectors.md
+    - file: linalg-02-coding_matrices_in_python.md
+    - file: linalg-03-matrix_decompositions.md
+    - file: linalg-04-linear_regression.md
   - caption: Part 2. Optimization and Numerical Differential Equations
     chapters:
     - file: optim-01-intro-optimization.md
-    - file: optim-02-nonlinear-regression.md
+    - file: optim-02-nonlinear-optimization.md
     - file: optim-03-autograd.md
     - file: diffeq-01-ode-intro.md
     - file: diffeq-02-symplectic-integrators.md
