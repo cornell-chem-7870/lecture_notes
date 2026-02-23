@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Nonlinear Regression &#8212; My sample book</title>
+    <title>Nonlinear Regression &#8212; Lecture Notes for Cornell Chem 7870</title>
   
   
   
@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -62,11 +62,11 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-15-nonlinear-regression';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'optim-02-nonlinear-optimization';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Automatic Differentiation and JaX" href="lecture-16-autograd.html" />
-    <link rel="prev" title="Optimization" href="lecture-14-optimization.html" />
+    <link rel="next" title="Automatic Differentiation and JaX" href="optim-03-autograd.html" />
+    <link rel="prev" title="Optimization" href="optim-01-intro-optimization.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -148,8 +148,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="Lecture Notes for Cornell Chem 7870 - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Lecture Notes for Cornell Chem 7870 - Home"/>
   
   
 </a></div>
@@ -172,29 +172,29 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1. Linear Algebra</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="lecture-01-intro_vectors.html">A Deeper look at Vectors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-02-coding_matrices_in_python.html">Linear Algebra in Python with Numpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-03-matrix_decompositions.html">Eigenvectors, Unitary Matrices, and Matrix Decompositions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-04-linear_regression.html">Linear Regression and Least Squares</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-01-intro_vectors.html">A Deeper look at Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-02-coding_matrices_in_python.html">Linear Algebra in Python with Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-03-matrix_decompositions.html">Eigenvectors, Unitary Matrices, and Matrix Decompositions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-04-linear_regression.html">Linear Regression and Least Squares</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Probability</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="lecture-05-probability.html">Intro to Probability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-05a-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-06-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-07-bayesian-inference.html">Bayesian Inference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-08-monte-carlo.html">Monte Carlo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-09-mcmc.html">Markov Chain Monte Carlo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-10-metropolis-hastings.html">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3. Numerical Differential Equations</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Optimization and Numerical Differential Equations</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="lecture-11-ode-intro.html">Intro to Numerical Integration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-12-symplectic-integrators.html">More on Numerical ODEs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-13-pde.html">From ODE to PDE</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-14-optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-01-intro-optimization.html">Optimization</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Nonlinear Regression</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-16-autograd.html">Automatic Differentiation and JaX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-03-autograd.html">Automatic Differentiation and JaX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-01-ode-intro.html">Intro to Numerical Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-02-symplectic-integrators.html">More on Numerical ODEs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-03-pde.html">From ODE to PDE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3. Probability</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="prob-01-probability.html">Intro to Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-02-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-03-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-04-bayesian-inference.html">Bayesian Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-05-monte-carlo.html">Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-06-mcmc.html">Markov Chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-07-metropolis-hastings.html">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
 </ul>
 
     </div>
@@ -271,7 +271,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-15-nonlinear-regression.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Foptim-02-nonlinear-optimization.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -301,7 +301,7 @@
       
       
       
-      <li><a href="_sources/lecture-15-nonlinear-regression.md" target="_blank"
+      <li><a href="_sources/optim-02-nonlinear-optimization.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -456,26 +456,28 @@ Consequently, our prediction is set to</p>
 \[
  \frac{1}{1 + e^{-10}}  \approx 0.9999546
 \]</div>
-<p>For this point, our mean square error is then given by $<span class="math notranslate nohighlight">\((0.9999546 - 0)^2 \approx 0.9999092\)</span><span class="math notranslate nohighlight">\(.  To fix this, let's halve  our parameter, setting it to \)</span>\theta=5$.
+<p>For this point, our mean square error is then given by <span class="math notranslate nohighlight">\((0.9999546 - 0)^2 \approx 0.9999092\)</span>.
+To fix this, let’s halve  our parameter, setting it to <span class="math notranslate nohighlight">\(\theta=5\)</span>.
 Now, our prediction is given by</p>
 <div class="math notranslate nohighlight">
 \[
- \frac{1}{1 + e^{-5)}  \approx 0.9933071
+ \frac{1}{1 + e^{-5}}  \approx 0.9933071
 \]</div>
-<p>Our mean square error is now given by $<span class="math notranslate nohighlight">\((0.9933071 - 0)^2 \approx 0.9867\)</span>$.  Despite the fact the we have halved our parameter, our mean square error has barely decreased!</p>
+<p>Our mean square error is now <span class="math notranslate nohighlight">\((0.9933071 - 0)^2 \approx 0.9867\)</span>.  Despite the fact the we have halved our parameter, our mean square error has barely decreased!</p>
 <p>Consequently, it is common to use a different loss functional, called the <em>cross-entropy loss</em>.
 The cross-entropy loss is given by:</p>
 <div class="math notranslate nohighlight">
 \[
 L(f(x, \theta), y) = -y \log(f(x, \theta)) - (1-y) \log(1-f(x, \theta))
 \]</div>
-<p>Note that since <span class="math notranslate nohighlight">\(y\)</span> is either <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(1\)</span>, this is equivalent to:
-$<span class="math notranslate nohighlight">\(
+<p>Note that since <span class="math notranslate nohighlight">\(y\)</span> is either <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(1\)</span>, this is equivalent to:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 L(f(x, \theta), y) = \begin{cases}
     -\log(f(x, \theta)) &amp; \text{if } y = 1 \\
     -\log(1-f(x, \theta)) &amp; \text{if } y = 0
 \end{cases}
-\)</span>$</p>
+\end{split}\]</div>
 <p>This loss function has much better properties than the mean square error.  The gradients when we are far from the true solution are much larger.  Moreover, it is convex, which helps with higher-order optimization methods.</p>
 </section>
 <section id="extension-to-neural-networks">
@@ -624,7 +626,7 @@ L(f(x, \theta), y) = ||f(x, \theta) - y||^2 + ||\sum_i (\frac{\partial}{\partial
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="lecture-14-optimization.html"
+       href="optim-01-intro-optimization.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
@@ -633,7 +635,7 @@ L(f(x, \theta), y) = ||f(x, \theta) - y||^2 + ||\sum_i (\frac{\partial}{\partial
       </div>
     </a>
     <a class="right-next"
-       href="lecture-16-autograd.html"
+       href="optim-03-autograd.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>

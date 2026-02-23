@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Detailed Balance and the Metropolis-Hastings Algorithm &#8212; My sample book</title>
+    <title>Conditional Probability and Bayes Rule &#8212; Lecture Notes for Cornell Chem 7870</title>
   
   
   
@@ -62,11 +62,11 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'lecture-10-metropolis-hastings';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'prob-03-bayes-rule';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Intro to Numerical Integration" href="lecture-11-ode-intro.html" />
-    <link rel="prev" title="Markov Chain Monte Carlo" href="lecture-09-mcmc.html" />
+    <link rel="next" title="Bayesian Inference" href="prob-04-bayesian-inference.html" />
+    <link rel="prev" title="Using Random Numbers in Numpy" href="prob-02-random-in-numpy.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -148,8 +148,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="Lecture Notes for Cornell Chem 7870 - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Lecture Notes for Cornell Chem 7870 - Home"/>
   
   
 </a></div>
@@ -170,31 +170,22 @@
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1. Linear Algebra</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Optimization and Numerical Differential Equations</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="lecture-01-intro_vectors.html">A Deeper look at Vectors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-02-coding_matrices_in_python.html">Linear Algebra in Python with Numpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-03-matrix_decompositions.html">Eigenvectors, Unitary Matrices, and Matrix Decompositions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-04-linear_regression.html">Linear Regression and Least Squares</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-03-autograd.html">Automatic Differentiation and JaX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-01-ode-intro.html">Intro to Numerical Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-02-symplectic-integrators.html">More on Numerical ODEs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-03-pde.html">From ODE to PDE</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Probability</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3. Probability</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="lecture-05-probability.html">Intro to Probability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-05a-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-06-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-07-bayesian-inference.html">Bayesian Inference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-08-monte-carlo.html">Monte Carlo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-09-mcmc.html">Markov Chain Monte Carlo</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3. Numerical Differential Equations</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="lecture-11-ode-intro.html">Intro to Numerical Integration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-12-symplectic-integrators.html">More on Numerical ODEs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-13-pde.html">From ODE to PDE</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-14-optimization.html">Optimization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-15-nonlinear-regression.html">Nonlinear Regression</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lecture-16-autograd.html">Automatic Differentiation and JaX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-01-probability.html">Intro to Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-02-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Conditional Probability and Bayes Rule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-04-bayesian-inference.html">Bayesian Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-05-monte-carlo.html">Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-06-mcmc.html">Markov Chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-07-metropolis-hastings.html">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
 </ul>
 
     </div>
@@ -271,7 +262,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flecture-10-metropolis-hastings.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fprob-03-bayes-rule.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -301,7 +292,7 @@
       
       
       
-      <li><a href="_sources/lecture-10-metropolis-hastings.md" target="_blank"
+      <li><a href="_sources/prob-03-bayes-rule.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -377,7 +368,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Detailed Balance and the Metropolis-Hastings Algorithm</h1>
+    <h1>Conditional Probability and Bayes Rule</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -387,12 +378,15 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-balance">Detailed Balance</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gibbs-sampler-and-detailed-balance">The Gibbs Sampler and Detailed Balance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-probabilities">Conditional Probabilities:</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-metropolis-hastings-algorithm">The Metropolis-Hastings Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-rule">Bayes Rule</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-inference">Bayesian Inference</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references-on-bayes-rule">References on Bayes Rule:</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -404,74 +398,86 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="detailed-balance-and-the-metropolis-hastings-algorithm">
-<h1>Detailed Balance and the Metropolis-Hastings Algorithm<a class="headerlink" href="#detailed-balance-and-the-metropolis-hastings-algorithm" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="conditional-probability-and-bayes-rule">
+<h1>Conditional Probability and Bayes Rule<a class="headerlink" href="#conditional-probability-and-bayes-rule" title="Link to this heading">#</a></h1>
 <section id="learning-objectives">
 <h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Generalize Gibbs Sampling to the Metropolis-Hastings algorithm.</p></li>
-<li><p>Connect Detailed Balance to preserving the target distribution.</p></li>
+<li><p>Understand the Concept of Conditional Probability.</p></li>
+<li><p>Understand Bayes Rule, and how it is applied in inference.</p></li>
 </ul>
-</section>
-<section id="detailed-balance">
-<h2>Detailed Balance<a class="headerlink" href="#detailed-balance" title="Link to this heading">#</a></h2>
-<p>Last class, we considered the Gibbs sampler.  We said, without any particular justification, that the Gibbs sampler preserves the target distribution.  To show that this is true, we first observe that the Gibbs sampler obeys a property called “detailed balance”:</p>
+<section id="conditional-probabilities">
+<h3>Conditional Probabilities:<a class="headerlink" href="#conditional-probabilities" title="Link to this heading">#</a></h3>
+<p>Conditional probabilities are a way of quantifying the probability of an event given that  event has occurred.  The conditional probability of event <span class="math notranslate nohighlight">\(A\)</span> given event <span class="math notranslate nohighlight">\(B\)</span> is denoted <span class="math notranslate nohighlight">\(P(A|B)\)</span>.  This is the probability of <span class="math notranslate nohighlight">\(A\)</span> occurring, given that <span class="math notranslate nohighlight">\(B\)</span> has occurred.  For instance, the probability of rolling a two on a die, given that the number is even, is <span class="math notranslate nohighlight">\(P(\{2\}|\{2, 4, 6\}) = 1/3\)</span>.  The conditional probability of rolling a one on a die, given that the number is even, is <span class="math notranslate nohighlight">\(P(\{1\}|\{2, 4, 6\}) = 0\)</span>.</p>
+<p>The conditional probability is, in general, given by</p>
 <div class="math notranslate nohighlight">
 \[
-\pi(x) p(x' | x)  = \pi(x') p(x | x')
+P(A|B) = \frac{P(A \cap B)}{P(B)}.
 \]</div>
-<p>Any Markov chain that obeys detailed balance will have a stationary distribution that is equal to the target distribution,
-as</p>
-<div class="math notranslate nohighlight">
-\[
-\int \pi(x) p(x' | x) dx = \int \pi(x') p(x | x') dx = \pi(x')
-\]</div>
-<section id="the-gibbs-sampler-and-detailed-balance">
-<h3>The Gibbs Sampler and Detailed Balance<a class="headerlink" href="#the-gibbs-sampler-and-detailed-balance" title="Link to this heading">#</a></h3>
-<p>To see that the Gibbs sampler obeys detailed balance, we observe that the transition probability is given by</p>
-<div class="math notranslate nohighlight">
-\[
-p(y | x) = p(y_k| x_{i \neq k}) \prod_{i \neq k} \delta(y_i - x_i)
-\]</div>
-<p>where <span class="math notranslate nohighlight">\(x_k\)</span> is the <span class="math notranslate nohighlight">\(k\)</span>’th variable.  From the definition of detailed balance and of the conditional probability density, we have that</p>
-<div class="math notranslate nohighlight">
-\[
-\pi(x) p(y | x) = \pi(x)  \left( \frac{\pi(x_1, \ldots, y_k, \ldots x_M)}{\int  \pi(x_1, \ldots, z_k, \ldots x_M) } dz_k\right) \left(\prod_{i \neq k} \delta(y_i - x_i)\right)
-\]</div>
-<p>Using the properties of the delta function, this is equal to</p>
-<div class="math notranslate nohighlight">
-\[
-\pi(x) p(y | x) = \pi(y_1, \ldots, x_k, \ldots, y_M)  \left( \frac{\pi(y_1, \ldots, y_k, \ldots y_M)}{\int  \pi(y_1, \ldots, z_k, \ldots y_M) } dz_k\right) \left(\prod_{i \neq k} \delta(x_i - y_i)\right)
-\]</div>
-<p>which is in turn equal to <span class="math notranslate nohighlight">\(\pi(y) p(x | y)\)</span>, so the Gibbs sampler obeys detailed balance.</p>
-</section>
-</section>
-<section id="the-metropolis-hastings-algorithm">
-<h2>The Metropolis-Hastings Algorithm<a class="headerlink" href="#the-metropolis-hastings-algorithm" title="Link to this heading">#</a></h2>
-<p>The Metropolis-Hastings algorithm is a generalization of the Gibbs sampling algorithm.  In the Metropolis-Hastings algorithm, we propose a new state <span class="math notranslate nohighlight">\(x'\)</span> from a proposal distribution <span class="math notranslate nohighlight">\(q(x' | x)\)</span>, and then accept the new state with probability</p>
-<div class="math notranslate nohighlight">
-\[
-\alpha(x, x') = \min\left(1, \frac{\pi(x') q(x | x')}{\pi(x) q(x' | x)}\right)
-\]</div>
-<p>If we accept the new state, we set <span class="math notranslate nohighlight">\(x = x'\)</span>, otherwise we keep the old state.<br />
-(In many applications, people choose a symmetric proposal distribution, so that <span class="math notranslate nohighlight">\(q(x' | x) = q(x | x')\)</span>.  This makes evaluating this ratio easier.)
-The transition probability for Metropolis Hastings is given by</p>
-<div class="math notranslate nohighlight">
-\[
-p(x' | x) = q(x' | x) \alpha(x, x') + \delta(x' - x) (1 - \int q(x' | x) \alpha(x, x') dx')
-\]</div>
-<p>To show that the Metropolis-Hastings algorithm obeys detailed balance, we consider two cases.  If <span class="math notranslate nohighlight">\(x' = x\)</span>, then the equation is trivially satisfied.  If <span class="math notranslate nohighlight">\(x' \neq x\)</span>, then the delta function is zero, and we have</p>
+<p>where <span class="math notranslate nohighlight">\(P(A \cap B)\)</span> is the probability that both <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> occur, often called the “joint probability” of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>.</p>
+<p>One specific case is where we ask, “what is the probability mass function given that a condition is true”?  Effectively, we are asking for the probability of observing a specific value of a random variable given event.  This is known as the “conditional probability mass function.”  Applying the definition of conditional probability, we have</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-\begin{split}
-\pi(x) p(x' | x) =&amp; \pi(x) q(x' | x) \alpha(x, x') 
-    =  \min \left(\pi(x) q(x' | x), \pi(x') q(x | x')\right) \\
-     =&amp;
-     \pi(x') q(x | x') \alpha(x', x) = \pi(x') p(x | x')
-\end{split}
+p(x | A) = \begin{cases}
+\frac{p(x)}{\sum_{x' \in A} p(x)} &amp; \text{if } x \in A, \\
+0 &amp; \text{otherwise}.
+\end{cases}
 \end{split}\]</div>
-<p>Consequently, the Metropolis-Hastings algorithm obeys detailed balance.
-Note that if we set <span class="math notranslate nohighlight">\(q(x' | x)\)</span> to be the conditional distribution of the <span class="math notranslate nohighlight">\(i\)</span>’th variable given all the others, then the Metropolis-Hastings algorithm reduces to the Gibbs sampling algorithm.x</p>
+<p>Similarly, we can write a “conditional probability density function” as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+p(x | A) = \begin{cases}
+\frac{p(x)}{\int_A p(x) dx} &amp; \text{if } x \in A, \\
+0 &amp; \text{otherwise}.
+\end{cases}
+\end{split}\]</div>
+<p>Conditional expectations obey the ``law of total probability’’ which states that for any event <span class="math notranslate nohighlight">\(A\)</span> such that (a) the events <span class="math notranslate nohighlight">\(A_i\)</span> are mutually exclusive and (b) at least one of the <span class="math notranslate nohighlight">\(A_i\)</span> must occur, then</p>
+<div class="math notranslate nohighlight">
+\[
+E[X] = \sum_{i} E[X|A_i] P(A_i).
+\]</div>
+<p>or for a continuous random variable</p>
+<div class="math notranslate nohighlight">
+\[
+E[X] = \int E[X|A] p(A) dA.
+\]</div>
+</section>
+</section>
+<section id="bayes-rule">
+<h2>Bayes Rule<a class="headerlink" href="#bayes-rule" title="Link to this heading">#</a></h2>
+<p>The equations above  suggest a relationship between the conditional probabilities <span class="math notranslate nohighlight">\(P(A|B)\)</span> and <span class="math notranslate nohighlight">\(P(B|A)\)</span>.  Indeed, this relationship is given by <em>Bayes Rule</em>:</p>
+<div class="math notranslate nohighlight">
+\[
+P(A|B) = \frac{P(B|A)P(A)}{P(B)}.
+\]</div>
+<p>Bayes Rule is crucial tool for inference and decision making.  A classic example is in medical diagnosis.  Suppose a patient has a rare disease that affects 1 in 10,000 people.  A test for the disease is 99% accurate, meaning that the probability of a false positive is 1%.  If a patient tests positive for the disease, what is the probability that they actually have the disease?  Let <span class="math notranslate nohighlight">\(D\)</span> be the event that the patient has the disease, and <span class="math notranslate nohighlight">\(T\)</span> be the event that the patient tests positive.  We are asked to find <span class="math notranslate nohighlight">\(P(D|T)\)</span>.  We can use Bayes Rule to write this as</p>
+<div class="math notranslate nohighlight">
+\[
+P(D|T) = \frac{P(T|D)P(D)}{P(T)}.
+\]</div>
+<p>We know that <span class="math notranslate nohighlight">\(P(D) = 1/10000\)</span>, <span class="math notranslate nohighlight">\(P(T|D) = 0.99\)</span>, and <span class="math notranslate nohighlight">\(P(T|D^c) = 0.01\)</span>.  We can calculate <span class="math notranslate nohighlight">\(P(T)\)</span> using the law of total probability:</p>
+<div class="math notranslate nohighlight">
+\[
+P(T) = P(T|D)P(D) + P(T|D^c)P(D^c) = 0.99 \times 0.0001 + 0.01 \times 0.9999.
+\]</div>
+<p>Plugging in the values, we find that <span class="math notranslate nohighlight">\(P(D|T) \approx 0.0098\)</span>, meaning that the patient has less than a 1% chance of having the disease, even after testing positive.  This is because the disease is so rare: the vast majority of people we test do not have the disease, so even a very accurate test will produce many false positives.</p>
+<section id="bayesian-inference">
+<h3>Bayesian Inference<a class="headerlink" href="#bayesian-inference" title="Link to this heading">#</a></h3>
+<p>Bayesian inference is a method of statistical inference that uses Bayes Rule to update our beliefs about a hypothesis.  As discussed previously, in Bayesian statistics probability is a measure of our belief in which hypotheses are true.  Consequently, we begin by assigning a prior probability to each hypothesis, <span class="math notranslate nohighlight">\(P(H)\)</span>.   The prior encodes how strongly we believe a given hypothesis could be correct before we have seen any data.
+Then, we are given a set of data <span class="math notranslate nohighlight">\(D\)</span>, and we want to update our beliefs about the hypothesis.  In other words, we want to calculate the posterior probability of the hypothesis given the data, <span class="math notranslate nohighlight">\(P(H|D)\)</span>.  Bayes Rule tells us that</p>
+<div class="math notranslate nohighlight">
+\[
+P(H|D) = \frac{P(D|H)P(H)}{P(D)}.
+\]</div>
+<p>The term <span class="math notranslate nohighlight">\(P(D|H)\)</span> is called the <em>likelihood</em> of observing the data: it can be interpreted as the probability that, if a hypothetical experiment were to be performed where the hypothesis <span class="math notranslate nohighlight">\(H\)</span> is true, the data <span class="math notranslate nohighlight">\(D\)</span> would be observed.  The term <span class="math notranslate nohighlight">\(P(D)\)</span> is the evidence, or the probability of observing the data under any hypothesis.  Applying this formala then gives us a new probability distribution over the hypotheses, called the <em>posterior</em> probability.  We can use the posterior to make decisions or predictions.  For instance, we can see how much more we belief one hypothesis over another, by calculating the ratio of the posterior probabilities, called the <em>Bayes factor</em>.  We can also calculate the expected value of a hypothesis given the data, called the <em>posterior expectation</em>, or calculate other averages over the space of hypotheses.</p>
+</section>
+<section id="references-on-bayes-rule">
+<h3>References on Bayes Rule:<a class="headerlink" href="#references-on-bayes-rule" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>ThreeBlueOneBrown, of whom I am a huge fan, has a <a class="reference external" href="https://www.youtube.com/watch?v=HZGCoVF3YvM">great video</a> on Bayes Rule.</p></li>
+<li><p>Nature has an article on Bayesian statistics that is a little more involved, you can find it <a class="reference external" href="https://doi.org/10.1038/s43586-020-00001-2">here</a>.</p></li>
+</ul>
+</section>
 </section>
 </section>
 
@@ -506,20 +512,20 @@ Note that if we set <span class="math notranslate nohighlight">\(q(x' | x)\)</sp
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="lecture-09-mcmc.html"
+       href="prob-02-random-in-numpy.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Markov Chain Monte Carlo</p>
+        <p class="prev-next-title">Using Random Numbers in Numpy</p>
       </div>
     </a>
     <a class="right-next"
-       href="lecture-11-ode-intro.html"
+       href="prob-04-bayesian-inference.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Intro to Numerical Integration</p>
+        <p class="prev-next-title">Bayesian Inference</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -540,12 +546,15 @@ Note that if we set <span class="math notranslate nohighlight">\(q(x' | x)\)</sp
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-balance">Detailed Balance</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gibbs-sampler-and-detailed-balance">The Gibbs Sampler and Detailed Balance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-probabilities">Conditional Probabilities:</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-metropolis-hastings-algorithm">The Metropolis-Hastings Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-rule">Bayes Rule</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-inference">Bayesian Inference</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references-on-bayes-rule">References on Bayes Rule:</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

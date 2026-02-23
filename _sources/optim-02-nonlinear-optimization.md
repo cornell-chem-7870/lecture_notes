@@ -66,14 +66,15 @@ $$
  \frac{1}{1 + e^{-10}}  \approx 0.9999546
 $$
 
-For this point, our mean square error is then given by $$(0.9999546 - 0)^2 \approx 0.9999092$$.  To fix this, let's halve  our parameter, setting it to $\theta=5$.
+For this point, our mean square error is then given by $(0.9999546 - 0)^2 \approx 0.9999092$.
+ To fix this, let's halve  our parameter, setting it to $\theta=5$.
 Now, our prediction is given by
 
 $$
- \frac{1}{1 + e^{-5)}  \approx 0.9933071
+ \frac{1}{1 + e^{-5}}  \approx 0.9933071
 $$
 
-Our mean square error is now given by $$(0.9933071 - 0)^2 \approx 0.9867$$.  Despite the fact the we have halved our parameter, our mean square error has barely decreased!
+Our mean square error is now $(0.9933071 - 0)^2 \approx 0.9867$.  Despite the fact the we have halved our parameter, our mean square error has barely decreased!
 
 Consequently, it is common to use a different loss functional, called the *cross-entropy loss*.
 The cross-entropy loss is given by:
@@ -83,6 +84,7 @@ L(f(x, \theta), y) = -y \log(f(x, \theta)) - (1-y) \log(1-f(x, \theta))
 $$
 
 Note that since $y$ is either $0$ or $1$, this is equivalent to:
+
 $$
 L(f(x, \theta), y) = \begin{cases}
     -\log(f(x, \theta)) & \text{if } y = 1 \\
