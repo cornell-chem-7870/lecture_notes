@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Automatic Differentiation and JaX &#8212; Lecture Notes for Cornell Chem 7870</title>
+    <title>Working in JaX &#8212; Lecture Notes for Cornell Chem 7870</title>
   
   
   
@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -60,11 +60,11 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'optim-03-autograd';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'optim-03b-autograd-in-jax';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Intro to Numerical Integration" href="diffeq-01-ode-intro.html" />
-    <link rel="prev" title="Welcome to 7870" href="intro.html" />
+    <link rel="prev" title="Automatic Differentiation" href="optim-03a-autograd-in-pytorch.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -168,9 +168,25 @@
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Optimization and Numerical Differential Equations</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1. Linear Algebra</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="linalg-01-intro_vectors.html">A Deeper look at Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-02-coding_matrices_in_python.html">Linear Algebra in Python with Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-03-matrix_decompositions.html">Eigenvectors, Unitary Matrices, and Matrix Decompositions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-04-linear_regression.html">Linear Regression and Least Squares</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Optimization and Numerical Differential Equations</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Automatic Differentiation and JaX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-01-intro-optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-02-nonlinear-optimization.html">Nonlinear Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-03a-autograd-in-pytorch.html">Automatic Differentiation</a></li>
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Working in JaX</a></li>
+
+
+
 <li class="toctree-l1"><a class="reference internal" href="diffeq-01-ode-intro.html">Intro to Numerical Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffeq-02-symplectic-integrators.html">More on Numerical ODEs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffeq-03-pde.html">From ODE to PDE</a></li>
@@ -260,7 +276,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Foptim-03-autograd.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Foptim-03b-autograd-in-jax.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -290,7 +306,7 @@
       
       
       
-      <li><a href="_sources/optim-03-autograd.md" target="_blank"
+      <li><a href="_sources/optim-03b-autograd-in-jax.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -366,7 +382,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Automatic Differentiation and JaX</h1>
+    <h1>Working in JaX</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -376,17 +392,18 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jax">JaX</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradients-in-jax">Gradients in JaX</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices-for-gradients-in-jax">Best Practices for Gradients in JaX</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Working in JaX</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#gradients-in-jax">Gradients in JaX</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices-for-gradients-in-jax">Best Practices for Gradients in JaX</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#speeding-up-jax-with-jit-and-vmap">Speeding up JaX with JIT and vmap</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vmap">Vmap</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#speeding-up-jax-with-jit-and-vmap">Speeding up JaX with JIT and vmap</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vmap">Vmap</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reading">Further Reading</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reading">Further Reading</a></li>
 </ul>
+
             </nav>
         </div>
     </div>
@@ -397,11 +414,8 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="automatic-differentiation-and-jax">
-<h1>Automatic Differentiation and JaX<a class="headerlink" href="#automatic-differentiation-and-jax" title="Link to this heading">#</a></h1>
-<p>Automatic differentiation is a computing technique that uses chain rule to evaluate the gradients of functions.  Without getting into the details, the idea behind autograd is to keep track of the operations that are performed on the variables, and then use this information to compute the gradients via chain rule.</p>
-<section id="jax">
-<h2>JaX<a class="headerlink" href="#jax" title="Link to this heading">#</a></h2>
+  <section id="working-in-jax">
+<h1>Working in JaX<a class="headerlink" href="#working-in-jax" title="Link to this heading">#</a></h1>
 <p>JaX is a library that provides automatic differentiation and GPU/TPU support. It is designed to be used with NumPy-like arrays and functions.  In fact, part of JaX is a drop-in replacement for NumPy.  Instead of importing NumPy, you import jax.numpy.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -426,14 +440,10 @@
 </div>
 </div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>JaX is not the only library that provides automatic differentiation.  As of writing, there are several other libraries that provide similar functionality: most notably pytorch, which is arguably used more than JaX.  However, since JaX mirrors numpy and we have already learned numpy, it is a good choice for us.</p>
-</div>
 </section>
 <section id="gradients-in-jax">
-<h2>Gradients in JaX<a class="headerlink" href="#gradients-in-jax" title="Link to this heading">#</a></h2>
-<p>However, JaX adds additional functionality to NumPy.  For example, JaX can automatically differentiate functions that are defined using JaX operations.  This is done using the <code class="docutils literal notranslate"><span class="pre">grad</span></code> function, which takes a function as input and returns a new function that computes the gradient of the input function.</p>
+<h1>Gradients in JaX<a class="headerlink" href="#gradients-in-jax" title="Link to this heading">#</a></h1>
+<p>JaX adds additional functionality to NumPy.  For example, JaX can automatically differentiate functions that are defined using JaX operations.  This is done using the <code class="docutils literal notranslate"><span class="pre">grad</span></code> function, which takes a function as input and returns a new function that computes the gradient of the input function.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">grad</span>
@@ -565,7 +575,7 @@ However, that forward-mode differentiation is more efficient for functions with 
 </div>
 </div>
 <section id="best-practices-for-gradients-in-jax">
-<h3>Best Practices for Gradients in JaX<a class="headerlink" href="#best-practices-for-gradients-in-jax" title="Link to this heading">#</a></h3>
+<h2>Best Practices for Gradients in JaX<a class="headerlink" href="#best-practices-for-gradients-in-jax" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p>Use JaX operations instead of NumPy operations whenever possible.  While you can call NumPy operations on JaX arrays, this breaks the autograd functionality.</p></li>
 <li><p>Keep functions ``pure’’.  This means that the functions should not have side effects, such as modifying global variables or printing to the console.</p></li>
@@ -573,7 +583,7 @@ However, that forward-mode differentiation is more efficient for functions with 
 </section>
 </section>
 <section id="speeding-up-jax-with-jit-and-vmap">
-<h2>Speeding up JaX with JIT and vmap<a class="headerlink" href="#speeding-up-jax-with-jit-and-vmap" title="Link to this heading">#</a></h2>
+<h1>Speeding up JaX with JIT and vmap<a class="headerlink" href="#speeding-up-jax-with-jit-and-vmap" title="Link to this heading">#</a></h1>
 <p>JaX also provides a Just-In-Time (JIT) compilation feature that can significantly speed up the execution of functions.  By default, python code is “interpreted”.  This means that the code is executed line by line.  JIT compilation, on the other hand, introspects the code and converts into a set of instructions that can be executed more efficiently.  (If you are familiar with C, C++, or Fortran, these languages compile everything.)  To use JIT compilation, you can use the <code class="docutils literal notranslate"><span class="pre">jit</span></code> function, which takes a function as input and returns a new function that is JIT-compiled.  The first time the JIT-compiled function is called, it will take longer to execute, but subsequent calls will be much faster.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -611,7 +621,7 @@ However, that forward-mode differentiation is more efficient for functions with 
 <p>When used correctly, JIT compilation can provide a significant speedup.  However, not every function can be JIT compiled.  Functions whose behavior is not well-defined or that have side effects cannot be JIT compiled.  This includes functions that use random number generation, functions that affect global variables, functions that initialize arrays of size that cannot be determined at compile time, and many other examples.<br />
 Much of the difficulties with JIT compilations are why JaX has a reputation of being very complicated.  However, if you are careful, you can use JIT compilation to speed up your code significantly.</p>
 <section id="vmap">
-<h3>Vmap<a class="headerlink" href="#vmap" title="Link to this heading">#</a></h3>
+<h2>Vmap<a class="headerlink" href="#vmap" title="Link to this heading">#</a></h2>
 <p>JaX also provides a <code class="docutils literal notranslate"><span class="pre">vmap</span></code> function that allows you to vectorize functions: take a function that operates on a single input and convert it into a function that operates on a batch of inputs.  When done correctly, vmap can help broadcast operations over multiple inputs without the need for slow <code class="docutils literal notranslate"><span class="pre">for</span></code> loops in python, or complicated numpy array indexing tricks.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -652,9 +662,8 @@ Much of the difficulties with JIT compilations are why JaX has a reputation of b
 </section>
 </section>
 <section id="further-reading">
-<h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h2>
+<h1>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h1>
 <p>If you are interested in learning more about JaX, I recommend the official JaX documentation, which is available <a class="reference external" href="https://docs.jax.dev/en/latest/">here</a>.</p>
-</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -688,12 +697,12 @@ Much of the difficulties with JIT compilations are why JaX has a reputation of b
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="intro.html"
+       href="optim-03a-autograd-in-pytorch.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Welcome to 7870</p>
+        <p class="prev-next-title">Automatic Differentiation</p>
       </div>
     </a>
     <a class="right-next"
@@ -722,17 +731,18 @@ Much of the difficulties with JIT compilations are why JaX has a reputation of b
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jax">JaX</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradients-in-jax">Gradients in JaX</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices-for-gradients-in-jax">Best Practices for Gradients in JaX</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Working in JaX</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#gradients-in-jax">Gradients in JaX</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices-for-gradients-in-jax">Best Practices for Gradients in JaX</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#speeding-up-jax-with-jit-and-vmap">Speeding up JaX with JIT and vmap</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vmap">Vmap</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#speeding-up-jax-with-jit-and-vmap">Speeding up JaX with JIT and vmap</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vmap">Vmap</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reading">Further Reading</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#further-reading">Further Reading</a></li>
 </ul>
+
   </nav></div>
 
 </div></div>

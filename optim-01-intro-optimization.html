@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -181,7 +181,11 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optim-02-nonlinear-optimization.html">Nonlinear Regression</a></li>
-<li class="toctree-l1"><a class="reference internal" href="optim-03-autograd.html">Automatic Differentiation and JaX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-03a-autograd-in-pytorch.html">Automatic Differentiation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-03b-autograd-in-jax.html">JaX</a></li>
+
+
+
 <li class="toctree-l1"><a class="reference internal" href="diffeq-01-ode-intro.html">Intro to Numerical Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffeq-02-symplectic-integrators.html">More on Numerical ODEs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffeq-03-pde.html">From ODE to PDE</a></li>
@@ -388,10 +392,7 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-intro-to-optimization">An Intro to Optimization</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-based-optimization">Gradient Based Optimization</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-intro-to-optimization">An Intro to Optimization</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">Gradient Descent</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#newton-s-method">Newton’s Method</a></li>
 </ul>
@@ -455,15 +456,12 @@ Instead, we apply a numerical optimization algorithm to find an approximate solu
 <!-- Put python code visualizing the difference between the solutions -->
 <!-- $x_t + \Delta t g(x_{t+\Delta t}) $.  In all of these cases so far, we have told you "just call this numpy / scipy method" to solve the problem. -->
 <!-- However, for many applications you might want to write your own optimizer, or at least to debug the optimizer you are using.  Consequently, in this section we will drill down on optimizers and how they work. -->
-<section id="gradient-based-optimization">
-<h3>Gradient Based Optimization<a class="headerlink" href="#gradient-based-optimization" title="Link to this heading">#</a></h3>
-<p>To get this very subtle and complicated algorithm to work, it helps to have a notion of what directions decrease the function.  For this reason, we focus on <em>gradient-based optimization</em> algorithms: algorithms that use the gradient of the function to determine the direction to move in.
-Nowadays, it is reasonably easy to access the gradient of functions using automatic differentiation: in the mid-to-late 2010’s, there was incredible work put into developing software that can automatically compute the gradient of a function using a procedure known as <em>automatic differentiation</em>: examples include PyTorch, Jax, and Autograd.
-In brief, these software packages keep track of a sequence of operations and use the chain rule to compute the gradient of the resulting function.</p>
-</section>
 </section>
 <section id="gradient-descent">
 <h2>Gradient Descent<a class="headerlink" href="#gradient-descent" title="Link to this heading">#</a></h2>
+<p>To get this very subtle and complicated algorithm to work, it helps to have a notion of what directions decrease the function.  For this reason, we focus on <em>gradient-based optimization</em> algorithms: algorithms that use the gradient of the function to determine the direction to move in.
+Nowadays, it is reasonably easy to access the gradient of functions using automatic differentiation: in the mid-to-late 2010’s, there was incredible work put into developing software that can automatically compute the gradient of a function using a procedure known as <em>automatic differentiation</em>: examples include PyTorch, Jax, and Autograd.
+In brief, these software packages keep track of a sequence of operations and use the chain rule to compute the gradient of the resulting function.</p>
 <p>The most basic gradient-based optimization algorithm is <em>gradient descent</em>.  The idea is to take a step in the direction of the negative gradient of the function.  This is because the gradient points in the direction of steepest ascent, so moving in the opposite direction should decrease the function value.  The update rule for gradient descent is given by:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -625,10 +623,7 @@ x_{t+1} = \begin{pmatrix}1 \\ 1 \end{pmatrix} - 0.2 \begin{pmatrix}
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-intro-to-optimization">An Intro to Optimization</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-based-optimization">Gradient Based Optimization</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-intro-to-optimization">An Intro to Optimization</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">Gradient Descent</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#newton-s-method">Newton’s Method</a></li>
 </ul>

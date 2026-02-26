@@ -11,11 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# Automatic Differentiation and JaX
-
-Automatic differentiation is a computing technique that uses chain rule to evaluate the gradients of functions.  Without getting into the details, the idea behind autograd is to keep track of the operations that are performed on the variables, and then use this information to compute the gradients via chain rule.
-
-## JaX
+## Working in JaX
 
 JaX is a library that provides automatic differentiation and GPU/TPU support. It is designed to be used with NumPy-like arrays and functions.  In fact, part of JaX is a drop-in replacement for NumPy.  Instead of importing NumPy, you import jax.numpy.
 
@@ -32,13 +28,9 @@ print(c.shape)
 print(type(c))
 ```
 
-```{note}
-JaX is not the only library that provides automatic differentiation.  As of writing, there are several other libraries that provide similar functionality: most notably pytorch, which is arguably used more than JaX.  However, since JaX mirrors numpy and we have already learned numpy, it is a good choice for us.  
-```
-
 ## Gradients in JaX
 
-However, JaX adds additional functionality to NumPy.  For example, JaX can automatically differentiate functions that are defined using JaX operations.  This is done using the `grad` function, which takes a function as input and returns a new function that computes the gradient of the input function.
+JaX adds additional functionality to NumPy.  For example, JaX can automatically differentiate functions that are defined using JaX operations.  This is done using the `grad` function, which takes a function as input and returns a new function that computes the gradient of the input function.
 
 ```{code-cell} python3
 from jax import grad

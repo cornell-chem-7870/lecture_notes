@@ -168,9 +168,22 @@
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Optimization and Numerical Differential Equations</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1. Linear Algebra</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="optim-03-autograd.html">Automatic Differentiation and JaX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-01-intro_vectors.html">A Deeper look at Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-02-coding_matrices_in_python.html">Linear Algebra in Python with Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-03-matrix_decompositions.html">Eigenvectors, Unitary Matrices, and Matrix Decompositions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-04-linear_regression.html">Linear Regression and Least Squares</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Optimization and Numerical Differential Equations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="optim-01-intro-optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-02-nonlinear-optimization.html">Nonlinear Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-03a-autograd-in-pytorch.html">Automatic Differentiation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-03b-autograd-in-jax.html">JaX</a></li>
+
+
+
 <li class="toctree-l1"><a class="reference internal" href="diffeq-01-ode-intro.html">Intro to Numerical Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffeq-02-symplectic-integrators.html">More on Numerical ODEs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffeq-03-pde.html">From ODE to PDE</a></li>
@@ -406,6 +419,104 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-02-25 18:32:56.478237: E external/xla/xla/stream_executor/cuda/cuda_platform.cc:51] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: CUDA_ERROR_UNKNOWN: unknown error
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">XlaRuntimeError</span><span class="g g-Whitespace">                           </span>Traceback (most recent call last)
+    <span class="p">[</span><span class="o">...</span> <span class="n">skipping</span> <span class="n">hidden</span> <span class="mi">1</span> <span class="n">frame</span><span class="p">]</span>
+
+<span class="nn">File ~/mambaforge/envs/compmethods/lib/python3.11/site-packages/jax/_src/xla_bridge.py:943,</span> in <span class="ni">_init_backend</span><span class="nt">(platform)</span>
+<span class="g g-Whitespace">    </span><span class="mi">942</span> <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Initializing backend &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="n">platform</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">943</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">registration</span><span class="o">.</span><span class="n">factory</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">944</span> <span class="c1"># TODO(skye): consider raising more descriptive errors directly from backend</span>
+<span class="g g-Whitespace">    </span><span class="mi">945</span> <span class="c1"># factories instead of returning None.</span>
+
+<span class="nn">File ~/mambaforge/envs/compmethods/lib/python3.11/site-packages/jax/_src/xla_bridge.py:633,</span> in <span class="ni">register_plugin.&lt;locals&gt;.factory</span><span class="nt">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">632</span> <span class="k">if</span> <span class="n">distributed</span><span class="o">.</span><span class="n">global_state</span><span class="o">.</span><span class="n">client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">633</span>   <span class="k">return</span> <span class="n">xla_client</span><span class="o">.</span><span class="n">make_c_api_client</span><span class="p">(</span><span class="n">plugin_name</span><span class="p">,</span> <span class="n">updated_options</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">635</span> <span class="n">distribute_options</span> <span class="o">=</span> <span class="p">{</span>
+<span class="g g-Whitespace">    </span><span class="mi">636</span>     <span class="s1">&#39;node_id&#39;</span><span class="p">:</span> <span class="n">distributed</span><span class="o">.</span><span class="n">global_state</span><span class="o">.</span><span class="n">process_id</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">637</span>     <span class="s1">&#39;num_nodes&#39;</span><span class="p">:</span> <span class="n">distributed</span><span class="o">.</span><span class="n">global_state</span><span class="o">.</span><span class="n">num_processes</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">638</span> <span class="p">}</span>
+
+<span class="nn">File ~/mambaforge/envs/compmethods/lib/python3.11/site-packages/jaxlib/xla_client.py:159,</span> in <span class="ni">make_c_api_client</span><span class="nt">(plugin_name, options, distributed_client)</span>
+<span class="g g-Whitespace">    </span><span class="mi">158</span>   <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="ne">--&gt; </span><span class="mi">159</span> <span class="k">return</span> <span class="n">_xla</span><span class="o">.</span><span class="n">get_c_api_client</span><span class="p">(</span><span class="n">plugin_name</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">distributed_client</span><span class="p">)</span>
+
+<span class="ne">XlaRuntimeError</span>: FAILED_PRECONDITION: No visible GPU devices.
+
+<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
+
+<span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">a</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">b</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">])</span>
+
+<span class="nn">File ~/mambaforge/envs/compmethods/lib/python3.11/site-packages/jax/_src/numpy/lax_numpy.py:5548,</span> in <span class="ni">array</span><span class="nt">(object, dtype, copy, order, ndmin, device)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5546</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">5547</span>   <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected input type for array: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">5548</span> <span class="n">out_array</span><span class="p">:</span> <span class="n">Array</span> <span class="o">=</span> <span class="n">lax_internal</span><span class="o">.</span><span class="n">_convert_element_type</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">5549</span>     <span class="n">out</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">weak_type</span><span class="o">=</span><span class="n">weak_type</span><span class="p">,</span> <span class="n">sharding</span><span class="o">=</span><span class="n">sharding</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5550</span> <span class="k">if</span> <span class="n">ndmin</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">out_array</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">5551</span>   <span class="n">out_array</span> <span class="o">=</span> <span class="n">lax</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">out_array</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="n">ndmin</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">out_array</span><span class="p">)))</span>
+
+<span class="nn">File ~/mambaforge/envs/compmethods/lib/python3.11/site-packages/jax/_src/lax/lax.py:1727,</span> in <span class="ni">_convert_element_type</span><span class="nt">(operand, new_dtype, weak_type, sharding, warn_on_complex_to_real_cast)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1725</span>   <span class="k">return</span> <span class="n">operand</span>
+<span class="g g-Whitespace">   </span><span class="mi">1726</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1727</span>   <span class="k">return</span> <span class="n">convert_element_type_p</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1728</span>       <span class="n">operand</span><span class="p">,</span> <span class="n">new_dtype</span><span class="o">=</span><span class="n">new_dtype</span><span class="p">,</span> <span class="n">weak_type</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">weak_type</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1729</span>       <span class="n">sharding</span><span class="o">=</span><span class="n">sharding</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/compmethods/lib/python3.11/site-packages/jax/_src/core.py:496,</span> in <span class="ni">Primitive.bind</span><span class="nt">(self, *args, **params)</span>
+<span class="g g-Whitespace">    </span><span class="mi">494</span> <span class="k">def</span><span class="w"> </span><span class="nf">bind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">495</span>   <span class="n">args</span> <span class="o">=</span> <span class="n">args</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_canonicalization</span> <span class="k">else</span> <span class="nb">map</span><span class="p">(</span><span class="n">canonicalize_value</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">496</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_true_bind</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/compmethods/lib/python3.11/site-packages/jax/_src/core.py:512,</span> in <span class="ni">Primitive._true_bind</span><span class="nt">(self, *args, **params)</span>
+<span class="g g-Whitespace">    </span><span class="mi">510</span> <span class="n">trace_ctx</span><span class="o">.</span><span class="n">set_trace</span><span class="p">(</span><span class="n">eval_trace</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">511</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">512</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bind_with_trace</span><span class="p">(</span><span class="n">prev_trace</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">513</span> <span class="k">finally</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">514</span>   <span class="n">trace_ctx</span><span class="o">.</span><span class="n">set_trace</span><span class="p">(</span><span class="n">prev_trace</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/compmethods/lib/python3.11/site-packages/jax/_src/lax/lax.py:4875,</span> in <span class="ni">_convert_element_type_bind_with_trace</span><span class="nt">(trace, args, params)</span>
+<span class="g g-Whitespace">   </span><span class="mi">4873</span> <span class="k">def</span><span class="w"> </span><span class="nf">_convert_element_type_bind_with_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">4874</span>   <span class="n">sharding</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sharding&#39;</span><span class="p">]</span>
+<span class="ne">-&gt; </span><span class="mi">4875</span>   <span class="n">operand</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Primitive</span><span class="o">.</span><span class="n">bind_with_trace</span><span class="p">(</span><span class="n">convert_element_type_p</span><span class="p">,</span> <span class="n">trace</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">4876</span>   <span class="k">if</span> <span class="n">sharding</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">sharding</span><span class="o">.</span><span class="n">_is_concrete</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">4877</span>     <span class="k">with</span> <span class="n">core</span><span class="o">.</span><span class="n">set_current_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">):</span>
+
+<span class="nn">File ~/mambaforge/envs/compmethods/lib/python3.11/site-packages/jax/_src/core.py:517,</span> in <span class="ni">Primitive.bind_with_trace</span><span class="nt">(self, trace, args, params)</span>
+<span class="g g-Whitespace">    </span><span class="mi">516</span> <span class="k">def</span><span class="w"> </span><span class="nf">bind_with_trace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trace</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">517</span>   <span class="k">return</span> <span class="n">trace</span><span class="o">.</span><span class="n">process_primitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/compmethods/lib/python3.11/site-packages/jax/_src/core.py:1017,</span> in <span class="ni">EvalTrace.process_primitive</span><span class="nt">(self, primitive, args, params)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1015</span> <span class="n">args</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">full_lower</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1016</span> <span class="n">check_eval_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1017</span> <span class="k">return</span> <span class="n">primitive</span><span class="o">.</span><span class="n">impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/compmethods/lib/python3.11/site-packages/jax/_src/dispatch.py:89,</span> in <span class="ni">apply_primitive</span><span class="nt">(prim, *args, **params)</span>
+<span class="g g-Whitespace">     </span><span class="mi">87</span> <span class="n">prev</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">jax_jit</span><span class="o">.</span><span class="n">swap_thread_local_state_disable_jit</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">88</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">89</span>   <span class="n">outs</span> <span class="o">=</span> <span class="n">fun</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">90</span> <span class="k">finally</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">91</span>   <span class="n">lib</span><span class="o">.</span><span class="n">jax_jit</span><span class="o">.</span><span class="n">swap_thread_local_state_disable_jit</span><span class="p">(</span><span class="n">prev</span><span class="p">)</span>
+
+    <span class="p">[</span><span class="o">...</span> <span class="n">skipping</span> <span class="n">hidden</span> <span class="mi">13</span> <span class="n">frame</span><span class="p">]</span>
+
+<span class="nn">File ~/mambaforge/envs/compmethods/lib/python3.11/site-packages/jax/_src/xla_bridge.py:873,</span> in <span class="ni">backends</span><span class="nt">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">871</span>       <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">872</span>         <span class="n">err_msg</span> <span class="o">+=</span> <span class="s2">&quot; (you may need to uninstall the failing plugin package, or set JAX_PLATFORMS=cpu to skip this backend.)&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">873</span>       <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">875</span> <span class="k">assert</span> <span class="n">_default_backend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">876</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">jax_platforms</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+
+<span class="ne">RuntimeError</span>: Unable to initialize backend &#39;cuda&#39;: FAILED_PRECONDITION: No visible GPU devices. (you may need to uninstall the failing plugin package, or set JAX_PLATFORMS=cpu to skip this backend.)
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -491,9 +602,7 @@
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 2.  4.  1.]
  [ 1.  1. -6.]]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 2.  4.  1.]
+[[ 2.  4.  1.]
  [ 1.  1. -6.]]
 </pre></div>
 </div>
@@ -577,10 +686,11 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-    <span class="n">f_jit</span><span class="o">.</span>
-          <span class="o">^</span>
-<span class="ne">SyntaxError</span>: invalid syntax
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/erik/mambaforge/envs/compmethods/lib/python3.11/site-packages/jax/_src/numpy/array_methods.py:122: UserWarning: Explicitly requested dtype int requested in astype is not available, and will be truncated to dtype int32. To enable more dtypes, set the jax_enable_x64 configuration option or the JAX_ENABLE_X64 shell environment variable. See https://github.com/jax-ml/jax#current-gotchas for more.
+  return lax_numpy.astype(self, dtype, copy=copy, device=device)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;jax._src.stages.Traced at 0x71abc079c450&gt;
 </pre></div>
 </div>
 </div>

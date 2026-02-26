@@ -69,13 +69,12 @@ The basic recipe for most optimization algorithms are as follows:
 <!-- However, for many applications you might want to write your own optimizer, or at least to debug the optimizer you are using.  Consequently, in this section we will drill down on optimizers and how they work. -->
 
 
-### Gradient Based Optimization
+## Gradient Descent
 
 To get this very subtle and complicated algorithm to work, it helps to have a notion of what directions decrease the function.  For this reason, we focus on *gradient-based optimization* algorithms: algorithms that use the gradient of the function to determine the direction to move in.
 Nowadays, it is reasonably easy to access the gradient of functions using automatic differentiation: in the mid-to-late 2010's, there was incredible work put into developing software that can automatically compute the gradient of a function using a procedure known as *automatic differentiation*: examples include PyTorch, Jax, and Autograd.
 In brief, these software packages keep track of a sequence of operations and use the chain rule to compute the gradient of the resulting function.
 
-## Gradient Descent
 
 The most basic gradient-based optimization algorithm is *gradient descent*.  The idea is to take a step in the direction of the negative gradient of the function.  This is because the gradient points in the direction of steepest ascent, so moving in the opposite direction should decrease the function value.  The update rule for gradient descent is given by:
 
