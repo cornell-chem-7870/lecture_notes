@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Automatic Differentiation &#8212; Lecture Notes for Cornell Chem 7870</title>
+    <title>Automatic Differentiation and Pytorch &#8212; Lecture Notes for Cornell Chem 7870</title>
   
   
   
@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -179,10 +179,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="optim-01-intro-optimization.html">Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optim-02-nonlinear-optimization.html">Nonlinear Regression</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Automatic Differentiation</a></li>
-
-
-
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Automatic Differentiation and Pytorch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optim-03b-autograd-in-jax.html">Working in JaX</a></li>
 
 
@@ -382,7 +379,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Automatic Differentiation</h1>
+    <h1>Automatic Differentiation and Pytorch</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -392,17 +389,13 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Automatic Differentiation</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-automatic-differentiation">What is Automatic Differentiation?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-linear-regression-with-automatic-differentiation">Implementing Linear Regression with Automatic Differentiation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-optimizers">Pytorch Optimizers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes-and-pytorch-modules">Classes and Pytorch Modules.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-gpu-tpu-with-pytorch">Using GPU/TPU with PyTorch</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-optimizers">Pytorch Optimizers</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#classes-and-pytorch-modules">Classes and Pytorch Modules.</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#using-gpu-tpu-with-pytorch">Using GPU/TPU with PyTorch</a></li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -413,8 +406,8 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="automatic-differentiation">
-<h1>Automatic Differentiation<a class="headerlink" href="#automatic-differentiation" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="automatic-differentiation-and-pytorch">
+<h1>Automatic Differentiation and Pytorch<a class="headerlink" href="#automatic-differentiation-and-pytorch" title="Link to this heading">#</a></h1>
 <p>Automatic differentiation is a computing technique that uses chain rule to evaluate the gradients of functions. The core idea behind automatic differentiation is to track the sequence of operations that are performed on the inputs to a function, and then use the chain rule to compute the gradient of the output with respect to the inputs.</p>
 <section id="learning-objectives">
 <h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
@@ -552,17 +545,16 @@ tensor([ 3., 12., 27.])
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: tensor([ 1.9749, -3.0583,  1.0132], requires_grad=True)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: tensor([ 2.0921, -2.9380,  0.8776], requires_grad=True)
 </pre></div>
 </div>
-<img alt="_images/6e2aafc96432b188a13af896f8e670c28f7346b1e717caacefb8b4862348533d.png" src="_images/6e2aafc96432b188a13af896f8e670c28f7346b1e717caacefb8b4862348533d.png" />
+<img alt="_images/59b17675dc458e3b17873af7d11ade79de698a4da8e5ab31900e1499d51c4fdc.png" src="_images/59b17675dc458e3b17873af7d11ade79de698a4da8e5ab31900e1499d51c4fdc.png" />
 </div>
 </div>
 <p>As we see, the learned weights are close to the true weights!</p>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="pytorch-optimizers">
-<h1>Pytorch Optimizers<a class="headerlink" href="#pytorch-optimizers" title="Link to this heading">#</a></h1>
+<section id="pytorch-optimizers">
+<h2>Pytorch Optimizers<a class="headerlink" href="#pytorch-optimizers" title="Link to this heading">#</a></h2>
 <p>In general, you do not need to implement the gradient descent update rule yourself, as PyTorch provides a variety of optimization algorithms in the <code class="docutils literal notranslate"><span class="pre">torch.optim</span></code> module.  For instance, we can use the <code class="docutils literal notranslate"><span class="pre">SGD</span></code> optimizer to perform stochastic gradient descent on our linear regression model.  Other popular choices of optimizer include <code class="docutils literal notranslate"><span class="pre">Adam</span></code>, <code class="docutils literal notranslate"><span class="pre">RMSprop</span></code>, and <code class="docutils literal notranslate"><span class="pre">Adagrad</span></code>: <code class="docutils literal notranslate"><span class="pre">Adam</span></code> is a particularly popular choice that is commonly used for deep neural networks.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -596,8 +588,8 @@ tensor([ 3., 12., 27.])
 </div>
 </div>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="classes-and-pytorch-modules">
-<h1>Classes and Pytorch Modules.<a class="headerlink" href="#classes-and-pytorch-modules" title="Link to this heading">#</a></h1>
+<section id="classes-and-pytorch-modules">
+<h2>Classes and Pytorch Modules.<a class="headerlink" href="#classes-and-pytorch-modules" title="Link to this heading">#</a></h2>
 <p>So far, we have been working with raw tensors and manually implementing the linear regression model.  However, if we want to build more complex models, keeping track of all of the parameters and their gradients can be cumbersome.  To organize this, we will group our code into objects.  In python, an object is a data structure that contains both data and functions that operate on that data.  You have already seens some objects without knowing it: for instance, a list is an object that contains data (the elements of the list) and functions that operate on that data (e.g. <code class="docutils literal notranslate"><span class="pre">append</span></code>, <code class="docutils literal notranslate"><span class="pre">pop</span></code>, etc.).  Similarly, a pytorch tensor is an object that contains data (the values of the tensor, any gradient information) and functions that operate on that data (e.g. <code class="docutils literal notranslate"><span class="pre">backward</span></code>, <code class="docutils literal notranslate"><span class="pre">grad</span></code>, etc.).</p>
 <p>In python, each object is a specific instance of a “class.”  (The analogy would be that a class is like a blueprint for an object, and an object is an instance of that blueprint.)  Pytorch has multiple built-in classes.  For instance, the <code class="docutils literal notranslate"><span class="pre">nn.Linear</span></code> class implements a linear operation, and <code class="docutils literal notranslate"><span class="pre">nn.Sigmoid</span></code> implements the sigmoid activation function.</p>
 <div class="cell docutils container">
@@ -625,17 +617,17 @@ tensor([ 3., 12., 27.])
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>weight: Parameter containing:
-tensor([[-0.1231,  0.0927, -0.3012]], requires_grad=True)
+tensor([[-0.0078,  0.0335, -0.3721]], requires_grad=True)
 bias: Parameter containing:
-tensor([-0.1478], requires_grad=True)
+tensor([-0.5732], requires_grad=True)
 ~~~~~~~~~~
 parameters: [Parameter containing:
-tensor([[-0.1231,  0.0927, -0.3012]], requires_grad=True), Parameter containing:
-tensor([-0.1478], requires_grad=True)]
+tensor([[-0.0078,  0.0335, -0.3721]], requires_grad=True), Parameter containing:
+tensor([-0.5732], requires_grad=True)]
 ~~~~~~~~~~
 --- output of linear layer ---
-tensor([-0.9891], grad_fn=&lt;ViewBackward0&gt;)
-tensor([-0.9891], grad_fn=&lt;ViewBackward0&gt;)
+tensor([-1.6303], grad_fn=&lt;ViewBackward0&gt;)
+tensor([-1.6303], grad_fn=&lt;ViewBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -676,12 +668,12 @@ tensor([-0.9891], grad_fn=&lt;ViewBackward0&gt;)
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: Parameter containing:
-tensor([[ 1.9594, -3.0537,  1.0076]], requires_grad=True)
+tensor([[ 2.0913, -2.9395,  0.8778]], requires_grad=True)
 Learned bias: Parameter containing:
-tensor([0.0572], requires_grad=True)
+tensor([0.0237], requires_grad=True)
 </pre></div>
 </div>
-<img alt="_images/4779334ec6e41f5902cf414eb35cb1783048ef642f74d89d8fe1b33bf92484fb.png" src="_images/4779334ec6e41f5902cf414eb35cb1783048ef642f74d89d8fe1b33bf92484fb.png" />
+<img alt="_images/0145eed67288fddbf8fe271ff395496e03be4a71d5f766d882ee637b538059a4.png" src="_images/0145eed67288fddbf8fe271ff395496e03be4a71d5f766d882ee637b538059a4.png" />
 </div>
 </div>
 <p>You can build your own custom classes using the <code class="docutils literal notranslate"><span class="pre">class</span></code> keyword in python.  For instance a simple class for holding information about an NMR spectrum could be implemented as below.</p>
@@ -733,8 +725,8 @@ tensor([0.0572], requires_grad=True)
 </div>
 </div>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="using-gpu-tpu-with-pytorch">
-<h1>Using GPU/TPU with PyTorch<a class="headerlink" href="#using-gpu-tpu-with-pytorch" title="Link to this heading">#</a></h1>
+<section id="using-gpu-tpu-with-pytorch">
+<h2>Using GPU/TPU with PyTorch<a class="headerlink" href="#using-gpu-tpu-with-pytorch" title="Link to this heading">#</a></h2>
 <p>Pytorch also provides support for GPU and TPU acceleration.  To use a GPU or TPU, you need to move your tensors and models to the appropriate device.  For instance, to move a tensor to the GPU, you can use the <code class="docutils literal notranslate"><span class="pre">to</span></code> method as follows.</p>
 <p>Alternatively, whenever possible it is better practice to create the tensors directly on the GPU by specifying the device when creating the tensor.  For instance, you can create a tensor on the GPU in its constructor.</p>
 <div class="cell docutils container">
@@ -749,6 +741,7 @@ tensor([0.0572], requires_grad=True)
 </div>
 </div>
 <p>When working on GPU, make sure to move all of the data, parameters, and objects to the GPU using the <code class="docutils literal notranslate"><span class="pre">to</span></code> method.  Otherwise, you can get errors about tensors being on different devices!</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -816,17 +809,13 @@ tensor([0.0572], requires_grad=True)
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Automatic Differentiation</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-automatic-differentiation">What is Automatic Differentiation?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-linear-regression-with-automatic-differentiation">Implementing Linear Regression with Automatic Differentiation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-optimizers">Pytorch Optimizers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes-and-pytorch-modules">Classes and Pytorch Modules.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-gpu-tpu-with-pytorch">Using GPU/TPU with PyTorch</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-optimizers">Pytorch Optimizers</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#classes-and-pytorch-modules">Classes and Pytorch Modules.</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#using-gpu-tpu-with-pytorch">Using GPU/TPU with PyTorch</a></li>
-</ul>
-
   </nav></div>
 
 </div></div>

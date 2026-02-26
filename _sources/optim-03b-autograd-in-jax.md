@@ -11,6 +11,8 @@ kernelspec:
   name: python3
 ---
 
+# Intro to JaX
+
 ## Working in JaX
 
 JaX is a library that provides automatic differentiation and GPU/TPU support. It is designed to be used with NumPy-like arrays and functions.  In fact, part of JaX is a drop-in replacement for NumPy.  Instead of importing NumPy, you import jax.numpy.
