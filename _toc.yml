@@ -14,7 +14,8 @@ parts:
     chapters:
     - file: optim-01-intro-optimization.md
     - file: optim-02-nonlinear-optimization.md
-    - file: optim-03-autograd.md
+    - file: optim-03a-autograd-in-pytorch
+    - file: optim-03b-autograd-in-jax.md
     - file: diffeq-01-ode-intro.md
     - file: diffeq-02-symplectic-integrators.md
     - file: diffeq-03-pde.md
