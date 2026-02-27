@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -63,7 +63,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'optim-03a-autograd-in-pytorch';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Working in JaX" href="optim-03b-autograd-in-jax.html" />
+    <link rel="next" title="Intro to JaX" href="optim-03b-autograd-in-jax.html" />
     <link rel="prev" title="Nonlinear Regression" href="optim-02-nonlinear-optimization.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -180,10 +180,7 @@
 <li class="toctree-l1"><a class="reference internal" href="optim-01-intro-optimization.html">Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optim-02-nonlinear-optimization.html">Nonlinear Regression</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Automatic Differentiation and Pytorch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="optim-03b-autograd-in-jax.html">Working in JaX</a></li>
-
-
-
+<li class="toctree-l1"><a class="reference internal" href="optim-03b-autograd-in-jax.html">Intro to JaX</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffeq-01-ode-intro.html">Intro to Numerical Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffeq-02-symplectic-integrators.html">More on Numerical ODEs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffeq-03-pde.html">From ODE to PDE</a></li>
@@ -390,7 +387,10 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-automatic-differentiation">What is Automatic Differentiation?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-automatic-differentiation">What is Automatic Differentiation?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#derivatives-and-functional-programming">Derivatives and Functional Programming</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-linear-regression-with-automatic-differentiation">Implementing Linear Regression with Automatic Differentiation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-optimizers">Pytorch Optimizers</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes-and-pytorch-modules">Classes and Pytorch Modules.</a></li>
@@ -491,6 +491,65 @@ tensor([ 3., 12., 27.])
 </div>
 </div>
 </div>
+<section id="derivatives-and-functional-programming">
+<h3>Derivatives and Functional Programming<a class="headerlink" href="#derivatives-and-functional-programming" title="Link to this heading">#</a></h3>
+<p>This framework allows you to be flexible about taking derivatives on the fly.  However, it can also become unwieldy, particularly if you are taking higher-order derivatives.  To address this, pytorch provides a functional API for computing derivatives, which allows you to compute higher-order derivatives without having to manually manage the computational graph.</p>
+<p>In this paradigm, you first write a function that computes the output given the input.  You then pass that function as an <em>argument</em> to a pytorch function, which returns a new function that computes the gradient of the original function.  (In python, you can pass functions as arguments to other functions: a key feature in a programming paradigm called “functional programming”.)  For this reason, these functions are located in the <code class="docutils literal notranslate"><span class="pre">torch.autograd.functional</span></code> module.</p>
+<p>Note that for these functions to work, the input tensors must have <code class="docutils literal notranslate"><span class="pre">requires_grad=True</span></code>, and the output of the function must be a scalar (i.e. a single number).  If the output is not a scalar, you can specify a <code class="docutils literal notranslate"><span class="pre">grad_outputs</span></code> argument to indicate which output you want to compute the gradient with respect to.  Moreover, there for this API to work the function must be “pure” (i.e. it cannot have side effects, such as modifying global variables).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">torch.func</span><span class="w"> </span><span class="kn">import</span> <span class="n">grad</span><span class="p">,</span> <span class="n">hessian</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">a_generic_function</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">derivative_fxn</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">a_generic_function</span><span class="p">)</span>  <span class="c1"># Create a function that computes the Jacobian (gradient) of `a_generic_function`.</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing the gradient using functional API:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">derivative_fxn</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># Compute and print the gradient of `a_generic_function` at the given input `x`.</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># Compute the expected gradient manually for comparison.</span>
+
+<span class="n">hessian_fxn</span> <span class="o">=</span> <span class="n">hessian</span><span class="p">(</span><span class="n">a_generic_function</span><span class="p">)</span>  <span class="c1"># Create a function that computes the Hessian of `a_generic_function`.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-----------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing the Hessian using functional API:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">hessian_fxn</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># Compute and print the Hessian of `a_generic_function` at the given input `x`.</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>  <span class="c1"># Compute the expected Hessian manually for comparison.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Computing the gradient using functional API:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([ 3.1585,  7.0907, 11.8589], grad_fn=&lt;AddBackward0&gt;)
+tensor([ 3.1585,  7.0907, 11.8589], grad_fn=&lt;SubBackward0&gt;)
+-----------
+Computing the Hessian using functional API:
+tensor([[3.4597, 0.0000, 0.0000],
+        [0.0000, 4.4161, 0.0000],
+        [0.0000, 0.0000, 4.9900]], grad_fn=&lt;ViewBackward0&gt;)
+tensor([[3.4597, 0.0000, 0.0000],
+        [0.0000, 4.4161, 0.0000],
+        [0.0000, 0.0000, 4.9900]], grad_fn=&lt;SubBackward0&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">constant</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">a_generic_function</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">constant</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>  <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">constant</span> <span class="o">*</span> <span class="n">x</span><span class="p">))</span>
+
+<span class="n">derivative_fxn</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">a_generic_function</span><span class="p">)</span>
+<span class="c1"># derivative_fxn(x)  # Attempting to compute the gradient will raise an error.</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="implementing-linear-regression-with-automatic-differentiation">
 <h2>Implementing Linear Regression with Automatic Differentiation<a class="headerlink" href="#implementing-linear-regression-with-automatic-differentiation" title="Link to this heading">#</a></h2>
@@ -545,10 +604,10 @@ tensor([ 3., 12., 27.])
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: tensor([ 2.0921, -2.9380,  0.8776], requires_grad=True)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: tensor([ 1.9481, -2.9423,  1.0331], requires_grad=True)
 </pre></div>
 </div>
-<img alt="_images/59b17675dc458e3b17873af7d11ade79de698a4da8e5ab31900e1499d51c4fdc.png" src="_images/59b17675dc458e3b17873af7d11ade79de698a4da8e5ab31900e1499d51c4fdc.png" />
+<img alt="_images/e160a2e34a28043b7509669fea4ff49df51338a40407eb080fef9f8ec8588a75.png" src="_images/e160a2e34a28043b7509669fea4ff49df51338a40407eb080fef9f8ec8588a75.png" />
 </div>
 </div>
 <p>As we see, the learned weights are close to the true weights!</p>
@@ -617,17 +676,17 @@ tensor([ 3., 12., 27.])
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>weight: Parameter containing:
-tensor([[-0.0078,  0.0335, -0.3721]], requires_grad=True)
+tensor([[-0.2029, -0.4332,  0.1950]], requires_grad=True)
 bias: Parameter containing:
-tensor([-0.5732], requires_grad=True)
+tensor([0.1175], requires_grad=True)
 ~~~~~~~~~~
 parameters: [Parameter containing:
-tensor([[-0.0078,  0.0335, -0.3721]], requires_grad=True), Parameter containing:
-tensor([-0.5732], requires_grad=True)]
+tensor([[-0.2029, -0.4332,  0.1950]], requires_grad=True), Parameter containing:
+tensor([0.1175], requires_grad=True)]
 ~~~~~~~~~~
 --- output of linear layer ---
-tensor([-1.6303], grad_fn=&lt;ViewBackward0&gt;)
-tensor([-1.6303], grad_fn=&lt;ViewBackward0&gt;)
+tensor([-0.3670], grad_fn=&lt;ViewBackward0&gt;)
+tensor([-0.3670], grad_fn=&lt;ViewBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -668,12 +727,12 @@ tensor([-1.6303], grad_fn=&lt;ViewBackward0&gt;)
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: Parameter containing:
-tensor([[ 2.0913, -2.9395,  0.8778]], requires_grad=True)
+tensor([[ 1.9478, -2.9433,  1.0309]], requires_grad=True)
 Learned bias: Parameter containing:
-tensor([0.0237], requires_grad=True)
+tensor([0.0366], requires_grad=True)
 </pre></div>
 </div>
-<img alt="_images/0145eed67288fddbf8fe271ff395496e03be4a71d5f766d882ee637b538059a4.png" src="_images/0145eed67288fddbf8fe271ff395496e03be4a71d5f766d882ee637b538059a4.png" />
+<img alt="_images/f987e5480f0e14e5d44ec73cc97db18a264815a288085703317f9b4f73e41ca1.png" src="_images/f987e5480f0e14e5d44ec73cc97db18a264815a288085703317f9b4f73e41ca1.png" />
 </div>
 </div>
 <p>You can build your own custom classes using the <code class="docutils literal notranslate"><span class="pre">class</span></code> keyword in python.  For instance a simple class for holding information about an NMR spectrum could be implemented as below.</p>
@@ -788,7 +847,7 @@ tensor([0.0237], requires_grad=True)
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Working in JaX</p>
+        <p class="prev-next-title">Intro to JaX</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -810,7 +869,10 @@ tensor([0.0237], requires_grad=True)
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-automatic-differentiation">What is Automatic Differentiation?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-automatic-differentiation">What is Automatic Differentiation?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#derivatives-and-functional-programming">Derivatives and Functional Programming</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-linear-regression-with-automatic-differentiation">Implementing Linear Regression with Automatic Differentiation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-optimizers">Pytorch Optimizers</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes-and-pytorch-modules">Classes and Pytorch Modules.</a></li>
