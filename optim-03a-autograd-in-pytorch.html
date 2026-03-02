@@ -181,6 +181,7 @@
 <li class="toctree-l1"><a class="reference internal" href="optim-02-nonlinear-optimization.html">Nonlinear Regression</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Automatic Differentiation and Pytorch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optim-03b-autograd-in-jax.html">Intro to JaX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-04-three-types-of-NNs.html">A Crash Course on Neural Networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffeq-01-ode-intro.html">Intro to Numerical Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffeq-02-symplectic-integrators.html">More on Numerical ODEs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffeq-03-pde.html">From ODE to PDE</a></li>
@@ -539,11 +540,11 @@ tensor([[3.4597, 0.0000, 0.0000],
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">constant</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">a_generic_function</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">an_impure_function</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">constant</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>  <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">constant</span> <span class="o">*</span> <span class="n">x</span><span class="p">))</span>
 
-<span class="n">derivative_fxn</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">a_generic_function</span><span class="p">)</span>
+<span class="n">derivative_fxn</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">an_impure_function</span><span class="p">)</span>
 <span class="c1"># derivative_fxn(x)  # Attempting to compute the gradient will raise an error.</span>
 </pre></div>
 </div>
@@ -604,10 +605,10 @@ tensor([[3.4597, 0.0000, 0.0000],
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: tensor([ 1.9481, -2.9423,  1.0331], requires_grad=True)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: tensor([ 2.0407, -2.9644,  0.9367], requires_grad=True)
 </pre></div>
 </div>
-<img alt="_images/e160a2e34a28043b7509669fea4ff49df51338a40407eb080fef9f8ec8588a75.png" src="_images/e160a2e34a28043b7509669fea4ff49df51338a40407eb080fef9f8ec8588a75.png" />
+<img alt="_images/a3867ff1ba5fea937e146fd2ce746418d124387848aead92e0262b8d9f2ced60.png" src="_images/a3867ff1ba5fea937e146fd2ce746418d124387848aead92e0262b8d9f2ced60.png" />
 </div>
 </div>
 <p>As we see, the learned weights are close to the true weights!</p>
@@ -676,17 +677,17 @@ tensor([[3.4597, 0.0000, 0.0000],
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>weight: Parameter containing:
-tensor([[-0.2029, -0.4332,  0.1950]], requires_grad=True)
+tensor([[0.0259, 0.3990, 0.2145]], requires_grad=True)
 bias: Parameter containing:
-tensor([0.1175], requires_grad=True)
+tensor([0.5257], requires_grad=True)
 ~~~~~~~~~~
 parameters: [Parameter containing:
-tensor([[-0.2029, -0.4332,  0.1950]], requires_grad=True), Parameter containing:
-tensor([0.1175], requires_grad=True)]
+tensor([[0.0259, 0.3990, 0.2145]], requires_grad=True), Parameter containing:
+tensor([0.5257], requires_grad=True)]
 ~~~~~~~~~~
 --- output of linear layer ---
-tensor([-0.3670], grad_fn=&lt;ViewBackward0&gt;)
-tensor([-0.3670], grad_fn=&lt;ViewBackward0&gt;)
+tensor([1.9932], grad_fn=&lt;ViewBackward0&gt;)
+tensor([1.9932], grad_fn=&lt;ViewBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -727,12 +728,12 @@ tensor([-0.3670], grad_fn=&lt;ViewBackward0&gt;)
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: Parameter containing:
-tensor([[ 1.9478, -2.9433,  1.0309]], requires_grad=True)
+tensor([[ 2.0368, -2.9608,  0.9430]], requires_grad=True)
 Learned bias: Parameter containing:
-tensor([0.0366], requires_grad=True)
+tensor([0.0369], requires_grad=True)
 </pre></div>
 </div>
-<img alt="_images/f987e5480f0e14e5d44ec73cc97db18a264815a288085703317f9b4f73e41ca1.png" src="_images/f987e5480f0e14e5d44ec73cc97db18a264815a288085703317f9b4f73e41ca1.png" />
+<img alt="_images/8ecd45075712db0f89fe1b82a9a1135befae179dae66a5ece5763e9a4a606848.png" src="_images/8ecd45075712db0f89fe1b82a9a1135befae179dae66a5ece5763e9a4a606848.png" />
 </div>
 </div>
 <p>You can build your own custom classes using the <code class="docutils literal notranslate"><span class="pre">class</span></code> keyword in python.  For instance a simple class for holding information about an NMR spectrum could be implemented as below.</p>
@@ -754,7 +755,8 @@ tensor([0.0366], requires_grad=True)
 </div>
 </div>
 </div>
-<p>This class has two attributes: <code class="docutils literal notranslate"><span class="pre">frequencies</span></code> and <code class="docutils literal notranslate"><span class="pre">intensities</span></code>. These are initialized in the constructor (<code class="docutils literal notranslate"><span class="pre">__init__</span></code> method), which runs when you first create an instance of the class.  The class also has a method called <code class="docutils literal notranslate"><span class="pre">plot</span></code> that uses matplotlib to plot the spectrum.  To use this class, you would create an instance of it and then call the <code class="docutils literal notranslate"><span class="pre">plot</span></code> method on that instance.</p>
+<p>This class has two attributes: <code class="docutils literal notranslate"><span class="pre">frequencies</span></code> and <code class="docutils literal notranslate"><span class="pre">intensities</span></code>. These are initialized in the constructor (<code class="docutils literal notranslate"><span class="pre">__init__</span></code> method), which runs when you first create an instance of the class.   The class also has a method called <code class="docutils literal notranslate"><span class="pre">plot</span></code> that uses matplotlib to plot the spectrum.  To use this class, you would create an instance of it and then call the <code class="docutils literal notranslate"><span class="pre">plot</span></code> method on that instance.</p>
+<p>Note that every function in the class has a <code class="docutils literal notranslate"><span class="pre">self</span></code> parameter: this is the how you refer to the specific instance of the class.  When we set <code class="docutils literal notranslate"><span class="pre">self.frequencies</span> <span class="pre">=</span> <span class="pre">frequencies</span></code>, we are setting the <code class="docutils literal notranslate"><span class="pre">frequencies</span></code> attribute of that specific instance of the class to the value of the <code class="docutils literal notranslate"><span class="pre">frequencies</span></code> argument that was passed to the constructor.  (You can also do things like this outside of a class: for any python object, say <code class="docutils literal notranslate"><span class="pre">obj</span></code>, you can set <code class="docutils literal notranslate"><span class="pre">obj.attribute</span> <span class="pre">=</span> <span class="pre">value</span></code> to create a new attribute called <code class="docutils literal notranslate"><span class="pre">attribute</span></code> and set it to <code class="docutils literal notranslate"><span class="pre">value</span></code>.  Here we just do this inside the constructor and <code class="docutils literal notranslate"><span class="pre">self</span></code> referst to the specific instance of the class that we are working with.)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spectrum</span> <span class="o">=</span> <span class="n">NMRSpectrum</span><span class="p">(</span><span class="n">frequencies</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">intensities</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">15</span><span class="p">])</span>  <span class="c1"># Yes these are not realistic frequencies and intensities, don&#39;t @ me.</span>

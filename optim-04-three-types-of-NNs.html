@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Welcome to 7870 &#8212; Lecture Notes for Cornell Chem 7870</title>
+    <title>A Crash Course on Neural Networks &#8212; Lecture Notes for Cornell Chem 7870</title>
   
   
   
@@ -62,10 +62,11 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'optim-04-three-types-of-NNs';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="A Deeper look at Vectors" href="linalg-01-intro_vectors.html" />
+    <link rel="next" title="Intro to Numerical Integration" href="diffeq-01-ode-intro.html" />
+    <link rel="prev" title="Intro to JaX" href="optim-03b-autograd-in-jax.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -117,8 +118,6 @@
       
       
       
-        
-      
       <dialog id="pst-primary-sidebar-modal"></dialog>
       <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
@@ -138,7 +137,7 @@
     
   
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="intro.html">
   
   
   
@@ -165,8 +164,8 @@
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1 current active">
-                <a class="reference internal" href="#">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
                     Welcome to 7870
                 </a>
             </li>
@@ -179,12 +178,12 @@
 <li class="toctree-l1"><a class="reference internal" href="linalg-04-linear_regression.html">Linear Regression and Least Squares</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Optimization and Numerical Differential Equations</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="optim-01-intro-optimization.html">Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optim-02-nonlinear-optimization.html">Nonlinear Regression</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optim-03a-autograd-in-pytorch.html">Automatic Differentiation and Pytorch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optim-03b-autograd-in-jax.html">Intro to JaX</a></li>
-<li class="toctree-l1"><a class="reference internal" href="optim-04-three-types-of-NNs.html">A Crash Course on Neural Networks</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">A Crash Course on Neural Networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffeq-01-ode-intro.html">Intro to Numerical Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffeq-02-symplectic-integrators.html">More on Numerical ODEs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffeq-03-pde.html">From ODE to PDE</a></li>
@@ -274,7 +273,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Foptim-04-three-types-of-NNs.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -304,7 +303,7 @@
       
       
       
-      <li><a href="_sources/intro.md" target="_blank"
+      <li><a href="_sources/optim-04-three-types-of-NNs.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -367,7 +366,9 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -378,11 +379,29 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Welcome to 7870</h1>
+    <h1>A Crash Course on Neural Networks</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-network-architectures">Neural Network Architectures</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feedforward-neural-networks-fnns">Feedforward Neural Networks (FNNs)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convolutional-neural-networks-cnns">Convolutional Neural Networks (CNNs)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#equivariance">Equivariance</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformers">Transformers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-attention-mechanism">The Attention Mechanism</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -392,43 +411,85 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="welcome-to-7870">
-<h1>Welcome to 7870<a class="headerlink" href="#welcome-to-7870" title="Link to this heading">#</a></h1>
-<p>These are the lecture notes for Cornell’s Chem 7870, Computational Methods in Chemistry.</p>
-<div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1. Linear Algebra</span></p>
+  <section class="tex2jax_ignore mathjax_ignore" id="a-crash-course-on-neural-networks">
+<h1>A Crash Course on Neural Networks<a class="headerlink" href="#a-crash-course-on-neural-networks" title="Link to this heading">#</a></h1>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Develop a working knowledge of three types of neural networks: feedforward neural networks (FNNs), convolutional neural networks (CNNs), and transformers.</p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="linalg-01-intro_vectors.html">A Deeper look at Vectors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="linalg-02-coding_matrices_in_python.html">Linear Algebra in Python with Numpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="linalg-03-matrix_decompositions.html">Eigenvectors, Unitary Matrices, and Matrix Decompositions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="linalg-04-linear_regression.html">Linear Regression and Least Squares</a></li>
+<li><p>Understand the role that symmetry plays in the design of CNNs.</p></li>
+<li><p>Understand the attention mechanism in transformers.</p></li>
 </ul>
-</div>
-<div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Optimization and Numerical Differential Equations</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="optim-01-intro-optimization.html">Optimization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="optim-02-nonlinear-optimization.html">Nonlinear Regression</a></li>
-<li class="toctree-l1"><a class="reference internal" href="optim-03a-autograd-in-pytorch.html">Automatic Differentiation and Pytorch</a></li>
-<li class="toctree-l1"><a class="reference internal" href="optim-03b-autograd-in-jax.html">Intro to JaX</a></li>
-<li class="toctree-l1"><a class="reference internal" href="optim-04-three-types-of-NNs.html">A Crash Course on Neural Networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="diffeq-01-ode-intro.html">Intro to Numerical Integration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="diffeq-02-symplectic-integrators.html">More on Numerical ODEs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="diffeq-03-pde.html">From ODE to PDE</a></li>
+</li>
+<li><p>Understand the role of minibatching in training neural networks</p></li>
+<li><p>Develop best practices for training neural networks, including how to choose the learning rate, how to initialize the weights and biases, and how to prevent overfitting.</p></li>
 </ul>
-</div>
-<div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3. Probability</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="prob-01-probability.html">Intro to Probability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prob-02-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prob-03-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prob-04-bayesian-inference.html">Bayesian Inference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prob-05-monte-carlo.html">Monte Carlo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prob-06-mcmc.html">Markov Chain Monte Carlo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prob-07-metropolis-hastings.html">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
-</ul>
-</div>
+</section>
+<section id="neural-network-architectures">
+<h2>Neural Network Architectures<a class="headerlink" href="#neural-network-architectures" title="Link to this heading">#</a></h2>
+<p>Below, we discuss three of the most commonly used types of neural network architectures: feedforward neural networks (FNNs), convolutional neural networks (CNNs), and transformers.  Each of these architectures is designed to take advantage of different types of structure in the data, and each has its own strengths and weaknesses.</p>
+<section id="feedforward-neural-networks-fnns">
+<h3>Feedforward Neural Networks (FNNs)<a class="headerlink" href="#feedforward-neural-networks-fnns" title="Link to this heading">#</a></h3>
+<p>Feed forward neural networks (FNNs) are some of the first, and simplest, types of neural networks.  Mathematically, a feedforward neural network is a composition of ‘’layers’’ of the form</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = \sigma(Wx + b)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(W\)</span> is a matrix of weights, <span class="math notranslate nohighlight">\(b\)</span> is a vector of biases, and <span class="math notranslate nohighlight">\(\sigma\)</span> is a non-linear activation function.  The parameters <span class="math notranslate nohighlight">\(W\)</span> and <span class="math notranslate nohighlight">\(b\)</span> are the weights and biases of the network respectively.  Common choices for activation functions include the sigmoid function, the hyperbolic tangent function, and the rectified linear unit (ReLU) function, plotted below:</p>
+<p>Currently, the ReLU function is the most commonly used activation function in deep learning, due to its simplicity and effectiveness in training deep networks.</p>
+<p>When we compose multiple layers of the form above, we get a feedforward neural network.  For example, a feedforward neural network with two hidden layers can be written as</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = W_4 \sigma_3(W_3 \sigma_2(W_2 \sigma_1(W_1 x + b_1) + b_2) + b_3) + b_4
+\]</div>
+<p>In the hidden layers, each layer takes the output of the previous layer.  The number of rows in each matrix is the number of ``neurons’’ in that layer.  This must match the number of columns in the next weight matrix <span class="math notranslate nohighlight">\(W_{i+1}\)</span>.  Precisely how big these weight matrices are is a design choice, and is one of the hyperparameters of the network.  However, it as also one that doesn’t matter <em>too</em> much as long as it is sufficiently large.  In practice, 32 x 32 or 64 x 64 are good choices for starting values, and you can scale up from there if you have the computational resources and desire more performance.  The number of hidden layers is also a design choice, and is another hyperparameter of the network.  In practice, 2-4 hidden layers are often sufficient for many tasks.</p>
+<p>Care must be designing the last layer of the network, as it must be designed to output the correct type of output for the task at hand.  For example, if we are doing binary classification, we might want the last layer to output a single value between 0 and 1, which can be interpreted as a probability.  In this case, we might use a sigmoid activation function in the last layer.<br />
+If we are doing regression, we might want the last layer to output a single value from <span class="math notranslate nohighlight">\((-\infty, \infty)\)</span>, in which case we might not use any activation function in the last layer.
+If we are doing multi-class classification, we might want the last layer to output a vector of probabilities for each class, in which case we might use a softmax activation function in the last layer.  The softmax function is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+\text{softmax}(z)_i = \frac{e^{z_i}}{\sum_{j} e^{z_j}}
+\]</div>
+<p>This generalizes the sigmoid function to multiple classes (as an exercise, you can verify that the softmax function reduces to the sigmoid function when there are only two classes).  The softmax function takes a vector of real numbers and outputs a vector of probabilities that sum to 1.</p>
+</section>
+<section id="convolutional-neural-networks-cnns">
+<h3>Convolutional Neural Networks (CNNs)<a class="headerlink" href="#convolutional-neural-networks-cnns" title="Link to this heading">#</a></h3>
+<p>Feed forward neural networks are very general, and can be used for a wide variety of tasks.  However, their limits quickly became apparent when they were applied to tasks like image recognition.  Consider applying a feedforward neural network to a 128x128 pixel image.  The input layer would have 128x128 = 16,384 neurons, and even if the first hidden layer had 64 neurons, then the weight matrix <span class="math notranslate nohighlight">\(W_1\)</span> would have 16,384 x 64 = 1,048,576 parameters – already a very large number of parameters.<br />
+Moreover, feed-forward networks do not leverage the spatial structure of images.  If we shift an image to the left, the feedforward neural network would have to learn to recognize the same object in a different position, which is inefficient and requires a lot of data.  Convolutional neural networks (CNNs) were designed to address these issues by leveraging the spatial structure of images and reducing the number of parameters.</p>
+<p>The key behind a convolutional network is to structure the linear operation in each layer by constraining it to act as a convolution.  For simplicity, consider a one-dimensional signal, with values <span class="math notranslate nohighlight">\(x_1, x_2, \ldots, x_n\)</span>.  A convolutional layer convolves a kernel (or filter) of weights <span class="math notranslate nohighlight">\(w_1, w_2, \ldots, w_k\)</span> with the input signal to produce an output signal.  The convolution operation can be written as</p>
+<div class="math notranslate nohighlight">
+\[
+y_i = \sum_{j=1}^{k} w_j x_{i+j-1} + b
+\]</div>
+<p>(Technically this is a cross-correlation operation.)
+This operation is repeated across the entire input signal, producing an output signal of length <span class="math notranslate nohighlight">\(n-k+1\)</span>.  The kernel weights <span class="math notranslate nohighlight">\(w_j\)</span> are shared across the entire input signal.
+In the Figure below, we give an illustration for a two-dimensional image, where the kernel is a 3x3 matrix of weights that is convolved with the input image to produce an output image.</p>
+<p><img alt="Convolutional Neural Network" src="_images/cnn_example.png" /></p>
+<p>Convolutional neural networks substantially reduce the number of parameters compared to feedforward neural networks.  Moreover, they naturally respect translation symmetry in the signal: if we shift the input signal the output will shift in the same way.</p>
+</section>
+<section id="equivariance">
+<h3>Equivariance<a class="headerlink" href="#equivariance" title="Link to this heading">#</a></h3>
+<p>Formally, respecting symmetries is known as <em>equivariance</em> to translation.  This is a group-theoretic property, and can be expressed succinctly using the following commutative diagram:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{ccc}
+\text{Input} &amp; \xrightarrow{f} &amp; \text{Output} \\
+\downarrow{T} &amp; &amp; \downarrow{T'} \\
+\text{Input} &amp; \xrightarrow{f} &amp; \text{Output}
+\end{array}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(T\)</span> and <span class="math notranslate nohighlight">\(T'\)</span> are translation operators on the input and output spaces respectively.  The diagram says that if we first apply the function <span class="math notranslate nohighlight">\(f\)</span> to the input, and then translate the output, we get the same result as if we first translate the input, and then apply the function <span class="math notranslate nohighlight">\(f\)</span>.  In other words, the function <span class="math notranslate nohighlight">\(f\)</span> commutes with the action of the translation group.</p>
+</section>
+</section>
+<section id="transformers">
+<h2>Transformers<a class="headerlink" href="#transformers" title="Link to this heading">#</a></h2>
+<p>TBD….</p>
+<section id="the-attention-mechanism">
+<h3>The Attention Mechanism<a class="headerlink" href="#the-attention-mechanism" title="Link to this heading">#</a></h3>
+<p>TBD….</p>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -461,12 +522,21 @@
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="optim-03b-autograd-in-jax.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Intro to JaX</p>
+      </div>
+    </a>
     <a class="right-next"
-       href="linalg-01-intro_vectors.html"
+       href="diffeq-01-ode-intro.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">A Deeper look at Vectors</p>
+        <p class="prev-next-title">Intro to Numerical Integration</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -476,6 +546,32 @@
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-network-architectures">Neural Network Architectures</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feedforward-neural-networks-fnns">Feedforward Neural Networks (FNNs)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convolutional-neural-networks-cnns">Convolutional Neural Networks (CNNs)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#equivariance">Equivariance</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformers">Transformers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-attention-mechanism">The Attention Mechanism</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
