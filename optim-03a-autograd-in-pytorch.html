@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -605,10 +605,10 @@ tensor([[3.4597, 0.0000, 0.0000],
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: tensor([ 2.0407, -2.9644,  0.9367], requires_grad=True)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: tensor([ 2.0305, -2.9379,  0.9746], requires_grad=True)
 </pre></div>
 </div>
-<img alt="_images/a3867ff1ba5fea937e146fd2ce746418d124387848aead92e0262b8d9f2ced60.png" src="_images/a3867ff1ba5fea937e146fd2ce746418d124387848aead92e0262b8d9f2ced60.png" />
+<img alt="_images/c03cc43d3fcd70e1fa793e3434a625d03ccf7468e921d0e7b972ba8fab56e48b.png" src="_images/c03cc43d3fcd70e1fa793e3434a625d03ccf7468e921d0e7b972ba8fab56e48b.png" />
 </div>
 </div>
 <p>As we see, the learned weights are close to the true weights!</p>
@@ -677,17 +677,17 @@ tensor([[3.4597, 0.0000, 0.0000],
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>weight: Parameter containing:
-tensor([[0.0259, 0.3990, 0.2145]], requires_grad=True)
+tensor([[0.2068, 0.1908, 0.1895]], requires_grad=True)
 bias: Parameter containing:
-tensor([0.5257], requires_grad=True)
+tensor([0.3285], requires_grad=True)
 ~~~~~~~~~~
 parameters: [Parameter containing:
-tensor([[0.0259, 0.3990, 0.2145]], requires_grad=True), Parameter containing:
-tensor([0.5257], requires_grad=True)]
+tensor([[0.2068, 0.1908, 0.1895]], requires_grad=True), Parameter containing:
+tensor([0.3285], requires_grad=True)]
 ~~~~~~~~~~
 --- output of linear layer ---
-tensor([1.9932], grad_fn=&lt;ViewBackward0&gt;)
-tensor([1.9932], grad_fn=&lt;ViewBackward0&gt;)
+tensor([1.4854], grad_fn=&lt;ViewBackward0&gt;)
+tensor([1.4854], grad_fn=&lt;ViewBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -728,12 +728,12 @@ tensor([1.9932], grad_fn=&lt;ViewBackward0&gt;)
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: Parameter containing:
-tensor([[ 2.0368, -2.9608,  0.9430]], requires_grad=True)
+tensor([[ 2.0259, -2.9390,  0.9672]], requires_grad=True)
 Learned bias: Parameter containing:
-tensor([0.0369], requires_grad=True)
+tensor([0.0499], requires_grad=True)
 </pre></div>
 </div>
-<img alt="_images/8ecd45075712db0f89fe1b82a9a1135befae179dae66a5ece5763e9a4a606848.png" src="_images/8ecd45075712db0f89fe1b82a9a1135befae179dae66a5ece5763e9a4a606848.png" />
+<img alt="_images/8525a27e0be92918b20b2edea64e90371ac1d1a4250c3cf99b1724f62269171a.png" src="_images/8525a27e0be92918b20b2edea64e90371ac1d1a4250c3cf99b1724f62269171a.png" />
 </div>
 </div>
 <p>You can build your own custom classes using the <code class="docutils literal notranslate"><span class="pre">class</span></code> keyword in python.  For instance a simple class for holding information about an NMR spectrum could be implemented as below.</p>
