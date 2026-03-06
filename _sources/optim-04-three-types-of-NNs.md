@@ -107,12 +107,61 @@ $$
 
 where $T$ and $T'$ are translation operators on the input and output spaces respectively.  The diagram says that if we first apply the function $f$ to the input, and then translate the output, we get the same result as if we first translate the input, and then apply the function $f$.  In other words, the function $f$ commutes with the action of the translation group. 
 
+For some physical applications, we might want to respect other symmetries, such as rotation or scaling.  In these cases, we can design convolutional neural networks that are equivariant to these symmetries as well.  For a theoretical discussion of how to design convolutional neural networks that are equivariant to (nearly) arbitrary symmetries, see the paper "On the generalization of equivariance and convolution in neural networks to the action of compact groups" by Trivedi and Kondor (https://proceedings.mlr.press/v80/kondor18a.html).
+
+Here, we consider a simple implementation of a neural network that is equivariant to three-dimensional rotation, $\text{SO}(3)$.  The action of the rotation group will be given by powers of the rotation matrix $R$.  Consequently, all of the neurons in the network will be given by
+
+- Single scalars $x$ that are invariant to rotation, i.e. $x \to x$ under the action of the rotation group.
+- Vectors $\vec{v}$ that transform as $\vec{v} \to R \vec{v}$ under the action of the rotation group.
+- Matrices that transform as $T_{ij} \to R_{ik} R_{jl} T_{kl}$ under the action of the rotation group.
+- etc.
+
+We can then design a neural network that takes these many different inputs, each of this type, and takes a linear combination of them to produce outputs of the same type.  For example, we can take a linear combination of two vectors $\vec{v}_1$ and $\vec{v}_2$ to produce a new vector $\vec{v} = w_1 \vec{v}_1 + w_2 \vec{v}_2$.  This gives us a learned linear operation that is equivariant to rotation: rotating a sum of two vectors is the same as summing the two vectors after they have been rotated.  
+
+Next, we need a way of introducing non-linearity into the network.  For the scalars, we can apply any non-linear activation function, such as ReLU, to produce a new scalar that is still invariant to rotation.  However, for vectors or higher-order tensors, we need to be more careful.  For instance, applying a ReLU to a vector would not produce a new vector that transforms correctly under rotation.  Consider rotating the vector $\vec{v} = (-1, 1, 0)$ by 90 degrees clockwise around the z-axis.  This results in the vector $\vec{v}' = (1, 1, 0)$, and applying the ReLU then gives $\text{ReLU}(\vec{v}') = (1, 1, 0)$.  However, if we first apply the ReLU to $\vec{v}$ and then rotate, we get $\text{ReLU}(\vec{v}) = (0, 1, 0)$ and rotating gives $\text{ReLU}(\vec{v})' = (1, 0, 0)$.  This is not the same as applying the ReLU after rotating: we have not achieved equivariance!
+
+Instead, one way to introduce non-linearity while preserving equivariance is to take variations of the tensor product between vectors.  For instance, we can take the cross product of two vectors $\vec{v}_1$ and $\vec{v}_2$ to produce a new vector $\vec{v} = \vec{v}_1 \times \vec{v}_2$.  We can also take the dot product of two vectors $\vec{v}_1$ and $\vec{v}_2$ to produce a new scalar $x = \vec{v}_1 \cdot \vec{v}_2$.  Both of these operations are equivariant to rotation, and can be used to introduce non-linearity into the network while preserving equivariance.
+
+More mathematically advanced versions of this idea have been implemented in the literature, often writing out these operations in terms of spherical harmonics.  For instance, the papers "Tensor field networks: Rotation- and translation-equivariant neural networks for 3D point clouds" by Thomas et al. (https://arxiv.org/abs/1802.08219) and "Clebsch–gordan nets: a fully fourier space spherical convolutional neural network" by Kondor et al. (https://proceedings.neurips.cc/paper/2018/hash/a3fc981af450752046be179185ebc8b5-Abstract.html) give examples of how to design neural networks that are equivariant to three-dimensional rotation using spherical harmonics. 
+
+```{warning}
+Note: The design of equivariant neural networks was a hot area of research in the late 2010s and early 2020s.  However, in the author's opinion this is an area that has largely underdelivered.  A key reason for this is that (a) the design of equivariant neural networks is often very complicated, and (b) equivariance is highly restrictive on the nonlinearities that can be used in the network, limiting expressivity.  Moreover, if invariance  to a symmetry is desired, then it is often easier to achieve this by using data augmentation to train a non-feedforward neural network.  In this paradigm, one takes the data and applies a random group transformation to it before feeding it into the network.  For a large amount of data, this can be just as effective as designing an equivariant neural network, and is much easier to implement.  Alternatively, many problems have natural ``reference points'' (e.g. the north pole on the Earth) that can be used to break the symmetry and put the data in a canonical position.  This is also a very effective way of achieving invariance to a symmetry.
+
+For a long time, the one remaining area where equivariant networks saw considerable use was the design of neural networks that predict energies of physical systems.  However, even in this area, the use of equivariant networks has largely been replaced by the use of non-equivariant networks: for instance, see Bigi et al. "Pushing the limits of unconstrained machine-learned interatomic potentials" (arxiv.org/abs/2601.16195).
+```
+
 
 ## Transformers
 
-TBD....
+Coming back to regular convolutional networks, one of the limitations of CNNs is that the filter is fixed: it is used at every location in the input.  This is a good design choice for images, where we expect the same features to be useful across the entire image.  However, for other types of data, such as natural language, this is not a good design choice.  In natural language, the meaning of a word can depend heavily on the context in which it appears.  For instance, the word "bank" can refer to a financial institution or the side of a river, depending on the context.  A fixed filter would not be able to capture this contextual information effectively.
+
 
 ### The Attention Mechanism
 
+This has motivated the development of "attention" mechanisms, which vary the amount of signal any location gets based on a learned function of the input.  The key idea behind the attention mechanism is to compute a weighted sum of the input features, where the weights are determined by a learned function of the input.  In practice, given two input signals $x$ and $y$ of length $m$ and $n$ respectively, we compute three different linear transformations of the input: the "query" $Q$, the "key" $K$, and the "value" $V$.  These are given by
 
-TBD....
+$$
+Q = W_Q y, \quad K = W_K x, \quad V = W_V x
+$$
+
+We then compute the attention weights as
+
+$$
+\alpha_{ij} = \frac{\exp(Q_i \cdot K_j)}{\sum_{k} \exp(Q_i \cdot K_k)}
+$$  
+
+Then, the output of the attention mechanism is given by
+
+$$
+\text{Attention}(x, y) = \sum_{j} \alpha_{ij} V_j
+$$
+
+This tells us how much of the value $V_j$  in $x$ to include in the output, based on how well the query $Q_i$ matches the key $K_j$.  This key represents a learned function of the input that encodes what $y_j$ is "looking for" in $x$.  
+
+Transformers are neural network architectures that are built around the attention mechanism.  IN each layer of a transformer, we have a multi-head attention mechanism, which consists of multiple parallel attention mechanisms that operate on different linear transformations of the input.  This allows the transformer to capture different types of relationships between the input features.  The output of the multi-head attention mechanism is then passed through a feedforward neural network, and this process is repeated for multiple layers.  The final output of the transformer is then used for the task at hand, such as classification or regression.
+
+### Positional Encoding
+
+One thing to note, however, is that the attention mechanism is completely equivarint to permutation of the input.  In fact, this makes attentions, and transformers, surprisingly flexible: most symmetries can be discretized into finite groups, potentially at the cost of some accuracy.  However, every finite group is the subset of the permutation group.  Consequently, applying an attention layer to a set of inputs is equivariant to any symmetry that can be discretized into a finite group.  This is a powerful fact, and is one of the reasons why transformers have been so successful. 
+
+However, since the attention layer is, by definition, equivariant to permutation, it by definition has no sense of the order of the input.  This is a problem for natural language processing, where the order of the words is crucial for understanding the meaning of a sentence.  To address this issue, transformers use positional encoding, which adds a learned or fixed encoding to the input features that encodes the position of each word in the sentence.  This allows the transformer to capture the order of the words in the input, while still leveraging the flexibility of the attention mechanism.  A classic, and still widely used, choice for positional encoding is to use sinusoidal functions of different frequencies, as described in the original transformer paper "Attention is All You Need" by Vaswani et al. (https://arxiv.org/abs/1706.03762).  Given a token at position $pos$ and a dimension $i$, the positional encoding is given by evaluating $sin(k pos )$ for even $i$ and $cos(k pos )$ for appropriately chosen values of $k$.  This gives us a unique encoding for each position in the input, while ensuring that that the outputs of the positional encoding remain bounded between -1 and 1, which is important for training stability.  
