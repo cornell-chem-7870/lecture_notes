@@ -165,3 +165,56 @@ Transformers are neural network architectures that are built around the attentio
 One thing to note, however, is that the attention mechanism is completely equivarint to permutation of the input.  In fact, this makes attentions, and transformers, surprisingly flexible: most symmetries can be discretized into finite groups, potentially at the cost of some accuracy.  However, every finite group is the subset of the permutation group.  Consequently, applying an attention layer to a set of inputs is equivariant to any symmetry that can be discretized into a finite group.  This is a powerful fact, and is one of the reasons why transformers have been so successful. 
 
 However, since the attention layer is, by definition, equivariant to permutation, it by definition has no sense of the order of the input.  This is a problem for natural language processing, where the order of the words is crucial for understanding the meaning of a sentence.  To address this issue, transformers use positional encoding, which adds a learned or fixed encoding to the input features that encodes the position of each word in the sentence.  This allows the transformer to capture the order of the words in the input, while still leveraging the flexibility of the attention mechanism.  A classic, and still widely used, choice for positional encoding is to use sinusoidal functions of different frequencies, as described in the original transformer paper "Attention is All You Need" by Vaswani et al. (https://arxiv.org/abs/1706.03762).  Given a token at position $pos$ and a dimension $i$, the positional encoding is given by evaluating $sin(k pos )$ for even $i$ and $cos(k pos )$ for appropriately chosen values of $k$.  This gives us a unique encoding for each position in the input, while ensuring that that the outputs of the positional encoding remain bounded between -1 and 1, which is important for training stability.  
+
+To incorporate the positional encoding into the transformer, we add it the values to the input features before feeding them into the attention mechanism.  Specifically, assume that we have an input signal $x_{ic}$ where $i$ indexes the position in the input and $m$ indexes the feature dimension.  For each position, we calculate the positional embedding $p_il$  We then compute the new input to the network as
+
+$$
+x'_{il} = \sum_{m=1}^M x_{im} w_{ml} + p_{il}
+$$
+
+where $w_{ml}$ is a learned weight matrix.  
+
+One might ask: why do we sum the positional encoding with the input features, rather than concatenating them?  In general, the correct way to combine information for neural networks is through summation rather than concatenation.  Say, we have two vectors, $v$ and $w$, each the output of a previous layer of a neural network.  One way to combine them  would be to concatenate them into a new vector, which would be the input to the next layer.  But this is equivalent to the following operation:
+
+$$
+\begin{bmatrix}
+v_1 \\
+v_2 \\
+\vdots \\
+v_n \\
+0 \\
+0 \\
+\vdots \\
+0
+\end{bmatrix}
++ 
+\begin{bmatrix}
+0 \\
+0 \\
+\vdots \\
+0 \\
+w_1 \\
+w_2 \\
+\vdots \\
+w_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+v_1 \\
+v_2 \\
+\vdots \\
+v_n \\
+w_1 \\
+w_2 \\
+\vdots \\
+w_n 
+\end{bmatrix}
+$$
+
+However, we could also have made the zero entries in the first vector learnable, and the zero entries in the second vector learnable.  We could then *choose* to the vectors zero, but we would not be forced to do so.  This would give us more flexibility.  Consequently, we could simply sum the two vectors together, and let the network learn how to combine them.
+
+Positional encoding can be naturally extended to data with more complex symmetries, such as images, or three-dimensional point clouds.  In general, good positional encodings have a few good properties:
+1. They should be unique, or at least close-to-unique, for each position in the input.  
+2. They should stay bounded (ideally between -1 and 1) to ensure training stability.
+3. They should reasonably reflect the structure of the data.  For instance, a desirable process might be smoothness: a small change in the position should lead to a small change in the positional encoding.  This is not strictly necessary, but it can help introduce an inductive bias that can improve performance. 
+
