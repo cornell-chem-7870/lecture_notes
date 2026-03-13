@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -437,7 +437,7 @@
 <p>Unfortunately, we are not quite happy with either solution.  Applying these to a simple harmonic oscillator, we saw that the energy either increases to infinity (forward Euler) or decreases to zero (backward Euler).<br />
 To address this, we will try to introduce integrators that obey the symmetries of a physical system.
 One classic one is time-reversal symmetry: if we run the dynamics up to time <span class="math notranslate nohighlight">\(T\)</span>, reverse the arrow of time, and then run the dynamics back to time <span class="math notranslate nohighlight">\(0\)</span>, we should end up where we started.<br />
-For inspiration, we again two turn Riemann integration, and find two integrators that obey this symmetry.  The first is the trapezoidal rule: numerically integrating a function using trapezoid rule gives the same answer if we march left or right.
+For inspiration, we again turn to Riemann integration, and find two integrators that obey this symmetry.  The first is the trapezoidal rule: numerically integrating a function using trapezoid rule gives the same answer if we march left or right.
 If we generalize this to the case of ODEs, we can write down a time-symmetric integrator as follows:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -471,12 +471,12 @@ Unlike the trapezoidal rule, this is an explicit integrator: we can evaluate the
 \end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(F\)</span> is the force.  (Recall that for Hamiltonian systems, the force is given by <span class="math notranslate nohighlight">\(F = - \partial U / \partial x\)</span>.)  We can then write the leapfrog integrator as follows:</p>
 <div class="math notranslate nohighlight">
-\[
+\[\begin{split}
 \begin{split}
-x(t + \Delta t) = x(t) + \Delta t v(t + \Delta t / 2)
+x(t + \Delta t) = x(t) + \Delta t v(t + \Delta t / 2) \\
 v(t + \Delta t / 2) = v(t - \Delta t / 2) + \frac{\Delta t}{M} F(t, x(t))
 \end{split}
-\]</div>
+\end{split}\]</div>
 <p>Note that we never need to evaluate the force at the midpoint, <span class="math notranslate nohighlight">\(F(t + \Delta t / 2, x(t + \Delta t / 2))\)</span>.  We still need to take only a single evaluation of the force, as we would if we were to use forwards or backwards Euler.
 However, this integrator is time-symmetric: we have achieved an important physical symmetry.</p>
 <section id="symplectic-integrators">

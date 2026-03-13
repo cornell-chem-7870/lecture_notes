@@ -40,7 +40,7 @@ $$
 Unfortunately, we are not quite happy with either solution.  Applying these to a simple harmonic oscillator, we saw that the energy either increases to infinity (forward Euler) or decreases to zero (backward Euler).  
 To address this, we will try to introduce integrators that obey the symmetries of a physical system.
 One classic one is time-reversal symmetry: if we run the dynamics up to time $T$, reverse the arrow of time, and then run the dynamics back to time $0$, we should end up where we started.  
-For inspiration, we again two turn Riemann integration, and find two integrators that obey this symmetry.  The first is the trapezoidal rule: numerically integrating a function using trapezoid rule gives the same answer if we march left or right.
+For inspiration, we again turn to Riemann integration, and find two integrators that obey this symmetry.  The first is the trapezoidal rule: numerically integrating a function using trapezoid rule gives the same answer if we march left or right.
 If we generalize this to the case of ODEs, we can write down a time-symmetric integrator as follows:
 
 $$
@@ -82,7 +82,7 @@ where $F$ is the force.  (Recall that for Hamiltonian systems, the force is give
 
 $$
 \begin{split}
-x(t + \Delta t) = x(t) + \Delta t v(t + \Delta t / 2)
+x(t + \Delta t) = x(t) + \Delta t v(t + \Delta t / 2) \\
 v(t + \Delta t / 2) = v(t - \Delta t / 2) + \frac{\Delta t}{M} F(t, x(t))
 \end{split}
 $$
