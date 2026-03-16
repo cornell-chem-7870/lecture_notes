@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -431,41 +431,41 @@ For instance,</p>
 \[
   \frac{\partial^2 u}{\partial t^2} = c^2 \nabla^2 u(x, t)
   \]</div>
-<p>where (u) is the wave function, (t) is time, and (\nabla^2) is the Laplacian operator.</p>
+<p>where <span class="math notranslate nohighlight">\(u\)</span> is the wave function, <span class="math notranslate nohighlight">\(t\)</span> is time, and <span class="math notranslate nohighlight">\(\nabla^2\)</span> is the Laplacian operator.</p>
 </li>
 <li><p>The Schrodinger equation describes the evolution of quantum states and is given by:</p>
 <div class="math notranslate nohighlight">
 \[
   i\hbar \frac{\partial \psi}{\partial t} = -\frac{\hbar^2}{2m} \nabla^2 \psi(x) + V(x) \psi(x)
   \]</div>
-<p>where (\psi) is the wave function, (V) is the potential energy, and (m) is the mass of the particle.</p>
+<p>where <span class="math notranslate nohighlight">\(\psi\)</span> is the wave function, <span class="math notranslate nohighlight">\(V\)</span> is the potential energy, and <span class="math notranslate nohighlight">\(m\)</span> is the mass of the particle.</p>
 </li>
 <li><p>The Convection-Diffusion equation describes the transport of substances in a medium.  For an incompressible flow,  it is given by:</p>
 <div class="math notranslate nohighlight">
 \[
   \frac{\partial u}{\partial t} + v \cdot \nabla u = D \nabla^2 u
   \]</div>
-<p>where (u) is the concentration of the substance, (v) is the velocity field, and (D) is the diffusion coefficient.</p>
+<p>where <span class="math notranslate nohighlight">\(u\)</span> is the concentration of the substance, <span class="math notranslate nohighlight">\(v\)</span> is the velocity field, and <span class="math notranslate nohighlight">\(D\)</span> is the diffusion coefficient.</p>
 </li>
 <li><p>The Fokker-Planck equation describes the time evolution of the probability density function of a stochastic process.  It is given by:</p>
 <div class="math notranslate nohighlight">
 \[
   \frac{\partial P(x, t)}{\partial t} = -\nabla \cdot (v(x) P(x, t)) + D \nabla^2 P(x, t)
   \]</div>
-<p>where (P) is the probability density function, (v(x)) is the drift velocity, and (D) is the diffusion coefficient.</p>
+<p>where <span class="math notranslate nohighlight">\(P\)</span> is the probability density function, <span class="math notranslate nohighlight">\(v(x)\)</span> is the drift velocity, and <span class="math notranslate nohighlight">\(D\)</span> is the diffusion coefficient.</p>
 </li>
 </ul>
-<p>While these are time-dependent PDEs, we can also have time-independent PDEs.  (Often, these result from looking for steady states for time-dependent equaitons.)  For instance, the Poisson equation describes the potential field in electrostatics and is given by:</p>
+<p>While these are time-dependent PDEs, we can also have time-independent PDEs.  (Often, these result from looking for steady states for time-dependent equations.)  For instance, the Poisson equation describes the potential field in electrostatics and is given by:</p>
 <div class="math notranslate nohighlight">
 \[
 \nabla^2 u(x) = -\frac{\rho(x)}{\epsilon_0}
 \]</div>
-<p>where (u) is the potential, (\rho(x)) is the charge density, and (\epsilon_0) is the permittivity of free space.</p>
+<p>where <span class="math notranslate nohighlight">\(u\)</span> is the potential, <span class="math notranslate nohighlight">\(\rho(x)\)</span> is the charge density, and <span class="math notranslate nohighlight">\(\epsilon_0\)</span> is the permittivity of free space.</p>
 <p>The <em>second</em> part of a PDE is the boundary conditions and initial conditions, which specify how the function behaves at spatial and temporal boundaries respectively.
-The initial conditions specify the state of the system at time (t=0), while the boundary conditions specify the behavior of the system at the spatial boundaries.
+The initial conditions specify the state of the system at time <span class="math notranslate nohighlight">\(t=0\)</span>, while the boundary conditions specify the behavior of the system at the spatial boundaries.
 These boundary conditions can be of different types.  Two of note are:</p>
 <ul class="simple">
-<li><p><strong>Dirichlet boundary conditions</strong> specify the value of the function at the boundary.  (The wavefunction going to 0 at the endges of an infinite potential energy wall is an example of this.)</p></li>
+<li><p><strong>Dirichlet boundary conditions</strong> specify the value of the function at the boundary.  (The wavefunction going to 0 at the edges of an infinite potential energy wall is an example of this.)</p></li>
 <li><p><strong>Neumann boundary conditions</strong> specify the value of the derivative of the function at the boundary.
 In other cases we might specify a combination of the two, or even a more complex condition.</p></li>
 </ul>
@@ -478,14 +478,32 @@ In other cases we might specify a combination of the two, or even a more complex
 <p>We have already written down a PDE solver without discussing it in February!
 In a previous homework, we attempted to solve the Schrodinger equation by</p>
 <ol class="arabic simple">
-<li><p>Introducing a Basis Set expansion of the wavefunction</p></li>
+<li><p>Introducing a Basis Set expansion of the wavefunction.</p></li>
 <li><p>Writing down a matrix representation of the Hamiltonian that gives the time-evolution of the coefficients.</p></li>
 <li><p>Diagonalizing the Hamiltonian to find the eigenvalues and eigenvectors and use them to time-evolve the system.</p></li>
 </ol>
+<p>To make this concrete, let <span class="math notranslate nohighlight">\(\{\phi_i(x)\}_{1 \leq i\leq N}\)</span> be a basis set that is orthonormal, i.e. <span class="math notranslate nohighlight">\(\int \phi_i^*(x) \phi_j(x) dx = \delta_{ij}\)</span>.
+We consider possible wavefunctions that obey</p>
+<div class="math notranslate nohighlight">
+\[
+\psi(x) = \sum_{i=1}^K c_i \phi_i(x)
+\]</div>
+<p>The action of the Hamiltonian on the wavefunction can be approximated using a multiplying by a matrix <span class="math notranslate nohighlight">\(H\)</span> that is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+H_{ij} = \int \phi_i^*(x) H \phi_j(x) dx
+\]</div>
+<p>Allowing us to approximate the true Schr{“o}dinger equation with a matrix eigenvalue problem:</p>
+<div class="math notranslate nohighlight">
+\[
+H c = E c
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(E\)</span> is the energy eigenvalue and <span class="math notranslate nohighlight">\(c\)</span> is the vector of coefficients.</p>
 <p>This is an example of an approach known as a spectral method: we decompose the solution into a linear combination of basis functions and then solve for the coefficients of these basis functions.
 Note that it is necessary that the basis set obeys the boundary conditions of the problem.  For instance, if we are solving the Schrodinger equation with Dirichlet boundary conditions, we need to use a basis set that goes to zero at the boundaries.  (The Fourier basis does not do this, but the sine basis does.)</p>
-<p>Spectral methods are often very powerful approaches, but they have their limitations.  For instance, it is not clear how to apply this to a PDE with non-linear terms.  (The Schrodinger equation is linear in the wavefunction, but other PDEs,
-such as the Kuramoto-Sivashinsky equation <span class="math notranslate nohighlight">\(\partial_t u = -\partial_x^2 u - \partial_x^4 u - \partial_x (u^2)\)</span> are not.)
+<p>Spectral methods are often very powerful approaches, but they have their limitations.  For instance, it is not clear how to apply this to a PDE with non-linear terms.  (The Schrodinger equation is linear in the wavefunction, so it makes sense to
+approximate it using a linear operation on a set of functions.
+However, other PDEs such as the Kuramoto-Sivashinsky equation <span class="math notranslate nohighlight">\(\partial_t u = -\partial_x^2 u - \partial_x^4 u - \partial_x (u^2)\)</span> are not.)
 Moreover, the basis set expansion is not always the most efficient way to represent the solution: a bad basis set may converge slowly, or lead to ringing artifacts.
 Finally, expanding the size of the basis set can lead to a large dense matrix: increasing computational expense.</p>
 </section>
@@ -575,7 +593,7 @@ For other PDEs it is not necessarily the most efficient method, but it is a reas
 <p>(A proof that this matrix is invertible is beyond the scope of this class.)</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>In practice, you don’t actually want to invert the matrix since this very computationally expensive.  Instead, it is better to solve the previous equation,
+<p>In practice, you may not want to invert the matrix since this very computationally expensive.  For very large matrices, it is better to solve the previous equation,
 observing that it takes the form</p>
 <div class="math notranslate nohighlight">
 \[

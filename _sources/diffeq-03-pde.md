@@ -32,14 +32,14 @@ For instance,
   \frac{\partial^2 u}{\partial t^2} = c^2 \nabla^2 u(x, t)
   $$
   
-  where \(u\) is the wave function, \(t\) is time, and \(\nabla^2\) is the Laplacian operator.
+  where $u$ is the wave function, $t$ is time, and $\nabla^2$ is the Laplacian operator.
 - The Schrodinger equation describes the evolution of quantum states and is given by:
     
   $$
   i\hbar \frac{\partial \psi}{\partial t} = -\frac{\hbar^2}{2m} \nabla^2 \psi(x) + V(x) \psi(x)
   $$
   
-  where \(\psi\) is the wave function, \(V\) is the potential energy, and \(m\) is the mass of the particle.
+  where $\psi$ is the wave function, $V$ is the potential energy, and $m$ is the mass of the particle.
 
 - The Convection-Diffusion equation describes the transport of substances in a medium.  For an incompressible flow,  it is given by:
 
@@ -47,7 +47,7 @@ For instance,
   \frac{\partial u}{\partial t} + v \cdot \nabla u = D \nabla^2 u
   $$
 
-  where \(u\) is the concentration of the substance, \(v\) is the velocity field, and \(D\) is the diffusion coefficient.
+  where $u$ is the concentration of the substance, $v$ is the velocity field, and $D$ is the diffusion coefficient.
 
 - The Fokker-Planck equation describes the time evolution of the probability density function of a stochastic process.  It is given by:
 
@@ -55,21 +55,21 @@ For instance,
   \frac{\partial P(x, t)}{\partial t} = -\nabla \cdot (v(x) P(x, t)) + D \nabla^2 P(x, t)
   $$
   
-  where \(P\) is the probability density function, \(v(x)\) is the drift velocity, and \(D\) is the diffusion coefficient.
+  where $P$ is the probability density function, $v(x)$ is the drift velocity, and $D$ is the diffusion coefficient.
 
-While these are time-dependent PDEs, we can also have time-independent PDEs.  (Often, these result from looking for steady states for time-dependent equaitons.)  For instance, the Poisson equation describes the potential field in electrostatics and is given by:
+While these are time-dependent PDEs, we can also have time-independent PDEs.  (Often, these result from looking for steady states for time-dependent equations.)  For instance, the Poisson equation describes the potential field in electrostatics and is given by:
 
 $$
 \nabla^2 u(x) = -\frac{\rho(x)}{\epsilon_0}
 $$
 
-where \(u\) is the potential, \(\rho(x)\) is the charge density, and \(\epsilon_0\) is the permittivity of free space.
+where $u$ is the potential, $\rho(x)$ is the charge density, and $\epsilon_0$ is the permittivity of free space.
 
 
 The *second* part of a PDE is the boundary conditions and initial conditions, which specify how the function behaves at spatial and temporal boundaries respectively.
-The initial conditions specify the state of the system at time \(t=0\), while the boundary conditions specify the behavior of the system at the spatial boundaries.
+The initial conditions specify the state of the system at time $t=0$, while the boundary conditions specify the behavior of the system at the spatial boundaries.
 These boundary conditions can be of different types.  Two of note are:
-- **Dirichlet boundary conditions** specify the value of the function at the boundary.  (The wavefunction going to 0 at the endges of an infinite potential energy wall is an example of this.)
+- **Dirichlet boundary conditions** specify the value of the function at the boundary.  (The wavefunction going to 0 at the edges of an infinite potential energy wall is an example of this.)
 - **Neumann boundary conditions** specify the value of the derivative of the function at the boundary.
 In other cases we might specify a combination of the two, or even a more complex condition.
 
@@ -81,15 +81,37 @@ A PDE is not complete with out its boundary and initial conditions!  They are es
 
 We have already written down a PDE solver without discussing it in February!
 In a previous homework, we attempted to solve the Schrodinger equation by
-1. Introducing a Basis Set expansion of the wavefunction
+1. Introducing a Basis Set expansion of the wavefunction.
 2. Writing down a matrix representation of the Hamiltonian that gives the time-evolution of the coefficients.
 3. Diagonalizing the Hamiltonian to find the eigenvalues and eigenvectors and use them to time-evolve the system.
+
+To make this concrete, let $\{\phi_i(x)\}_{1 \leq i\leq N}$ be a basis set that is orthonormal, i.e. $\int \phi_i^*(x) \phi_j(x) dx = \delta_{ij}$.
+We consider possible wavefunctions that obey
+
+$$
+\psi(x) = \sum_{i=1}^K c_i \phi_i(x)
+$$
+
+The action of the Hamiltonian on the wavefunction can be approximated using a multiplying by a matrix $H$ that is defined as
+
+$$
+H_{ij} = \int \phi_i^*(x) H \phi_j(x) dx
+$$
+
+Allowing us to approximate the true Schr{\"o}dinger equation with a matrix eigenvalue problem:
+
+$$
+H c = E c
+$$
+
+where $E$ is the energy eigenvalue and $c$ is the vector of coefficients.
 
 This is an example of an approach known as a spectral method: we decompose the solution into a linear combination of basis functions and then solve for the coefficients of these basis functions.
 Note that it is necessary that the basis set obeys the boundary conditions of the problem.  For instance, if we are solving the Schrodinger equation with Dirichlet boundary conditions, we need to use a basis set that goes to zero at the boundaries.  (The Fourier basis does not do this, but the sine basis does.)
 
-Spectral methods are often very powerful approaches, but they have their limitations.  For instance, it is not clear how to apply this to a PDE with non-linear terms.  (The Schrodinger equation is linear in the wavefunction, but other PDEs,
-such as the Kuramoto-Sivashinsky equation $\partial_t u = -\partial_x^2 u - \partial_x^4 u - \partial_x (u^2)$ are not.)
+Spectral methods are often very powerful approaches, but they have their limitations.  For instance, it is not clear how to apply this to a PDE with non-linear terms.  (The Schrodinger equation is linear in the wavefunction, so it makes sense to 
+approximate it using a linear operation on a set of functions.
+However, other PDEs such as the Kuramoto-Sivashinsky equation $\partial_t u = -\partial_x^2 u - \partial_x^4 u - \partial_x (u^2)$ are not.)
 Moreover, the basis set expansion is not always the most efficient way to represent the solution: a bad basis set may converge slowly, or lead to ringing artifacts.
 Finally, expanding the size of the basis set can lead to a large dense matrix: increasing computational expense.
 
@@ -192,7 +214,7 @@ $$
 (A proof that this matrix is invertible is beyond the scope of this class.)  
 
 ```{note}
-In practice, you don't actually want to invert the matrix since this very computationally expensive.  Instead, it is better to solve the previous equation,
+In practice, you may not want to invert the matrix since this very computationally expensive.  For very large matrices, it is better to solve the previous equation,
 observing that it takes the form
 
 $$

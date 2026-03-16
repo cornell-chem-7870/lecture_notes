@@ -445,6 +445,10 @@
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([2., 4., 6.])
 </pre></div>
 </div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/erik/mambaforge/envs/compmethods/lib/python3.11/site-packages/torch/autograd/graph.py:865: UserWarning: CUDA initialization: CUDA unknown error - this may be due to an incorrectly set up environment, e.g. changing env variable CUDA_VISIBLE_DEVICES after program start. Setting the available devices to be zero. (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:119.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+</pre></div>
+</div>
 </div>
 </div>
 <p>Pytorch keeps the gradients in the <code class="docutils literal notranslate"><span class="pre">.grad</span></code> attribute of the tensor.  Note: these persist, and are sometimes not automatically cleared, so you may need to clear them manually (e.g. by setting <code class="docutils literal notranslate"><span class="pre">a.grad</span> <span class="pre">=</span> <span class="pre">None</span></code>) if you want to compute gradients multiple times in a loop.  For instance, consider the following example:</p>
@@ -527,7 +531,9 @@ tensor([ 3., 12., 27.])
 tensor([ 3.1585,  7.0907, 11.8589], grad_fn=&lt;SubBackward0&gt;)
 -----------
 Computing the Hessian using functional API:
-tensor([[3.4597, 0.0000, 0.0000],
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[3.4597, 0.0000, 0.0000],
         [0.0000, 4.4161, 0.0000],
         [0.0000, 0.0000, 4.9900]], grad_fn=&lt;ViewBackward0&gt;)
 tensor([[3.4597, 0.0000, 0.0000],
@@ -605,10 +611,10 @@ tensor([[3.4597, 0.0000, 0.0000],
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: tensor([ 2.0305, -2.9379,  0.9746], requires_grad=True)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: tensor([ 1.9982, -2.9544,  1.0155], requires_grad=True)
 </pre></div>
 </div>
-<img alt="_images/c03cc43d3fcd70e1fa793e3434a625d03ccf7468e921d0e7b972ba8fab56e48b.png" src="_images/c03cc43d3fcd70e1fa793e3434a625d03ccf7468e921d0e7b972ba8fab56e48b.png" />
+<img alt="_images/3fc2c48b150fd811505f766c0a22c084c6ae0f1a9c1557063b9cc6b7a2980e85.png" src="_images/3fc2c48b150fd811505f766c0a22c084c6ae0f1a9c1557063b9cc6b7a2980e85.png" />
 </div>
 </div>
 <p>As we see, the learned weights are close to the true weights!</p>
@@ -677,17 +683,17 @@ tensor([[3.4597, 0.0000, 0.0000],
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>weight: Parameter containing:
-tensor([[0.2068, 0.1908, 0.1895]], requires_grad=True)
+tensor([[-0.2814, -0.0911,  0.5495]], requires_grad=True)
 bias: Parameter containing:
-tensor([0.3285], requires_grad=True)
+tensor([-0.3357], requires_grad=True)
 ~~~~~~~~~~
 parameters: [Parameter containing:
-tensor([[0.2068, 0.1908, 0.1895]], requires_grad=True), Parameter containing:
-tensor([0.3285], requires_grad=True)]
+tensor([[-0.2814, -0.0911,  0.5495]], requires_grad=True), Parameter containing:
+tensor([-0.3357], requires_grad=True)]
 ~~~~~~~~~~
 --- output of linear layer ---
-tensor([1.4854], grad_fn=&lt;ViewBackward0&gt;)
-tensor([1.4854], grad_fn=&lt;ViewBackward0&gt;)
+tensor([0.8493], grad_fn=&lt;ViewBackward0&gt;)
+tensor([0.8493], grad_fn=&lt;ViewBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -728,12 +734,12 @@ tensor([1.4854], grad_fn=&lt;ViewBackward0&gt;)
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: Parameter containing:
-tensor([[ 2.0259, -2.9390,  0.9672]], requires_grad=True)
+tensor([[ 1.9980, -2.9538,  1.0148]], requires_grad=True)
 Learned bias: Parameter containing:
-tensor([0.0499], requires_grad=True)
+tensor([0.0066], requires_grad=True)
 </pre></div>
 </div>
-<img alt="_images/8525a27e0be92918b20b2edea64e90371ac1d1a4250c3cf99b1724f62269171a.png" src="_images/8525a27e0be92918b20b2edea64e90371ac1d1a4250c3cf99b1724f62269171a.png" />
+<img alt="_images/32a3a948c2a8a0315d618ee8caf32bf3e06ed27da6ade49e8511097d1f3e4fa6.png" src="_images/32a3a948c2a8a0315d618ee8caf32bf3e06ed27da6ade49e8511097d1f3e4fa6.png" />
 </div>
 </div>
 <p>You can build your own custom classes using the <code class="docutils literal notranslate"><span class="pre">class</span></code> keyword in python.  For instance a simple class for holding information about an NMR spectrum could be implemented as below.</p>
