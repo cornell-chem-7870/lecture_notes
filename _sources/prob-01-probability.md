@@ -37,8 +37,8 @@ For now, we will focus on how probability is constructed, and come back to the d
 
 ### A (Non-Rigorous) Introduction to Probability
 
-Mathematicians describe probability using the following terms.
-For any random event, we can define a probability space $(\Omega, \mathcal{F}, P)$, where:
+Let us first spend a little time building some basic concepts in probability theory.  We will be a little bit hand-wavy here, but the goal is to build intuition for how probability works and what the central objects are.
+We can define a probability space $(\Omega, \mathcal{F}, P)$, where:
 - $\Omega$ is the set of all possible outcomes of the event.
 - $\mathcal{F}$ is a set of ``events'': all the subsets of reasonable outcomes that we might want to assign a probability to.  (Formally, $\mathcal{F}$ is a $\sigma$-algebra of subsets of $\Omega$.  This is far more technical than we need to get into here.)
 - $P$ is a probability measure, which assigns a number between 0 and 1 to each event in $\mathcal{F}$, such that $P(\Omega) = 1$ and $P(\emptyset) = 0$.
@@ -61,12 +61,18 @@ Another example is in equilibrium statistical mechanics,
 ### What is a Random Variable?
 
 A **random variable** is a function that maps outcomes of a random event to real numbers.
-<!-- It is *not* the same thing as an element in $\Omega$: observing  -->
 Care must be taken to distinguish between random variables and elements in $\Omega$.  Coming back to the die example, the random variable $X$ might be the number that comes up when the die is rolled.  $X$ is a function that maps the event "a one comes up" to the number 1, and so on.  However, these are not the same thing: one is a physical event, whereas the other is a mathematical object.  Additionally, there are many other possible random variables we can define.  For instance, another random variable would be the parity of the number that comes up: 0 if the number is even, and 1 if the number is odd.  Yet another would be the square of the number on the face.
 
 Note that since random variables map to numbers, there is a natural way to add them together, multiply them, and so on.  For instance, if we have two dice, $X_1$ is the random variable corresponding to the number on the first die, and $X_2$ is the random variable corresponding to the number on the second die, then $X_1 + X_2$ is a new random variable corresponding to the sum of the two dice.
 
 We can trivially extend random variables to vector-valued functions.  For instance, if we have a die and a coin, we could define a random variable $X = (X_1, X_2)$, where $X_1$ is the number on the die and $X_2$ is the result of the coin flip.  
+Additionally, we can measure the probability of a random variable taking on a certain value.  For instance, the probability of $X_1$ being 1 is $P(X_1 = 1) = 1/6$, and the probability of $X_2$ being heads is $P(X_2 = \text{heads}) = 1/2$.
+
+Coming back to probability spaces, we can view this two ways:
+\begin{enumerate}
+  \item We have  defined a new probability space for the random variable $X$, where the outcomes are the possible values of $X$, and the probability measure is given by $P(X = x)$ for each possible value of $x$.
+  \item We have defined a new probability space for the original outcomes, and we are considering sets of outcomes that correspond to the random variable taking on a certain value.  For instance, the event $X_1 = 1$ corresponds to the set of outcomes where the first die shows a one, and the event $X_2 = \text{heads}$ corresponds to the set of outcomes where the coin shows heads.
+\end{enumerate}
 
 
 ## Quantifying Probabilities
