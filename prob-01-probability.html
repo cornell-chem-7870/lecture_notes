@@ -193,10 +193,8 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Intro to Probability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prob-02-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prob-03-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prob-04-bayesian-inference.html">Bayesian Inference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prob-05-monte-carlo.html">Monte Carlo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prob-06-mcmc.html">Markov Chain Monte Carlo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prob-07-metropolis-hastings.html">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-04-monte-carlo.html">Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-05-mcmc.html">Markov Chain Monte Carlo</a></li>
 </ul>
 
     </div>
@@ -402,15 +400,20 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-distributions">Probability Distributions</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-mass-functions-pmfs">Probability Mass Functions (PMFs)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-density-functions-pdfs">Probability Density Functions (PDFs)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#independent-and-identically-distributed-random-variables">Independent and Identically Distributed Random Variables</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-variables-changes-the-pdf">Changing Variables Changes the PDF</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-from-a-probability-distribution">Sampling from a Probability Distribution</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#doing-things-with-random-variables">Doing things with Random Variables</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-values">Expected Values</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-with-free-energy">Connection with Free Energy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-random-variables">Common Random Variables</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bernoulli-and-binomial-distributions">The Bernoulli and Binomial Distributions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-poisson-distribution">The Poisson Distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-uniform-distribution">The Uniform Distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-normal-gaussian-distribution">The Normal (Gaussian) Distribution</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -537,6 +540,31 @@ For instance, we might say that a random variable <span class="math notranslate 
 P([0, \infty)) = \int_0^\infty \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x - \mu)^2}{2\sigma^2}\right) dx = \frac{1}{2}.
 \]</div>
 </section>
+<section id="independent-and-identically-distributed-random-variables">
+<h3>Independent and Identically Distributed Random Variables<a class="headerlink" href="#independent-and-identically-distributed-random-variables" title="Link to this heading">#</a></h3>
+<p>Say we have two random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>.  We say that <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are independent if the probability of <span class="math notranslate nohighlight">\(X\)</span> taking on a value does not depend on the value of <span class="math notranslate nohighlight">\(Y\)</span>, and vice versa. To give some examples:</p>
+<ul class="simple">
+<li><p>The outcome of rolling a die and the outcome of flipping a coin are independent random variables.</p></li>
+<li><p>The chance that it rains today and the chance that I carry an umbrella are not independent random variables.</p></li>
+<li><p>The position of a particle at time <span class="math notranslate nohighlight">\(t\)</span> and the position of the same particle at time <span class="math notranslate nohighlight">\(t + \Delta t\)</span> are not independent random variables, since the position at time <span class="math notranslate nohighlight">\(t + \Delta t\)</span> depends on the position at time <span class="math notranslate nohighlight">\(t\)</span>.  However as <span class="math notranslate nohighlight">\(\Delta t\)</span> gets larger, we expect that future position will become increasingly independent of the current position.</p></li>
+</ul>
+<p>If two random variables are independent, then the probability of both events occurring is the product of the probabilities of each event occurring.   This means that the probability mass function (or probability density function) of the joint distribution of <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> is the product of the PMFs (or PDFs) of <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>.  For instance, if <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are independent random variables with PMFs <span class="math notranslate nohighlight">\(p_X(x)\)</span> and <span class="math notranslate nohighlight">\(p_Y(y)\)</span>, then the PMF of the joint distribution is given by</p>
+<div class="math notranslate nohighlight">
+\[
+p_{X,Y}(x, y) = p_X(x) p_Y(y).
+\]</div>
+<p>Often, we will say that random variables are “independent and identically distributed” (i.i.d.) if they are independent and have the same probability distribution.  For instance, if we roll a die 10 times, the random variables corresponding to each roll are i.i.d., since they are independent and have the same PMF.</p>
+<p>We can use this to calculate the probability of events involving both <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>.  For instance, let <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> be i.i.d. random variables with PMF <span class="math notranslate nohighlight">\(p(x)\)</span>.  We can calculate the PMF of the sum <span class="math notranslate nohighlight">\(Z = X + Y\)</span> as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+p_Z(z) = \sum_{x+y=z} p_X(x) p_Y(y) = \sum_{x} p(x) p(z - x).
+\]</div>
+<p>Similarly, if they are i.i.d. random variables with PDF <span class="math notranslate nohighlight">\(p(x)\)</span>, we can calculate the PDF of the sum <span class="math notranslate nohighlight">\(Z = X + Y\)</span> as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+p_Z(z) = \int_{-\infty}^\infty \delta(x +y - z) p_X(x) p_Y(y) dx dy  = \int_{-\infty}^\infty p(x) p(z - x) dx.
+\]</div>
+</section>
 <section id="changing-variables-changes-the-pdf">
 <h3>Changing Variables Changes the PDF<a class="headerlink" href="#changing-variables-changes-the-pdf" title="Link to this heading">#</a></h3>
 <p>One of the most important properties of probability density functions is that they change under a change of variables.  For instance, consider a random variable <span class="math notranslate nohighlight">\(X\)</span> with PDF <span class="math notranslate nohighlight">\(p(x)\)</span> for a real number <span class="math notranslate nohighlight">\(x\)</span>.  Let <span class="math notranslate nohighlight">\(Y = f(X)\)</span> be a new random variable, where <span class="math notranslate nohighlight">\(f\)</span> is an monotonic (always increasing or always decreasing) and differentiable function.  The PDF of <span class="math notranslate nohighlight">\(Y\)</span> is given by</p>
@@ -564,9 +592,6 @@ F(x) = \int_{-\infty}^x p(x') dx'.
 <p>Note that this is a monotonically increasing function that goes from 0 to 1.
 To sample from the distribution by generating a random number <span class="math notranslate nohighlight">\(r\)</span> between 0 and 1, and returning the value of <span class="math notranslate nohighlight">\(x\)</span> such that <span class="math notranslate nohighlight">\(F(x) = r\)</span>.  This is known as the “inverse transform method”.</p>
 </section>
-</section>
-<section id="doing-things-with-random-variables">
-<h2>Doing things with Random Variables<a class="headerlink" href="#doing-things-with-random-variables" title="Link to this heading">#</a></h2>
 <section id="expected-values">
 <h3>Expected Values<a class="headerlink" href="#expected-values" title="Link to this heading">#</a></h3>
 <p>Expected values are a way of summarizing the distribution of a random variable.  The expected value of a random variable <span class="math notranslate nohighlight">\(X\)</span> is denoted <span class="math notranslate nohighlight">\(\langle X \rangle\)</span> or <span class="math notranslate nohighlight">\(E[X]\)</span>, and is defined as the weighted average of the possible values of <span class="math notranslate nohighlight">\(X\)</span>, weighted by their probabilities.  For a discrete random variable with PMF <span class="math notranslate nohighlight">\(p(x)\)</span>, the expected value is given by <span class="math notranslate nohighlight">\(\langle X \rangle = \sum_x x p(x)\)</span>.  For a continuous random variable with PDF <span class="math notranslate nohighlight">\(p(x)\)</span>, the expected value is given by <span class="math notranslate nohighlight">\(\langle X \rangle = \int x p(x) dx\)</span>.</p>
@@ -603,6 +628,59 @@ Now, let us consider a free energy difference between two states <span class="ma
 \Delta F = - k_B T \log \frac{\int_A p(x) dx}{\int_B p(x) dx} = - k_B T \log \frac{P(A)}{P(B)}.
 \]</div>
 <p>In other words, the free energy difference between two states is proportional to the log of the ratio of the probabilities of observing those states.</p>
+</section>
+<section id="common-random-variables">
+<h2>Common Random Variables<a class="headerlink" href="#common-random-variables" title="Link to this heading">#</a></h2>
+<section id="the-bernoulli-and-binomial-distributions">
+<h3>The Bernoulli and Binomial Distributions<a class="headerlink" href="#the-bernoulli-and-binomial-distributions" title="Link to this heading">#</a></h3>
+<p>The Bernoulli distribution is a discrete probability distribution that models a binary outcome, such as success/failure, yes/no, or 1/0.  (We can think of this as the outcome of a coin flip, where “heads” is a success and “tails” is a failure.) The probability mass function of a Bernoulli random variable <span class="math notranslate nohighlight">\(X\)</span> with parameter <span class="math notranslate nohighlight">\(p\)</span> (the probability of success) is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+P(X = x) = \begin{cases}
+p &amp; \text{if } x = 1, \\
+1 - p &amp; \text{if } x = 0, \\
+0 &amp; \text{otherwise}.
+\end{cases}
+\end{split}\]</div>
+<p>gg
+We could then ask, what if we have multiple independent Bernoulli trials?  For instance, what if we flip a coin 10 times and count the number of successes (heads)?  This is modeled by the Binomial distribution.  The probability mass function of a Binomial random variable <span class="math notranslate nohighlight">\(Y\)</span> with parameters <span class="math notranslate nohighlight">\(n\)</span> (the number of trials) and <span class="math notranslate nohighlight">\(p\)</span> (the probability of success on each trial) is given by</p>
+<div class="math notranslate nohighlight">
+\[
+P(Y = k) = \binom{n}{k} p^k (1 - p)^{n - k}
+\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\binom{n}{k}= \frac{n!}{k!(n-k)!}\)</span> is the binomial coefficient, which counts the number of ways to choose <span class="math notranslate nohighlight">\(k\)</span> successes from <span class="math notranslate nohighlight">\(n\)</span> trials.  The Binomial distribution models the number of successes in <span class="math notranslate nohighlight">\(n\)</span> independent Bernoulli trials with success probability <span class="math notranslate nohighlight">\(p\)</span>.</p>
+<p>(This follows naturally from the definition of the Bernoulli distribution, the fact that the trials are independent, and the fact that there are <span class="math notranslate nohighlight">\(\binom{n}{k}\)</span> ways to arrange <span class="math notranslate nohighlight">\(k\)</span> successes among <span class="math notranslate nohighlight">\(n\)</span> trials.)</p>
+</section>
+<section id="the-poisson-distribution">
+<h3>The Poisson Distribution<a class="headerlink" href="#the-poisson-distribution" title="Link to this heading">#</a></h3>
+<p>If we have a large number of independent Bernoulli trials with a small probability of success, the Binomial distribution can be approximated by the Poisson distribution.  The probability mass function of a Poisson random variable <span class="math notranslate nohighlight">\(Z\)</span> with parameter <span class="math notranslate nohighlight">\(\lambda\)</span> (the average rate of success) is given by</p>
+<div class="math notranslate nohighlight">
+\[
+P(Z = k) = \frac{\lambda^k e^{-\lambda}}{k!}
+\]</div>
+<p>The Poisson distribution models the number of events that occur in a fixed interval of time or space, given a constant average rate of occurrence <span class="math notranslate nohighlight">\(\lambda\)</span>.  For instance, if we are counting the number of cars that pass through an intersection in an hour, and we know that on average 5 cars pass through per hour, we could model the number of cars that pass through in an hour using a Poisson distribution with <span class="math notranslate nohighlight">\(\lambda = 5\)</span>.</p>
+</section>
+<section id="the-uniform-distribution">
+<h3>The Uniform Distribution<a class="headerlink" href="#the-uniform-distribution" title="Link to this heading">#</a></h3>
+<p>The uniform distribution is a continuous probability distribution that models a random variable that is equally likely to take on any value within a specified interval.  The probability density function of a uniform random variable <span class="math notranslate nohighlight">\(X\)</span> on the interval <span class="math notranslate nohighlight">\([a, b]\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+f(x) = \begin{cases}
+\frac{1}{b - a} &amp; \text{if } a \leq x \leq b, \\
+0 &amp; \text{otherwise}.
+\end{cases}
+\end{split}\]</div>
+<p>This is the simplest continuous distribution, and it is often used as a building block for more complex distributions.  (In the last class, we discussed how to use the inverse CDF method to generate random numbers from any distribution, given a source of uniform random numbers.)</p>
+</section>
+<section id="the-normal-gaussian-distribution">
+<h3>The Normal (Gaussian) Distribution<a class="headerlink" href="#the-normal-gaussian-distribution" title="Link to this heading">#</a></h3>
+<p>Just as the Poisson distribution is a limit of the Binomial distribution when the number of trials is large and the probability of success is small, the Normal distribution is a limit of the Binomial distribution when the number of trials is large and the probability of success is not too close to 0 or 1.  The probability density function of a Normal random variable <span class="math notranslate nohighlight">\(X\)</span> with mean <span class="math notranslate nohighlight">\(\mu\)</span> and standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}.
+\]</div>
+<p>One of the reasons the Normal distribution is so important is because of the Central Limit Theorem, which states that the sum of a large number of independent and identically distributed random variables will be approximately normally distributed, regardless of the original distribution of the random variables.  This is why the Normal distribution appears so frequently in nature and in statistics.</p>
+</section>
 </section>
 </section>
 
@@ -684,15 +762,20 @@ Now, let us consider a free energy difference between two states <span class="ma
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-distributions">Probability Distributions</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-mass-functions-pmfs">Probability Mass Functions (PMFs)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#probability-density-functions-pdfs">Probability Density Functions (PDFs)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#independent-and-identically-distributed-random-variables">Independent and Identically Distributed Random Variables</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-variables-changes-the-pdf">Changing Variables Changes the PDF</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-from-a-probability-distribution">Sampling from a Probability Distribution</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#doing-things-with-random-variables">Doing things with Random Variables</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-values">Expected Values</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-with-free-energy">Connection with Free Energy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-random-variables">Common Random Variables</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bernoulli-and-binomial-distributions">The Bernoulli and Binomial Distributions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-poisson-distribution">The Poisson Distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-uniform-distribution">The Uniform Distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-normal-gaussian-distribution">The Normal (Gaussian) Distribution</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

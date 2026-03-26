@@ -191,10 +191,8 @@
 <li class="toctree-l1"><a class="reference internal" href="prob-01-probability.html">Intro to Probability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prob-02-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prob-03-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prob-04-bayesian-inference.html">Bayesian Inference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prob-05-monte-carlo.html">Monte Carlo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prob-06-mcmc.html">Markov Chain Monte Carlo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prob-07-metropolis-hastings.html">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-04-monte-carlo.html">Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-05-mcmc.html">Markov Chain Monte Carlo</a></li>
 </ul>
 
     </div>
@@ -445,10 +443,6 @@
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([2., 4., 6.])
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/erik/mambaforge/envs/compmethods/lib/python3.11/site-packages/torch/autograd/graph.py:865: UserWarning: CUDA initialization: CUDA unknown error - this may be due to an incorrectly set up environment, e.g. changing env variable CUDA_VISIBLE_DEVICES after program start. Setting the available devices to be zero. (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:119.)
-  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
-</pre></div>
-</div>
 </div>
 </div>
 <p>Pytorch keeps the gradients in the <code class="docutils literal notranslate"><span class="pre">.grad</span></code> attribute of the tensor.  Note: these persist, and are sometimes not automatically cleared, so you may need to clear them manually (e.g. by setting <code class="docutils literal notranslate"><span class="pre">a.grad</span> <span class="pre">=</span> <span class="pre">None</span></code>) if you want to compute gradients multiple times in a loop.  For instance, consider the following example:</p>
@@ -531,9 +525,7 @@ tensor([ 3., 12., 27.])
 tensor([ 3.1585,  7.0907, 11.8589], grad_fn=&lt;SubBackward0&gt;)
 -----------
 Computing the Hessian using functional API:
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[3.4597, 0.0000, 0.0000],
+tensor([[3.4597, 0.0000, 0.0000],
         [0.0000, 4.4161, 0.0000],
         [0.0000, 0.0000, 4.9900]], grad_fn=&lt;ViewBackward0&gt;)
 tensor([[3.4597, 0.0000, 0.0000],
@@ -611,10 +603,13 @@ tensor([[3.4597, 0.0000, 0.0000],
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: tensor([ 1.9982, -2.9544,  1.0155], requires_grad=True)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: 
 </pre></div>
 </div>
-<img alt="_images/3fc2c48b150fd811505f766c0a22c084c6ae0f1a9c1557063b9cc6b7a2980e85.png" src="_images/3fc2c48b150fd811505f766c0a22c084c6ae0f1a9c1557063b9cc6b7a2980e85.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([ 2.0357, -3.0151,  0.8939], requires_grad=True)
+</pre></div>
+</div>
+<img alt="_images/00c5f8f54b0f6ff0f6c6733250151b77c937f2bf33461631821211cde31372a9.png" src="_images/00c5f8f54b0f6ff0f6c6733250151b77c937f2bf33461631821211cde31372a9.png" />
 </div>
 </div>
 <p>As we see, the learned weights are close to the true weights!</p>
@@ -683,17 +678,17 @@ tensor([[3.4597, 0.0000, 0.0000],
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>weight: Parameter containing:
-tensor([[-0.2814, -0.0911,  0.5495]], requires_grad=True)
+tensor([[ 0.4469, -0.3749,  0.5378]], requires_grad=True)
 bias: Parameter containing:
-tensor([-0.3357], requires_grad=True)
+tensor([0.3991], requires_grad=True)
 ~~~~~~~~~~
 parameters: [Parameter containing:
-tensor([[-0.2814, -0.0911,  0.5495]], requires_grad=True), Parameter containing:
-tensor([-0.3357], requires_grad=True)]
+tensor([[ 0.4469, -0.3749,  0.5378]], requires_grad=True), Parameter containing:
+tensor([0.3991], requires_grad=True)]
 ~~~~~~~~~~
 --- output of linear layer ---
-tensor([0.8493], grad_fn=&lt;ViewBackward0&gt;)
-tensor([0.8493], grad_fn=&lt;ViewBackward0&gt;)
+tensor([1.7098], grad_fn=&lt;ViewBackward0&gt;)
+tensor([1.7098], grad_fn=&lt;ViewBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -734,12 +729,12 @@ tensor([0.8493], grad_fn=&lt;ViewBackward0&gt;)
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: Parameter containing:
-tensor([[ 1.9980, -2.9538,  1.0148]], requires_grad=True)
+tensor([[ 2.0409, -3.0046,  0.9001]], requires_grad=True)
 Learned bias: Parameter containing:
-tensor([0.0066], requires_grad=True)
+tensor([0.0844], requires_grad=True)
 </pre></div>
 </div>
-<img alt="_images/32a3a948c2a8a0315d618ee8caf32bf3e06ed27da6ade49e8511097d1f3e4fa6.png" src="_images/32a3a948c2a8a0315d618ee8caf32bf3e06ed27da6ade49e8511097d1f3e4fa6.png" />
+<img alt="_images/91cfaba3e4150239e0f6535730ca5bdd201cec2768b0ad4078d2da4cd5d71460.png" src="_images/91cfaba3e4150239e0f6535730ca5bdd201cec2768b0ad4078d2da4cd5d71460.png" />
 </div>
 </div>
 <p>You can build your own custom classes using the <code class="docutils literal notranslate"><span class="pre">class</span></code> keyword in python.  For instance a simple class for holding information about an NMR spectrum could be implemented as below.</p>
