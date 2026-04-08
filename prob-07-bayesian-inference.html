@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Detailed Balance and the Metropolis-Hastings Algorithm &#8212; Lecture Notes for Cornell Chem 7870</title>
+    <title>Bayesian Inference &#8212; Lecture Notes for Cornell Chem 7870</title>
   
   
   
@@ -62,9 +62,10 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'prob-07-metropolis-hastings';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'prob-07-bayesian-inference';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Detailed Balance and the Metropolis-Hastings Algorithm" href="prob-06-metropolis-hastings.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -115,8 +116,6 @@
     <div class="bd-container__inner bd-page-width">
       
       
-      
-        
       
       <dialog id="pst-primary-sidebar-modal"></dialog>
       <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
@@ -189,12 +188,14 @@
 <li class="toctree-l1"><a class="reference internal" href="diffeq-03-pde.html">From ODE to PDE</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3. Probability</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="prob-01-probability.html">Intro to Probability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prob-02-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prob-03-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prob-04-monte-carlo.html">Monte Carlo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prob-05-mcmc.html">Markov Chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-06-metropolis-hastings.html">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Bayesian Inference</a></li>
 </ul>
 
     </div>
@@ -271,7 +272,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fprob-07-metropolis-hastings.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fprob-07-bayesian-inference.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -301,7 +302,7 @@
       
       
       
-      <li><a href="_sources/prob-07-metropolis-hastings.md" target="_blank"
+      <li><a href="_sources/prob-07-bayesian-inference.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -377,7 +378,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Detailed Balance and the Metropolis-Hastings Algorithm</h1>
+    <h1>Bayesian Inference</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -388,11 +389,18 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-balance">Detailed Balance</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gibbs-sampler-and-detailed-balance">The Gibbs Sampler and Detailed Balance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Bayesian Inference</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior">Prior</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likelihood">Likelihood</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evidence">Evidence</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-metropolis-hastings-algorithm">The Metropolis-Hastings Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-multiple-data-points">Working with multiple data points</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-in-log-space">Working in log-space</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-linear-regression">Bayesian Linear Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
             </nav>
         </div>
@@ -404,74 +412,136 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="detailed-balance-and-the-metropolis-hastings-algorithm">
-<h1>Detailed Balance and the Metropolis-Hastings Algorithm<a class="headerlink" href="#detailed-balance-and-the-metropolis-hastings-algorithm" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="bayesian-inference">
+<h1>Bayesian Inference<a class="headerlink" href="#bayesian-inference" title="Link to this heading">#</a></h1>
 <section id="learning-objectives">
 <h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Generalize Gibbs Sampling to the Metropolis-Hastings algorithm.</p></li>
-<li><p>Connect Detailed Balance to preserving the target distribution.</p></li>
+<li><p>Develop a sense for constructing Priors and likelihoods</p></li>
+<li><p>Understand how to evaluate the evidence (and when you might not want to).</p></li>
+<li><p>Understand how to use the posterior to make predictions.</p></li>
+<li><p>Become familiar with working in log-space for numerical stability.</p></li>
+<li><p>Understand how to apply Bayesian Inference to linear regression.</p></li>
 </ul>
 </section>
-<section id="detailed-balance">
-<h2>Detailed Balance<a class="headerlink" href="#detailed-balance" title="Link to this heading">#</a></h2>
-<p>Last class, we considered the Gibbs sampler.  We said, without any particular justification, that the Gibbs sampler preserves the target distribution.  To show that this is true, we first observe that the Gibbs sampler obeys a property called “detailed balance”:</p>
+<section id="id1">
+<h2>Bayesian Inference<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>In our previous discussion of Bayesian Inference, we advanced an approach for evaluating statistical hypotheses.  Given a set of data, <span class="math notranslate nohighlight">\(D\)</span>, and hypothesis for the model that generated the data, <span class="math notranslate nohighlight">\(H\)</span>, we can evaluate the posteriar probability of the hypothesis given the data, <span class="math notranslate nohighlight">\(P(H|D)\)</span> using Bayes Rule:</p>
 <div class="math notranslate nohighlight">
 \[
-\pi(x) p(x' | x)  = \pi(x') p(x | x')
+P(H|D) = \frac{P(D|H)P(H)}{P(D)}.
 \]</div>
-<p>Any Markov chain that obeys detailed balance will have a stationary distribution that is equal to the target distribution,
-as</p>
+<p>To recap, the terms in this equation are as follows.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(P(H|D)\)</span> is the posterior probability of the hypothesis given the data.</p></li>
+<li><p><span class="math notranslate nohighlight">\(P(D|H)\)</span> is the likelihood of the data given the hypothesis, which represents the probability of observing the data given that the hypothesis is true.</p></li>
+<li><p><span class="math notranslate nohighlight">\(P(H)\)</span> is the prior probability of the hypothesis, which represents our belief in the hypothesis before seeing the data.</p></li>
+<li><p><span class="math notranslate nohighlight">\(P(D)\)</span> is the evidence, or the probability of the data.</p></li>
+</ul>
+<p>We first discuss the construction of the prior, before moving on to the likelihood and finally the evidence.</p>
+<section id="prior">
+<h3>Prior<a class="headerlink" href="#prior" title="Link to this heading">#</a></h3>
+<p>The prior is the probability of the hypothesis before seeing the data: typically this is something that you choose based on your knowledge of the system.  In general, the hypothesis is encoded in one or more parameters that specify the hypothesis.</p>
+<p>For example, if you are trying to determine the probability that a coin comes up heads you might choose a prior for the probability of heads.  Some examples of priors are:</p>
+<ul class="simple">
+<li><p>If you have no idea what the probability is, you might choose a prior that is uniform over the interval <span class="math notranslate nohighlight">\([0, 1]\)</span>.</p></li>
+<li><p>If you have good reason to believe that the coin is fair, you might choose a prior that is peaked at <span class="math notranslate nohighlight">\(0.5\)</span>.</p></li>
+<li><p>If say someone came to you with a glimmer in their eye and said “Want to place a bet that this coin will come up heads?” you probably have a good reason to believe they are trying to cheat you and might choose a prior that has larger values at very low probabilities!</p></li>
+</ul>
+<p>Priors can also encode experimental constraints.  For example, say you are determining the time it takes for a radioactive isotope to decay.  In this case, our hypothesis is specified by the decay constant..  You might not have a good idea of what the decay constant is, but you do know that it must be positive.  In this case, you might choose a prior that is uniform over the interval <span class="math notranslate nohighlight">\([0, \infty)\)</span>, but zero from <span class="math notranslate nohighlight">\(-\infty\)</span> to <span class="math notranslate nohighlight">\(0\)</span>.</p>
+<p>Typically, we call uniform, or very flat priors “uninformative:” in most cases, we use them when we have no information about the system.
+However, if we have strong beliefs about the system we might use an “informative” prior, which prefers certain values of the hypothesis over others.</p>
+</section>
+<section id="likelihood">
+<h3>Likelihood<a class="headerlink" href="#likelihood" title="Link to this heading">#</a></h3>
+<p>The likelihood is the probability of observing the data given the hypothesis.  Constructing the likelihood is often the most challenging part of Bayesian Inference, and often involves explicitly modelling any noise or randomness in the data.  For example, if you are measuring the time it takes for a radioactive isotope to decay, you might model the decay time as a random variable with an exponential distribution.  The likelihood is then the probability of observing the data given the decay time.  We can associate this likelihood with the probability density function of the random variable,</p>
 <div class="math notranslate nohighlight">
 \[
-\int \pi(x) p(x' | x) dx = \int \pi(x') p(x | x') dx = \pi(x')
+p(x | \lambda) = \lambda e^{-\lambda x},
 \]</div>
-<section id="the-gibbs-sampler-and-detailed-balance">
-<h3>The Gibbs Sampler and Detailed Balance<a class="headerlink" href="#the-gibbs-sampler-and-detailed-balance" title="Link to this heading">#</a></h3>
-<p>To see that the Gibbs sampler obeys detailed balance, we observe that the transition probability is given by</p>
+<p>where <span class="math notranslate nohighlight">\(d\)</span> is the observed decay time, and <span class="math notranslate nohighlight">\(\lambda\)</span> is the rate parameter of the exponential distribution.  The likelihood is then the probability of observing the data given the rate parameter.  In general, it is common to also refer to the probability density or mass function as the likelihood as well, and just have which one we are talking about be clear from context.  Hereafter we will refer to the probability density, and trust the reader to generalize to the probability mass function.</p>
+<p>Another common example is the Gaussian likelihood, where we assume the observed data comes from a Gaussian distribution with mean <span class="math notranslate nohighlight">\(\mu\)</span> and standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span>.  The probability density for the likelihood is given by.</p>
 <div class="math notranslate nohighlight">
 \[
-p(y | x) = p(y_k| x_{i \neq k}) \prod_{i \neq k} \delta(y_i - x_i)
+p(y | \mu, \sigma) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(y - \mu)^2}{2\sigma^2}}.
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(x_k\)</span> is the <span class="math notranslate nohighlight">\(k\)</span>’th variable.  From the definition of detailed balance and of the conditional probability density, we have that</p>
+</section>
+<section id="evidence">
+<h3>Evidence<a class="headerlink" href="#evidence" title="Link to this heading">#</a></h3>
+<p>The final piece needed for Bayes Rule is the evidence, or the probability of the data.  This is often the most challenging part of Bayesian Inference, as it involves integrating over all possible hypotheses.  Fortunately, in many cases, we might not need it:</p>
+<ul class="simple">
+<li><p>If we only want to find the most probable hypothesis (aka the <em>maximum a posteriori</em> or MAP estimate), we can ignore the evidence, as it is a constant that does not depend on the hypothesis.</p></li>
+<li><p>If we want to compare the relative probabilities of two hypotheses, we can calculate the ratio of the posteriors, called the <em>Bayes factor</em>, given in the equation below.  In this case, the evidence cancels out.</p></li>
+</ul>
 <div class="math notranslate nohighlight">
 \[
-\pi(x) p(y | x) = \pi(x)  \left( \frac{\pi(x_1, \ldots, y_k, \ldots x_M)}{\int  \pi(x_1, \ldots, z_k, \ldots x_M) } dz_k\right) \left(\prod_{i \neq k} \delta(y_i - x_i)\right)
+\text{Bayes Factor} = \frac{P(H_1|D)}{P(H_2|D)} = \frac{P(D|H_1)P(H_1)}{P(D|H_2)P(H_2)}.
 \]</div>
-<p>Using the properties of the delta function, this is equal to</p>
+<p>However, in other cases we might need to calculate the evidence, or at least the probability density or probability mass function associated.<br />
+Denote the possible value for the random variable as <span class="math notranslate nohighlight">\(x\)</span> and the parameter specifying the hypothesis as <span class="math notranslate nohighlight">\(\theta\)</span>.<br />
+For example, if we want to calculate expected values over the posterior:</p>
+<ul class="simple">
+<li><p>The expected value for a given  parameter is given by <span class="math notranslate nohighlight">\(\int \theta p(\theta|x) d\theta\)</span>.</p></li>
+<li><p>Similarly, its variance is given by <span class="math notranslate nohighlight">\(\int \theta^2 p(\theta|x) d\theta - \left(\int \theta p(\theta|x) d\theta\right)^2\)</span>.
+In both of these cases we need to know the probability density for the posterior.
+From Bayes Rule, we expect that</p></li>
+</ul>
 <div class="math notranslate nohighlight">
 \[
-\pi(x) p(y | x) = \pi(y_1, \ldots, x_k, \ldots, y_M)  \left( \frac{\pi(y_1, \ldots, y_k, \ldots y_M)}{\int  \pi(y_1, \ldots, z_k, \ldots y_M) } dz_k\right) \left(\prod_{i \neq k} \delta(x_i - y_i)\right)
+p(\theta | x ) \propto {p(x | \theta) p(\theta)}.
 \]</div>
-<p>which is in turn equal to <span class="math notranslate nohighlight">\(\pi(y) p(x | y)\)</span>, so the Gibbs sampler obeys detailed balance.</p>
+<p>To be able to take expectations over <span class="math notranslate nohighlight">\(\theta\)</span>, we need to normalize this distribution.  This requires calculating <span class="math notranslate nohighlight">\(\int p(x | \theta) p(\theta) d\theta\)</span>.  Using the law of total probability, we see that this is <span class="math notranslate nohighlight">\(p(x)\)</span>: the the probability density associated with the evidence.  In general, calculating this integral is difficult.  For now, we will focus on the case where we can ignore the evidence, or when we can approximate this integral using quadrature.</p>
 </section>
 </section>
-<section id="the-metropolis-hastings-algorithm">
-<h2>The Metropolis-Hastings Algorithm<a class="headerlink" href="#the-metropolis-hastings-algorithm" title="Link to this heading">#</a></h2>
-<p>The Metropolis-Hastings algorithm is a generalization of the Gibbs sampling algorithm.  In the Metropolis-Hastings algorithm, we propose a new state <span class="math notranslate nohighlight">\(x'\)</span> from a proposal distribution <span class="math notranslate nohighlight">\(q(x' | x)\)</span>, and then accept the new state with probability</p>
+<section id="working-with-multiple-data-points">
+<h2>Working with multiple data points<a class="headerlink" href="#working-with-multiple-data-points" title="Link to this heading">#</a></h2>
+<p>If we have multiple data points, <span class="math notranslate nohighlight">\(D = \{y_1, y_2, \ldots, y_n\}\)</span>, and we assume that the data points are independent and identically distributed (i.i.d.), we can build a new likelihood using the fact that probabilities of independent events multiply.  In this case, the likelihood is the product of the likelihoods of the individual data points:</p>
 <div class="math notranslate nohighlight">
 \[
-\alpha(x, x') = \min\left(1, \frac{\pi(x') q(x | x')}{\pi(x) q(x' | x)}\right)
+p(y_1, \ldots, y_n | \theta) = \prod_{i=1}^n p(y_i | \theta),
 \]</div>
-<p>If we accept the new state, we set <span class="math notranslate nohighlight">\(x = x'\)</span>, otherwise we keep the old state.<br />
-(In many applications, people choose a symmetric proposal distribution, so that <span class="math notranslate nohighlight">\(q(x' | x) = q(x | x')\)</span>.  This makes evaluating this ratio easier.)
-The transition probability for Metropolis Hastings is given by</p>
+<p>This leads to a problem: we are multiplying many small numbers together, which can quickly become numerically unstable (i.e., the numbers become too small to be represented by the computer).</p>
+<section id="working-in-log-space">
+<h3>Working in log-space<a class="headerlink" href="#working-in-log-space" title="Link to this heading">#</a></h3>
+<p>To avoid this, we can work in log-space.  Rather than taking the product of the likelihoods, we take the sum of the log-likelihoods:</p>
 <div class="math notranslate nohighlight">
 \[
-p(x' | x) = q(x' | x) \alpha(x, x') + \delta(x' - x) (1 - \int q(x' | x) \alpha(x, x') dx')
+\log p(y_1, \ldots, y_n | \theta) = \sum_{i=1}^n \log p(y_i | \theta).
 \]</div>
-<p>To show that the Metropolis-Hastings algorithm obeys detailed balance, we consider two cases.  If <span class="math notranslate nohighlight">\(x' = x\)</span>, then the equation is trivially satisfied.  If <span class="math notranslate nohighlight">\(x' \neq x\)</span>, then the delta function is zero, and we have</p>
+<p>Note that the prior then becomes an additive term in the log-likelihood, and the evidence becomes an additive constant:</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{split}
-\pi(x) p(x' | x) =&amp; \pi(x) q(x' | x) \alpha(x, x') 
-    =  \min \left(\pi(x) q(x' | x), \pi(x') q(x | x')\right) \\
-     =&amp;
-     \pi(x') q(x | x') \alpha(x', x) = \pi(x') p(x | x')
-\end{split}
-\end{split}\]</div>
-<p>Consequently, the Metropolis-Hastings algorithm obeys detailed balance.
-Note that if we set <span class="math notranslate nohighlight">\(q(x' | x)\)</span> to be the conditional distribution of the <span class="math notranslate nohighlight">\(i\)</span>’th variable given all the others, then the Metropolis-Hastings algorithm reduces to the Gibbs sampling algorithm.x</p>
+\[
+\log p(\theta | y_1, \ldots, y_n) = \sum_{i=1}^n \log p(y_i | \theta).  + \log p(\theta)  + \text{constant}.
+\]</div>
+<p>This term also shows us how to balance the relative importance of the prior and the likelihood.  At small amounts of data, the prior can have a considerable effect.  However, as we keep adding data, the likelihood term will dominate.  This is a key feature of Bayesian Inference: the more data you have, the more the data will drive the posterior probability and the less the prior will matter.</p>
+</section>
+</section>
+<section id="bayesian-linear-regression">
+<h2>Bayesian Linear Regression<a class="headerlink" href="#bayesian-linear-regression" title="Link to this heading">#</a></h2>
+<p>The true power of Bayesian Inference comes from its ability to handle complex models.  For example, consider the case of linear regression.  In linear regression, we assume that the data points <span class="math notranslate nohighlight">\(y_i\)</span> are generated by a linear model from some known quantity <span class="math notranslate nohighlight">\(x_i\)</span> with unknown slope <span class="math notranslate nohighlight">\(m\)</span> and intercept <span class="math notranslate nohighlight">\(b\)</span>.  In this case, the likelihood is given by</p>
+<div class="math notranslate nohighlight">
+\[
+p(y_1, \ldots, y_n | m, b) = \prod_{i=1}^n p(y_i | m, b, x_i),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(p(y_i | m, b, x_i)\)</span> is the probability density of the Gaussian distribution with mean <span class="math notranslate nohighlight">\(m x_i + b\)</span> and standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+p(y_i | m, b, x_i) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(y_i - m x_i - b)^2}{2\sigma^2}}.
+\]</div>
+<p>In this case, the hypothesis is specified by the parameters <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(b\)</span>.  We can then use Bayes Rule to calculate the posterior probability of the parameters given the data.  This is a powerful tool, as it allows us to quantify the uncertainty in the parameters of the model.  For example, we can calculate the probability that the slope is positive, or the probability that the slope is within some range.</p>
+<p>If we have a large amount of data, our model is dominated by the likelihood term.  Seeking the maximum a posteriori estimate is equivalent to maximizing the log-likelihood, which is in turn given by</p>
+<div class="math notranslate nohighlight">
+\[
+\log p(y_1, \ldots, y_n | m, b) = \sum_{i=1}^n \log p(y_i | m, b, x_i) = -\frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - m x_i - b)^2 + \text{constant}.
+\]</div>
+<p>This is precisely the same as the least squares estimate for linear regression.  As such, our Bayesian estimate generalizes the least squares estimate, and provides a principled way to quantify its uncertainty.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.statlect.com/fundamentals-of-statistics/Bayesian-inference">This Link</a> contains much of the information in this lecture, presented in a slightly different way.</p></li>
+<li><p>I found a video on <a class="reference external" href="https://www.youtube.com/watch?v=3jP4H0kjtng">Bayesian Statistics</a> that seems good, but I haven’t watched it closely.  It does seem very meme heavy, so be prepared for that.</p></li>
+</ul>
 </section>
 </section>
 
@@ -505,6 +575,15 @@ Note that if we set <span class="math notranslate nohighlight">\(q(x' | x)\)</sp
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="prob-06-metropolis-hastings.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Detailed Balance and the Metropolis-Hastings Algorithm</p>
+      </div>
+    </a>
 </div>
                 </footer>
               
@@ -523,11 +602,18 @@ Note that if we set <span class="math notranslate nohighlight">\(q(x' | x)\)</sp
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-balance">Detailed Balance</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gibbs-sampler-and-detailed-balance">The Gibbs Sampler and Detailed Balance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Bayesian Inference</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior">Prior</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likelihood">Likelihood</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evidence">Evidence</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-metropolis-hastings-algorithm">The Metropolis-Hastings Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-multiple-data-points">Working with multiple data points</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-in-log-space">Working in log-space</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-linear-regression">Bayesian Linear Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
   </nav></div>
 
