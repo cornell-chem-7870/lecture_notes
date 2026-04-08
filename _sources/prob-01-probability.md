@@ -69,10 +69,8 @@ We can trivially extend random variables to vector-valued functions.  For instan
 Additionally, we can measure the probability of a random variable taking on a certain value.  For instance, the probability of $X_1$ being 1 is $P(X_1 = 1) = 1/6$, and the probability of $X_2$ being heads is $P(X_2 = \text{heads}) = 1/2$.
 
 Coming back to probability spaces, we can view this two ways:
-\begin{enumerate}
-  \item We have  defined a new probability space for the random variable $X$, where the outcomes are the possible values of $X$, and the probability measure is given by $P(X = x)$ for each possible value of $x$.
-  \item We have defined a new probability space for the original outcomes, and we are considering sets of outcomes that correspond to the random variable taking on a certain value.  For instance, the event $X_1 = 1$ corresponds to the set of outcomes where the first die shows a one, and the event $X_2 = \text{heads}$ corresponds to the set of outcomes where the coin shows heads.
-\end{enumerate}
+- We have  defined a new probability space for the random variable $X$, where the outcomes are the possible values of $X$, and the probability measure is given by $P(X = x)$ for each possible value of $x$.
+- We have defined a new probability space for the original outcomes, and we are considering sets of outcomes that correspond to the random variable taking on a certain value.  For instance, the event $X_1 = 1$ corresponds to the set of outcomes where the first die shows a one, and the event $X_2 = \text{heads}$ corresponds to the set of outcomes where the coin shows heads.
 
 
 ## Quantifying Probabilities

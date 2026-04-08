@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -389,6 +389,7 @@
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-probabilities">Conditional Probabilities:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-variables-and-independence">Multiple variables and Independence</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-rule">Bayes Rule</a><ul class="nav section-nav flex-column">
@@ -440,6 +441,11 @@ p(x | A) = \begin{cases}
 0 &amp; \text{otherwise}.
 \end{cases}
 \end{split}\]</div>
+<p>Summing or integrating over the conditional probability mass or density function allows us to evaluate conditional expectations.  For instance, for a discrete random variable the conditional expectation of a random variable <span class="math notranslate nohighlight">\(X\)</span> given event <span class="math notranslate nohighlight">\(A\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[
+E[X|A] = \sum_{x} x p(x|A)
+\]</div>
 <p>Conditional expectations obey the ``law of total probability’’ which states that for any event <span class="math notranslate nohighlight">\(A\)</span> such that (a) the events <span class="math notranslate nohighlight">\(A_i\)</span> are mutually exclusive and (b) at least one of the <span class="math notranslate nohighlight">\(A_i\)</span> must occur, then</p>
 <div class="math notranslate nohighlight">
 \[
@@ -451,10 +457,32 @@ E[X] = \sum_{i} E[X|A_i] P(A_i).
 E[X] = \int E[X|A] p(A) dA.
 \]</div>
 </section>
+<section id="multiple-variables-and-independence">
+<h3>Multiple variables and Independence<a class="headerlink" href="#multiple-variables-and-independence" title="Link to this heading">#</a></h3>
+<p>A natural place where conditional probabilities arise is when we have multiple random variables.  For instance, if we have two random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, we can ask what is the probability of observing a specific value of <span class="math notranslate nohighlight">\(X\)</span> given that we have observed a specific value of <span class="math notranslate nohighlight">\(Y\)</span>.  The corresponding conditional probability mass function is given by <span class="math notranslate nohighlight">\(p(x|Y=y)\)</span>, or simply <span class="math notranslate nohighlight">\(p(x|y)\)</span>.  Applying the definition of conditional probability, we have</p>
+<div class="math notranslate nohighlight">
+\[
+p(x|y) = \frac{p(x,y)}{p(y)}
+\]</div>
+<p>Similarly, we can write the conditional probability density function using the same expression, but using probability densities instead of probability mass functions.
+Conditional probability is a natural way of observing how much two random variables depend on each other.  For instance, for two random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, if we have that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+  p(x|y) &amp;= p(x) \\
+  p(y|x) &amp;= p(y).
+\end{aligned}
+\end{split}\]</div>
+<p>we say that <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are <em>pairwise independent</em>. In this case, the joint probability of <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> factorizes into the product of the marginal probabilities:</p>
+<div class="math notranslate nohighlight">
+\[
+p(x,y) = p(x)p(y).
+\]</div>
+</section>
 </section>
 <section id="bayes-rule">
 <h2>Bayes Rule<a class="headerlink" href="#bayes-rule" title="Link to this heading">#</a></h2>
-<p>The equations above  suggest a relationship between the conditional probabilities <span class="math notranslate nohighlight">\(P(A|B)\)</span> and <span class="math notranslate nohighlight">\(P(B|A)\)</span>.  Indeed, this relationship is given by <em>Bayes Rule</em>:</p>
+<p>Our equations relating conditional probabilities to the joint probability suggest a relationship between the conditional probabilities <span class="math notranslate nohighlight">\(P(A|B)\)</span> and <span class="math notranslate nohighlight">\(P(B|A)\)</span>.  Indeed, this relationship is given by <em>Bayes Rule</em>:</p>
 <div class="math notranslate nohighlight">
 \[
 P(A|B) = \frac{P(B|A)P(A)}{P(B)}.
@@ -557,6 +585,7 @@ P(H|D) = \frac{P(D|H)P(H)}{P(D)}.
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-probabilities">Conditional Probabilities:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-variables-and-independence">Multiple variables and Independence</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-rule">Bayes Rule</a><ul class="nav section-nav flex-column">

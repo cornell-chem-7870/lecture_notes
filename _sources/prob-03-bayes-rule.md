@@ -48,6 +48,12 @@ p(x | A) = \begin{cases}
 \end{cases}
 $$
 
+Summing or integrating over the conditional probability mass or density function allows us to evaluate conditional expectations.  For instance, for a discrete random variable the conditional expectation of a random variable $X$ given event $A$ is given by
+
+$$
+E[X|A] = \sum_{x} x p(x|A)
+$$
+
 Conditional expectations obey the ``law of total probability'' which states that for any event $A$ such that (a) the events $A_i$ are mutually exclusive and (b) at least one of the $A_i$ must occur, then
 
 $$
@@ -60,9 +66,35 @@ $$
 E[X] = \int E[X|A] p(A) dA.
 $$
 
+### Multiple variables and Independence
+
+A natural place where conditional probabilities arise is when we have multiple random variables.  For instance, if we have two random variables $X$ and $Y$, we can ask what is the probability of observing a specific value of $X$ given that we have observed a specific value of $Y$.  The corresponding conditional probability mass function is given by $p(x|Y=y)$, or simply $p(x|y)$.  Applying the definition of conditional probability, we have
+
+$$
+p(x|y) = \frac{p(x,y)}{p(y)}
+$$
+
+Similarly, we can write the conditional probability density function using the same expression, but using probability densities instead of probability mass functions.
+Conditional probability is a natural way of observing how much two random variables depend on each other.  For instance, for two random variables $X$ and $Y$, if we have that
+
+$$
+\begin{aligned}
+  p(x|y) &= p(x) \\
+  p(y|x) &= p(y).
+\end{aligned}
+$$
+
+we say that $X$ and $Y$ are *pairwise independent*. In this case, the joint probability of $X$ and $Y$ factorizes into the product of the marginal probabilities:
+
+$$
+p(x,y) = p(x)p(y).
+$$
+
+
+
 ## Bayes Rule
 
-The equations above  suggest a relationship between the conditional probabilities $P(A|B)$ and $P(B|A)$.  Indeed, this relationship is given by *Bayes Rule*:
+Our equations relating conditional probabilities to the joint probability suggest a relationship between the conditional probabilities $P(A|B)$ and $P(B|A)$.  Indeed, this relationship is given by *Bayes Rule*:
 
 $$
 P(A|B) = \frac{P(B|A)P(A)}{P(B)}.
