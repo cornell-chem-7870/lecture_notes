@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -192,6 +192,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="prob-01-probability.html">Intro to Probability</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Using Random Numbers in Numpy</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="prob-03-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prob-04-monte-carlo.html">Monte Carlo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prob-05-mcmc.html">Markov Chain Monte Carlo</a></li>
@@ -389,6 +390,7 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Using Random Numbers in Numpy</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-random-numbers-in-numpy">Sampling random Numbers in Numpy</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudo-random-number-generators-and-setting-the-seed">Pseudo-Random Number Generators and Setting the Seed</a><ul class="nav section-nav flex-column">
@@ -396,6 +398,10 @@
 </ul>
 </li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#random-numbers-in-pytorch">Random Numbers in Pytorch</a></li>
+</ul>
+
             </nav>
         </div>
     </div>
@@ -496,10 +502,22 @@ X_{n+1} = (a X_n + c) \mod m,
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>in the homework tests.  This line sets the seed of the PRNG to 0, ensuring the test runs the same way every time.</p>
+<p>in the homework tests.  This line sets the seed of the PRNG to 0, ensuring the test runs the same way every time.
+In practice, you might also need to set the python built-in <code class="docutils literal notranslate"><span class="pre">random</span></code> module seed, using <code class="docutils literal notranslate"><span class="pre">random.seed(0)</span></code> to ensure reproducibility – some functions may use the <code class="docutils literal notranslate"><span class="pre">random</span></code> module instead of <code class="docutils literal notranslate"><span class="pre">numpy.random</span></code>.</p>
 <p>A note: objectively, the linear congruential generator is not the best PRNG.  Modern PRNGs such as the Mersenne Twister, are much more sophisticated and have better properties.  However, the linear congruential generator is simple and easy to understand, making it a good starting point for understanding PRNGs.</p>
 </section>
 </section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="random-numbers-in-pytorch">
+<h1>Random Numbers in Pytorch<a class="headerlink" href="#random-numbers-in-pytorch" title="Link to this heading">#</a></h1>
+<p>Pytorch also has a <code class="docutils literal notranslate"><span class="pre">torch.random</span></code> module that provides similar functionality to <code class="docutils literal notranslate"><span class="pre">numpy.random</span></code>.  The functions in <code class="docutils literal notranslate"><span class="pre">torch.random</span></code> are similar to those in <code class="docutils literal notranslate"><span class="pre">numpy.random</span></code>, but they operate on PyTorch tensors instead of NumPy arrays.  For example, to generate a 2x3 tensor of random numbers from a normal distribution, we can use</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(Not this it is <code class="docutils literal notranslate"><span class="pre">torch.randn</span></code>, not <code class="docutils literal notranslate"><span class="pre">torch.random.randn</span></code>.)</p>
+<p>However, this is not always enough to ensure reproducibility.  Some functions in PyTorch are inherently non-deterministic, meaning that they will produce different results even with the same seed.<br />
+For instance, the <code class="docutils literal notranslate"><span class="pre">torch.nn.Conv2d</span></code> function, which performs a 2D convolution, is non-deterministic on some platforms.  This is because the order of operations in the convolution can vary depending on the hardware and software configuration.  Since computers always have to do a small amount of rounding when performing arithmetic operations, the order of operations can affect the final result.  In some cases, this can lead to non-deterministic behavior, even with the same seed.</p>
+<p>To address this, PyTorch provides a function <code class="docutils literal notranslate"><span class="pre">torch.use_deterministic_algorithms(True)</span></code> that forces PyTorch to use deterministic algorithms, but this can come at a performance cost.  For more information on reproducibility in PyTorch, see the <a class="reference external" href="https://pytorch.org/docs/stable/notes/randomness.html">PyTorch documentation</a>.</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -567,6 +585,7 @@ X_{n+1} = (a X_n + c) \mod m,
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Using Random Numbers in Numpy</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-random-numbers-in-numpy">Sampling random Numbers in Numpy</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudo-random-number-generators-and-setting-the-seed">Pseudo-Random Number Generators and Setting the Seed</a><ul class="nav section-nav flex-column">
@@ -574,6 +593,10 @@ X_{n+1} = (a X_n + c) \mod m,
 </ul>
 </li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#random-numbers-in-pytorch">Random Numbers in Pytorch</a></li>
+</ul>
+
   </nav></div>
 
 </div></div>
