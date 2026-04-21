@@ -1,0 +1,722 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Virtual Environments for High-Performance Computing &#8212; Lecture Notes for Cornell Chem 7870</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hpc-02-virtual-environments';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Supercomputer Architectures for Computational Chemistry" href="hpc-01-supercomputer-architectures.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Lecture Notes for Cornell Chem 7870 - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Lecture Notes for Cornell Chem 7870 - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to 7870
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1. Linear Algebra</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="linalg-01-intro_vectors.html">A Deeper look at Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-02-coding_matrices_in_python.html">Linear Algebra in Python with Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-03-matrix_decompositions.html">Eigenvectors, Unitary Matrices, and Matrix Decompositions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-04-linear_regression.html">Linear Regression and Least Squares</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Optimization and Numerical Differential Equations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="optim-01-intro-optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-02-nonlinear-optimization.html">Nonlinear Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-03a-autograd-in-pytorch.html">Automatic Differentiation and Pytorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-03b-autograd-in-jax.html">Intro to JaX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-04-three-types-of-NNs.html">A Crash Course on Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-01-ode-intro.html">Intro to Numerical Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-02-symplectic-integrators.html">More on Numerical ODEs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-03-pde.html">From ODE to PDE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3. Probability</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="prob-01-probability.html">Intro to Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-02-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="prob-03-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-04-monte-carlo.html">Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-05-mcmc.html">Markov Chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-06-metropolis-hastings.html">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-07-bayesian-inference.html">Bayesian Inference</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 4. High-Performance Computing</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="hpc-01-supercomputer-architectures.html">Supercomputer Architectures for Computational Chemistry</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Virtual Environments for High-Performance Computing</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fhpc-02-virtual-environments.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/hpc-02-virtual-environments.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Virtual Environments for High-Performance Computing</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-virtual-environments-matter-on-hpc-systems">Why Virtual Environments Matter on HPC Systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-three-layers-you-need-to-keep-straight">The Three Layers You Need to Keep Straight</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#venv-as-the-default-starting-point"><code class="docutils literal notranslate"><span class="pre">venv</span></code> as the Default Starting Point</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transporting-and-recording-environments">Transporting and Recording Environments</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-conda-fits-in">Where <code class="docutils literal notranslate"><span class="pre">conda</span></code> Fits In</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modules-and-virtual-environments-are-not-competitors">Modules and Virtual Environments Are Not Competitors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-jobs-must-activate-the-same-environment">Batch Jobs Must Activate the Same Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-failure-modes">Common Failure Modes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-into-the-wrong-python">1. Installing into the wrong Python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-on-one-node-running-on-another-incompatible-stack">2. Building on one node, running on another incompatible stack</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-login-node-for-heavy-installation-or-computation">3. Using the login node for heavy installation or computation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-recommendations">Practical Recommendations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="virtual-environments-for-high-performance-computing">
+<h1>Virtual Environments for High-Performance Computing<a class="headerlink" href="#virtual-environments-for-high-performance-computing" title="Link to this heading">#</a></h1>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Explain why isolated software environments matter for scientific computing and shared clusters.</p></li>
+<li><p>Create and activate a Python virtual environment for interactive and batch HPC workflows.</p></li>
+<li><p>Distinguish between <code class="docutils literal notranslate"><span class="pre">venv</span></code>, <code class="docutils literal notranslate"><span class="pre">conda</span></code>, and system-wide module-based software stacks.</p></li>
+<li><p>Install packages reproducibly with <code class="docutils literal notranslate"><span class="pre">pip</span></code> and a requirements file.</p></li>
+<li><p>Avoid common HPC environment mistakes involving login nodes, compute nodes, and incompatible binaries.</p></li>
+<li><p>Design a simple workflow for moving from exploratory work to reproducible batch jobs.</p></li>
+</ul>
+</section>
+<section id="why-virtual-environments-matter-on-hpc-systems">
+<h2>Why Virtual Environments Matter on HPC Systems<a class="headerlink" href="#why-virtual-environments-matter-on-hpc-systems" title="Link to this heading">#</a></h2>
+<p>On a laptop, a messy Python environment can be inconvenient.  On a shared cluster, it can completely derail a workflow.  High-performance computing systems are shared by many users, often across many research groups, and the software installed by the system administrators is designed to serve a wide range of needs.  That means the default Python installation may not contain the packages you need, may contain versions that conflict with your code, or may change over time as the cluster is updated.</p>
+<p>A <strong>virtual environment</strong> is an isolated Python installation that keeps your project-specific packages separate from the system Python and from other projects.  This isolation improves three things:</p>
+<ol class="arabic simple">
+<li><p><strong>Reproducibility</strong>: your code runs against a known set of package versions.</p></li>
+<li><p><strong>Stability</strong>: installing a new package for one project does not break another project.</p></li>
+<li><p><strong>Collaboration</strong>: teammates can recreate the same environment from a short specification.</p></li>
+</ol>
+<p>On HPC systems, virtual environments also reduce the temptation to install packages into shared locations or into the global user site directory, both of which tend to create confusing dependency problems.</p>
+</section>
+<section id="the-three-layers-you-need-to-keep-straight">
+<h2>The Three Layers You Need to Keep Straight<a class="headerlink" href="#the-three-layers-you-need-to-keep-straight" title="Link to this heading">#</a></h2>
+<p>When working on a cluster, it helps to think in layers:</p>
+<ol class="arabic simple">
+<li><p><strong>System and module layer</strong>: software provided by the cluster, often accessed through <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span></code>.</p></li>
+<li><p><strong>Python interpreter layer</strong>: the specific Python executable you will run.</p></li>
+<li><p><strong>Project environment layer</strong>: the packages installed for one project, such as NumPy, SciPy, JAX, or PyTorch.</p></li>
+</ol>
+<p>These layers interact.  For example, you might first load a Python module provided by the cluster, then create a <code class="docutils literal notranslate"><span class="pre">venv</span></code> using that Python interpreter, and finally install project packages inside that environment.</p>
+<p>If you mix up these layers, strange things happen.  You may think you installed a package, but it may have been installed into a different interpreter than the one your batch job actually uses.  Or you may build an environment against one compiler or CUDA stack and then run it with another.</p>
+</section>
+<section id="venv-as-the-default-starting-point">
+<h2><code class="docutils literal notranslate"><span class="pre">venv</span></code> as the Default Starting Point<a class="headerlink" href="#venv-as-the-default-starting-point" title="Link to this heading">#</a></h2>
+<p>For many Python-based scientific workflows, the simplest starting point is the built-in <code class="docutils literal notranslate"><span class="pre">venv</span></code> module.  It ships with Python and creates a lightweight, isolated environment for Python packages.</p>
+<p>Here is a common pattern for setting up a <code class="docutils literal notranslate"><span class="pre">venv</span></code> environment on an HPC cluster:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>python/3.11
+python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>~/envs/chem7870
+<span class="nb">source</span><span class="w"> </span>~/envs/chem7870/bin/activate
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"> </span>scipy<span class="w"> </span>matplotlib<span class="w"> </span>jupyter
+</pre></div>
+</div>
+<p>Here is what each command does:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">python/3.11</span></code>: loads the cluster-provided Python 3.11 software module, making that interpreter available in your shell.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">venv</span> <span class="pre">~/envs/chem7870</span></code>: creates a new virtual environment named <code class="docutils literal notranslate"><span class="pre">chem7870</span></code> in the <code class="docutils literal notranslate"><span class="pre">~/envs</span></code> directory using the currently loaded Python interpreter.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">~/envs/chem7870/bin/activate</span></code>: activates the virtual environment in the current shell so that <code class="docutils literal notranslate"><span class="pre">python</span></code> and <code class="docutils literal notranslate"><span class="pre">pip</span></code> refer to the environment’s own executables.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--upgrade</span> <span class="pre">pip</span></code>: upgrades <code class="docutils literal notranslate"><span class="pre">pip</span></code> inside the virtual environment so package installation uses a recent version of the installer.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">numpy</span> <span class="pre">scipy</span> <span class="pre">matplotlib</span> <span class="pre">jupyter</span></code>: installs the listed packages into the virtual environment rather than into the system Python.</p></li>
+</ul>
+<p>After activation, your shell prompt usually changes to indicate that the environment is active.  The command <code class="docutils literal notranslate"><span class="pre">which</span> <span class="pre">python</span></code> should now point to the Python executable inside the environment.</p>
+<p>Once you have created the environment, you can use it on later interactive sessions or inside batch jobs by activating it with <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">~/envs/chem7870/bin/activate</span></code> before running your code.  This makes it easy to maintain a consistent software environment across different runs and different users.</p>
+<p>Some important details:</p>
+<ul class="simple">
+<li><p>It may be necessary to use <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span></code>, not just <code class="docutils literal notranslate"><span class="pre">pip</span></code>, so the package installer is tied to the active interpreter.  Remember, you can always check which Python and pip you are using with <code class="docutils literal notranslate"><span class="pre">which</span> <span class="pre">python</span></code> and <code class="docutils literal notranslate"><span class="pre">which</span> <span class="pre">pip</span></code>.  If you are using the virtual environment correctly, both should point to the same location inside the environment directory.</p></li>
+<li><p>Create environments in a location you control, such as your home directory or project space.</p></li>
+<li><p>Install only what you need for the project.</p></li>
+<li><p>Record package versions once the environment works.</p></li>
+</ul>
+<section id="transporting-and-recording-environments">
+<h3>Transporting and Recording Environments<a class="headerlink" href="#transporting-and-recording-environments" title="Link to this heading">#</a></h3>
+<p>Once you have constructed a virtual environment that works for your project, you should record the package specifications so that you or others can recreate it later.  The most common way to do this is with a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file, which lists the packages and their versions.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>freeze<span class="w"> </span>&gt;<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<p>This command captures the exact versions of all installed packages in the environment.  To recreate the environment later, you can use</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+</section>
+</section>
+<section id="where-conda-fits-in">
+<h2>Where <code class="docutils literal notranslate"><span class="pre">conda</span></code> Fits In<a class="headerlink" href="#where-conda-fits-in" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">conda</span></code> environments are also common in scientific computing, especially when packages have compiled dependencies or when users need a broader cross-language environment manager.  In some settings, <code class="docutils literal notranslate"><span class="pre">conda</span></code> can be more convenient than <code class="docutils literal notranslate"><span class="pre">venv</span></code>, particularly for complex data-science stacks.</p>
+<p>A typical <code class="docutils literal notranslate"><span class="pre">conda</span></code> workflow looks like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>miniconda
+conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>lecture-hpc<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.11
+conda<span class="w"> </span>activate<span class="w"> </span>lecture-hpc
+pip<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"> </span>scipy<span class="w"> </span>matplotlib
+</pre></div>
+</div>
+<p>Here, the <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment is created with a specific Python version, and then <code class="docutils literal notranslate"><span class="pre">pip</span></code> is used to install packages.  You can also use <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span></code> to install packages from the conda repositories, which may be preferable for some scientific packages.</p>
+<p>However, on HPC systems, <code class="docutils literal notranslate"><span class="pre">conda</span></code> comes with tradeoffs:</p>
+<ul class="simple">
+<li><p>Environment creation can be slower and heavier than <code class="docutils literal notranslate"><span class="pre">venv</span></code>.</p></li>
+<li><p>Large environments consume substantial storage.</p></li>
+<li><p>Binary compatibility with cluster-provided MPI, CUDA, or compiler stacks requires care.</p></li>
+</ul>
+<p>For this reason, <code class="docutils literal notranslate"><span class="pre">venv</span></code> is often the recommended starting point.</p>
+</section>
+<section id="modules-and-virtual-environments-are-not-competitors">
+<h2>Modules and Virtual Environments Are Not Competitors<a class="headerlink" href="#modules-and-virtual-environments-are-not-competitors" title="Link to this heading">#</a></h2>
+<p>Students often think they must choose between environment modules and Python virtual environments.  Usually, you need both.</p>
+<ul class="simple">
+<li><p>The <strong>module system</strong> gives you access to cluster-provided software such as Python, CUDA, MPI, or compilers.</p></li>
+<li><p>The <strong>virtual environment</strong> isolates the Python packages for your project.</p></li>
+</ul>
+<p>For example, on a GPU cluster you might do something like:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>purge
+module<span class="w"> </span>load<span class="w"> </span>python/3.11<span class="w"> </span>cuda/12.2
+<span class="nb">source</span><span class="w"> </span>~/envs/ml-course/bin/activate
+python<span class="w"> </span>train_model.py
+</pre></div>
+</div>
+<p>This pattern says: use the cluster’s Python and CUDA stack, but use your own project-specific Python packages.</p>
+</section>
+<section id="batch-jobs-must-activate-the-same-environment">
+<h2>Batch Jobs Must Activate the Same Environment<a class="headerlink" href="#batch-jobs-must-activate-the-same-environment" title="Link to this heading">#</a></h2>
+<p>One of the most common mistakes in HPC work is setting up an environment interactively and then forgetting to activate it inside the batch script.  Your code works on the login node, but the submitted job fails because it runs with a different Python interpreter.</p>
+<p>Here is a simple SLURM script that uses a virtual environment correctly:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH --job-name=python_env_demo</span>
+<span class="c1">#SBATCH --partition=compute</span>
+<span class="c1">#SBATCH --time=00:10:00</span>
+<span class="c1">#SBATCH --ntasks=1</span>
+<span class="c1">#SBATCH --cpus-per-task=4</span>
+<span class="c1">#SBATCH --mem=4G</span>
+<span class="c1">#SBATCH --output=logs/%x-%j.out</span>
+
+module<span class="w"> </span>purge
+module<span class="w"> </span>load<span class="w"> </span>python/3.11
+<span class="nb">source</span><span class="w"> </span>~/envs/lecture-hpc/bin/activate
+
+python<span class="w"> </span>analysis.py
+</pre></div>
+</div>
+<p>The critical idea is consistency: the Python interpreter and package environment used in the job should match the one you tested.</p>
+</section>
+<section id="common-failure-modes">
+<h2>Common Failure Modes<a class="headerlink" href="#common-failure-modes" title="Link to this heading">#</a></h2>
+<section id="installing-into-the-wrong-python">
+<h3>1. Installing into the wrong Python<a class="headerlink" href="#installing-into-the-wrong-python" title="Link to this heading">#</a></h3>
+<p>If <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> appears to succeed but <code class="docutils literal notranslate"><span class="pre">import</span></code> fails later, check:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>which<span class="w"> </span>python
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>--version
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sys; print(sys.executable)&quot;</span>
+</pre></div>
+</div>
+<p>These commands should all point to the same environment.</p>
+</section>
+<section id="building-on-one-node-running-on-another-incompatible-stack">
+<h3>2. Building on one node, running on another incompatible stack<a class="headerlink" href="#building-on-one-node-running-on-another-incompatible-stack" title="Link to this heading">#</a></h3>
+<p>If packages depend on compiled libraries, the environment may behave differently depending on what modules were loaded when the environment was created and when the job was run.</p>
+</section>
+<section id="using-the-login-node-for-heavy-installation-or-computation">
+<h3>3. Using the login node for heavy installation or computation<a class="headerlink" href="#using-the-login-node-for-heavy-installation-or-computation" title="Link to this heading">#</a></h3>
+<p>Creating a small environment is usually fine on a login node, but compiling large packages or running actual workloads there is often discouraged or prohibited.  Moreover, certain installations may require access to specific compilers or CUDA versions that are only available on compute nodes – I have seen cases where I needed to be on a compute node with a gpu to successfully install a GPU-accelerated package, even though the same installation command failed on the login node.</p>
+</section>
+</section>
+<section id="practical-recommendations">
+<h2>Practical Recommendations<a class="headerlink" href="#practical-recommendations" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Create one environment per project or assignment, not one giant environment for everything.</p></li>
+<li><p>Save package specifications in <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> or another reproducible format.</p></li>
+<li><p>Test the environment with a short script before launching large jobs.</p></li>
+<li><p>Activate the environment explicitly in every batch script.</p></li>
+<li><p>Prefer scratch or project storage for large datasets, but keep small environment definitions under version control.</p></li>
+<li><p>Rebuild environments when they become confusing instead of patching them indefinitely.</p></li>
+</ul>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>Virtual environments are a core tool for reliable scientific computing.  On HPC systems, they help you isolate dependencies, avoid conflicts with shared software, and reproduce workflows across interactive sessions and batch jobs.  The main operational rule is simple: be explicit about which Python you are using, install packages into that exact environment, and activate the same environment everywhere you run the code.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="hpc-01-supercomputer-architectures.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Supercomputer Architectures for Computational Chemistry</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-virtual-environments-matter-on-hpc-systems">Why Virtual Environments Matter on HPC Systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-three-layers-you-need-to-keep-straight">The Three Layers You Need to Keep Straight</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#venv-as-the-default-starting-point"><code class="docutils literal notranslate"><span class="pre">venv</span></code> as the Default Starting Point</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transporting-and-recording-environments">Transporting and Recording Environments</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-conda-fits-in">Where <code class="docutils literal notranslate"><span class="pre">conda</span></code> Fits In</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modules-and-virtual-environments-are-not-competitors">Modules and Virtual Environments Are Not Competitors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-jobs-must-activate-the-same-environment">Batch Jobs Must Activate the Same Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-failure-modes">Common Failure Modes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-into-the-wrong-python">1. Installing into the wrong Python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-on-one-node-running-on-another-incompatible-stack">2. Building on one node, running on another incompatible stack</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-login-node-for-heavy-installation-or-computation">3. Using the login node for heavy installation or computation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-recommendations">Practical Recommendations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Erik Thiede
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
