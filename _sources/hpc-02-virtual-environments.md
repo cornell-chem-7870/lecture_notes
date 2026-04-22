@@ -73,7 +73,7 @@ Here is what each command does:
 
 After activation, your shell prompt usually changes to indicate that the environment is active.  The command `which python` should now point to the Python executable inside the environment.
 
-Once you have created the environment, you can use it on later interactive sessions or inside batch jobs by activating it with `source ~/envs/chem7870/bin/activate` before running your code.  This makes it easy to maintain a consistent software environment across different runs and different users.
+Once you have created the environment, you can use it on later interactive sessions or inside batch jobs by activating it with `source ~/envs/chem7870/bin/activate` before running your code.  This makes it easy to maintain a consistent software environment across different runs and different users.  You can *leave* the environment by running the command `deactivate`, which restores the previous Python environment.
 
 
 Some important details:
