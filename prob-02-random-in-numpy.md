@@ -90,5 +90,20 @@ Setting different seeds gives us different patterns of "random" numbers.  Howeve
 np.random.seed(0)
 ```
 in the homework tests.  This line sets the seed of the PRNG to 0, ensuring the test runs the same way every time.
+In practice, you might also need to set the python built-in `random` module seed, using `random.seed(0)` to ensure reproducibility -- some functions may use the `random` module instead of `numpy.random`. 
+
 
 A note: objectively, the linear congruential generator is not the best PRNG.  Modern PRNGs such as the Mersenne Twister, are much more sophisticated and have better properties.  However, the linear congruential generator is simple and easy to understand, making it a good starting point for understanding PRNGs.
+
+# Random Numbers in Pytorch
+
+Pytorch also has a `torch.random` module that provides similar functionality to `numpy.random`.  The functions in `torch.random` are similar to those in `numpy.random`, but they operate on PyTorch tensors instead of NumPy arrays.  For example, to generate a 2x3 tensor of random numbers from a normal distribution, we can use
+```python
+torch.randn(2, 3)
+```
+(Not this it is `torch.randn`, not `torch.random.randn`.)
+
+However, this is not always enough to ensure reproducibility.  Some functions in PyTorch are inherently non-deterministic, meaning that they will produce different results even with the same seed.  
+For instance, the `torch.nn.Conv2d` function, which performs a 2D convolution, is non-deterministic on some platforms.  This is because the order of operations in the convolution can vary depending on the hardware and software configuration.  Since computers always have to do a small amount of rounding when performing arithmetic operations, the order of operations can affect the final result.  In some cases, this can lead to non-deterministic behavior, even with the same seed.
+
+To address this, PyTorch provides a function `torch.use_deterministic_algorithms(True)` that forces PyTorch to use deterministic algorithms, but this can come at a performance cost.  For more information on reproducibility in PyTorch, see the [PyTorch documentation](https://pytorch.org/docs/stable/notes/randomness.html).

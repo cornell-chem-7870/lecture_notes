@@ -25,7 +25,11 @@ parts:
     - file: prob-01-probability.md
     - file: prob-02-random-in-numpy.md
     - file: prob-03-bayes-rule.md
-    - file: prob-04-bayesian-inference.md
-    - file: prob-05-monte-carlo.md
-    - file: prob-06-mcmc.md
-    - file: prob-07-metropolis-hastings.md
+    - file: prob-04-monte-carlo.md
+    - file: prob-05-mcmc.md
+    - file: prob-06-metropolis-hastings.md
+    - file: prob-07-bayesian-inference.md
+  - caption: Part 4. High-Performance Computing
+    chapters:
+    - file: hpc-01-supercomputer-architectures.md
+    - file: hpc-02-virtual-environments.md

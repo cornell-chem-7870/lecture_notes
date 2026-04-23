@@ -37,8 +37,8 @@ For now, we will focus on how probability is constructed, and come back to the d
 
 ### A (Non-Rigorous) Introduction to Probability
 
-Mathematicians describe probability using the following terms.
-For any random event, we can define a probability space $(\Omega, \mathcal{F}, P)$, where:
+Let us first spend a little time building some basic concepts in probability theory.  We will be a little bit hand-wavy here, but the goal is to build intuition for how probability works and what the central objects are.
+We can define a probability space $(\Omega, \mathcal{F}, P)$, where:
 - $\Omega$ is the set of all possible outcomes of the event.
 - $\mathcal{F}$ is a set of ``events'': all the subsets of reasonable outcomes that we might want to assign a probability to.  (Formally, $\mathcal{F}$ is a $\sigma$-algebra of subsets of $\Omega$.  This is far more technical than we need to get into here.)
 - $P$ is a probability measure, which assigns a number between 0 and 1 to each event in $\mathcal{F}$, such that $P(\Omega) = 1$ and $P(\emptyset) = 0$.
@@ -61,12 +61,16 @@ Another example is in equilibrium statistical mechanics,
 ### What is a Random Variable?
 
 A **random variable** is a function that maps outcomes of a random event to real numbers.
-<!-- It is *not* the same thing as an element in $\Omega$: observing  -->
 Care must be taken to distinguish between random variables and elements in $\Omega$.  Coming back to the die example, the random variable $X$ might be the number that comes up when the die is rolled.  $X$ is a function that maps the event "a one comes up" to the number 1, and so on.  However, these are not the same thing: one is a physical event, whereas the other is a mathematical object.  Additionally, there are many other possible random variables we can define.  For instance, another random variable would be the parity of the number that comes up: 0 if the number is even, and 1 if the number is odd.  Yet another would be the square of the number on the face.
 
 Note that since random variables map to numbers, there is a natural way to add them together, multiply them, and so on.  For instance, if we have two dice, $X_1$ is the random variable corresponding to the number on the first die, and $X_2$ is the random variable corresponding to the number on the second die, then $X_1 + X_2$ is a new random variable corresponding to the sum of the two dice.
 
 We can trivially extend random variables to vector-valued functions.  For instance, if we have a die and a coin, we could define a random variable $X = (X_1, X_2)$, where $X_1$ is the number on the die and $X_2$ is the result of the coin flip.  
+Additionally, we can measure the probability of a random variable taking on a certain value.  For instance, the probability of $X_1$ being 1 is $P(X_1 = 1) = 1/6$, and the probability of $X_2$ being heads is $P(X_2 = \text{heads}) = 1/2$.
+
+Coming back to probability spaces, we can view this two ways:
+- We have  defined a new probability space for the random variable $X$, where the outcomes are the possible values of $X$, and the probability measure is given by $P(X = x)$ for each possible value of $x$.
+- We have defined a new probability space for the original outcomes, and we are considering sets of outcomes that correspond to the random variable taking on a certain value.  For instance, the event $X_1 = 1$ corresponds to the set of outcomes where the first die shows a one, and the event $X_2 = \text{heads}$ corresponds to the set of outcomes where the coin shows heads.
 
 
 ## Quantifying Probabilities
@@ -115,6 +119,35 @@ $$
 P([0, \infty)) = \int_0^\infty \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x - \mu)^2}{2\sigma^2}\right) dx = \frac{1}{2}.
 $$
 
+### Independent and Identically Distributed Random Variables
+
+Say we have two random variables $X$ and $Y$.  We say that $X$ and $Y$ are independent if the probability of $X$ taking on a value does not depend on the value of $Y$, and vice versa. To give some examples:
+- The outcome of rolling a die and the outcome of flipping a coin are independent random variables.
+- The chance that it rains today and the chance that I carry an umbrella are not independent random variables.
+- The position of a particle at time $t$ and the position of the same particle at time $t + \Delta t$ are not independent random variables, since the position at time $t + \Delta t$ depends on the position at time $t$.  However as $\Delta t$ gets larger, we expect that future position will become increasingly independent of the current position.
+
+If two random variables are independent, then the probability of both events occurring is the product of the probabilities of each event occurring.   This means that the probability mass function (or probability density function) of the joint distribution of $X$ and $Y$ is the product of the PMFs (or PDFs) of $X$ and $Y$.  For instance, if $X$ and $Y$ are independent random variables with PMFs $p_X(x)$ and $p_Y(y)$, then the PMF of the joint distribution is given by
+
+$$
+p_{X,Y}(x, y) = p_X(x) p_Y(y).
+$$
+
+Often, we will say that random variables are "independent and identically distributed" (i.i.d.) if they are independent and have the same probability distribution.  For instance, if we roll a die 10 times, the random variables corresponding to each roll are i.i.d., since they are independent and have the same PMF.
+
+We can use this to calculate the probability of events involving both $X$ and $Y$.  For instance, let $X$ and $Y$ be i.i.d. random variables with PMF $p(x)$.  We can calculate the PMF of the sum $Z = X + Y$ as follows:
+
+$$
+p_Z(z) = \sum_{x+y=z} p_X(x) p_Y(y) = \sum_{x} p(x) p(z - x).
+$$
+
+Similarly, if they are i.i.d. random variables with PDF $p(x)$, we can calculate the PDF of the sum $Z = X + Y$ as follows:
+
+$$
+p_Z(z) = \int_{-\infty}^\infty \delta(x +y - z) p_X(x) p_Y(y) dx dy  = \int_{-\infty}^\infty p(x) p(z - x) dx.
+$$
+
+
+
 ### Changing Variables Changes the PDF
 
 One of the most important properties of probability density functions is that they change under a change of variables.  For instance, consider a random variable $X$ with PDF $p(x)$ for a real number $x$.  Let $Y = f(X)$ be a new random variable, where $f$ is an monotonic (always increasing or always decreasing) and differentiable function.  The PDF of $Y$ is given by
@@ -144,7 +177,6 @@ $$
 Note that this is a monotonically increasing function that goes from 0 to 1.
 To sample from the distribution by generating a random number $r$ between 0 and 1, and returning the value of $x$ such that $F(x) = r$.  This is known as the "inverse transform method".
 
-## Doing things with Random Variables
 
 ### Expected Values
 
@@ -157,6 +189,7 @@ In classical statistical mechanics, observables are functions of random variable
 (An enterprising reader might ask, isn't $Y = f(X)$ itself a random variable?  The answer is yes, and as it happens calculating the expected value of $Y$ over the probability distribution for $Y$  is equivalent to calculating the expected value of $f(X)$ over the probability distribution for $X$.  This is known as the "law of the unconscious statistician", or LOTUS.)
 
 Finally, we note that we can also calculate probabilities as expectation values using an "indicator function" $I_A(x)$, which is 1 if $x \in A$ and 0 otherwise.  The probability of $X$ being in the set $A$ is given by $P(X \in A) = \langle I_A(X) \rangle$.
+
 
 
 ## Connection with Free Energy
@@ -189,3 +222,64 @@ $$
 $$
 
 In other words, the free energy difference between two states is proportional to the log of the ratio of the probabilities of observing those states.  
+
+
+
+
+## Common Random Variables
+
+
+
+### The Bernoulli and Binomial Distributions
+
+The Bernoulli distribution is a discrete probability distribution that models a binary outcome, such as success/failure, yes/no, or 1/0.  (We can think of this as the outcome of a coin flip, where "heads" is a success and "tails" is a failure.) The probability mass function of a Bernoulli random variable $X$ with parameter $p$ (the probability of success) is given by
+
+$$
+P(X = x) = \begin{cases}
+p & \text{if } x = 1, \\
+1 - p & \text{if } x = 0, \\
+0 & \text{otherwise}.
+\end{cases}
+$$
+gg
+We could then ask, what if we have multiple independent Bernoulli trials?  For instance, what if we flip a coin 10 times and count the number of successes (heads)?  This is modeled by the Binomial distribution.  The probability mass function of a Binomial random variable $Y$ with parameters $n$ (the number of trials) and $p$ (the probability of success on each trial) is given by
+
+$$
+P(Y = k) = \binom{n}{k} p^k (1 - p)^{n - k}
+$$
+
+Here $\binom{n}{k}= \frac{n!}{k!(n-k)!}$ is the binomial coefficient, which counts the number of ways to choose $k$ successes from $n$ trials.  The Binomial distribution models the number of successes in $n$ independent Bernoulli trials with success probability $p$.
+
+(This follows naturally from the definition of the Bernoulli distribution, the fact that the trials are independent, and the fact that there are $\binom{n}{k}$ ways to arrange $k$ successes among $n$ trials.)
+
+### The Poisson Distribution
+If we have a large number of independent Bernoulli trials with a small probability of success, the Binomial distribution can be approximated by the Poisson distribution.  The probability mass function of a Poisson random variable $Z$ with parameter $\lambda$ (the average rate of success) is given by
+
+$$
+P(Z = k) = \frac{\lambda^k e^{-\lambda}}{k!}
+$$
+
+The Poisson distribution models the number of events that occur in a fixed interval of time or space, given a constant average rate of occurrence $\lambda$.  For instance, if we are counting the number of cars that pass through an intersection in an hour, and we know that on average 5 cars pass through per hour, we could model the number of cars that pass through in an hour using a Poisson distribution with $\lambda = 5$.
+
+### The Uniform Distribution
+
+The uniform distribution is a continuous probability distribution that models a random variable that is equally likely to take on any value within a specified interval.  The probability density function of a uniform random variable $X$ on the interval $[a, b]$ is given by
+
+$$
+f(x) = \begin{cases}
+\frac{1}{b - a} & \text{if } a \leq x \leq b, \\
+0 & \text{otherwise}.
+\end{cases}
+$$
+
+This is the simplest continuous distribution, and it is often used as a building block for more complex distributions.  (In the last class, we discussed how to use the inverse CDF method to generate random numbers from any distribution, given a source of uniform random numbers.)
+
+### The Normal (Gaussian) Distribution
+
+Just as the Poisson distribution is a limit of the Binomial distribution when the number of trials is large and the probability of success is small, the Normal distribution is a limit of the Binomial distribution when the number of trials is large and the probability of success is not too close to 0 or 1.  The probability density function of a Normal random variable $X$ with mean $\mu$ and standard deviation $\sigma$ is given by
+
+$$
+f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}.
+$$
+
+One of the reasons the Normal distribution is so important is because of the Central Limit Theorem, which states that the sum of a large number of independent and identically distributed random variables will be approximately normally distributed, regardless of the original distribution of the random variables.  This is why the Normal distribution appears so frequently in nature and in statistics.
