@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -412,7 +412,6 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#organizing-larger-clis-with-subcommands">Organizing Larger CLIs with Subcommands</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reliability-and-debugging-patterns">Reliability and Debugging Patterns</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes-and-how-to-avoid-them">Common Mistakes and How to Avoid Them</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-in-class-exercise">Suggested In-Class Exercise</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 </ul>
             </nav>
@@ -732,19 +731,6 @@ python<span class="w"> </span>run_simulation.py<span class="w"> </span><span cla
 </ul>
 <p>Most of these are solved by thoughtful parser design, explicit validation, and run metadata logging.</p>
 </section>
-<section id="suggested-in-class-exercise">
-<h2>Suggested In-Class Exercise<a class="headerlink" href="#suggested-in-class-exercise" title="Link to this heading">#</a></h2>
-<p>Build a script named run_trajectory.py that:</p>
-<ol class="arabic simple">
-<li><p>Accepts –config, –dt, –t-end, –method, –seed, and –output-dir.</p></li>
-<li><p>Reads defaults from a TOML file.</p></li>
-<li><p>Applies CLI overrides.</p></li>
-<li><p>Supports –dry-run.</p></li>
-<li><p>Writes the final resolved parameters to output_dir/run_config_used.toml.</p></li>
-</ol>
-<p>Then write a SLURM array script that sweeps over dt values and stores outputs in separate folders.</p>
-<p>This exercise reinforces CLI design, reproducibility, and scheduler integration in one workflow.</p>
-</section>
 <section id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
 <p>For scientific computing and HPC, command-line interfaces are not optional extras.  They are the standard interface between your code, your scheduler, and your research workflow.  Argparse gives a robust and dependency-light foundation for building these interfaces in Python.  When combined with configuration files, clear validation, and batch-friendly design, your tools become easier to automate, debug, reproduce, and scale.</p>
@@ -826,7 +812,6 @@ python<span class="w"> </span>run_simulation.py<span class="w"> </span><span cla
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#organizing-larger-clis-with-subcommands">Organizing Larger CLIs with Subcommands</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reliability-and-debugging-patterns">Reliability and Debugging Patterns</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes-and-how-to-avoid-them">Common Mistakes and How to Avoid Them</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-in-class-exercise">Suggested In-Class Exercise</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 </ul>
   </nav></div>

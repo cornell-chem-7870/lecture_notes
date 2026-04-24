@@ -359,21 +359,6 @@ This should report the final resolved configuration and confirm paths without la
 Most of these are solved by thoughtful parser design, explicit validation, and run metadata logging.
 
 
-## Suggested In-Class Exercise
-
-Build a script named run_trajectory.py that:
-
-1. Accepts --config, --dt, --t-end, --method, --seed, and --output-dir.
-2. Reads defaults from a TOML file.
-3. Applies CLI overrides.
-4. Supports --dry-run.
-5. Writes the final resolved parameters to output_dir/run_config_used.toml.
-
-Then write a SLURM array script that sweeps over dt values and stores outputs in separate folders.
-
-This exercise reinforces CLI design, reproducibility, and scheduler integration in one workflow.
-
-
 ## Summary
 
 For scientific computing and HPC, command-line interfaces are not optional extras.  They are the standard interface between your code, your scheduler, and your research workflow.  Argparse gives a robust and dependency-light foundation for building these interfaces in Python.  When combined with configuration files, clear validation, and batch-friendly design, your tools become easier to automate, debug, reproduce, and scale.
