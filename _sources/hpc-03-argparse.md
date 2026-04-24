@@ -348,7 +348,7 @@ python run_simulation.py --config config.toml --dry-run
 This should report the final resolved configuration and confirm paths without launching expensive computation.
 
 
-## Common Mistakes and How to Avoid Them
+## Common Mistakes 
 
 - Hidden defaults that users do not know exist.
 - Arguments that silently accept invalid values.
