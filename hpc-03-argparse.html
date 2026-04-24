@@ -1,0 +1,885 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Command-Line Interfaces and Argparse for Scientific Computing &#8212; Lecture Notes for Cornell Chem 7870</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hpc-03-argparse';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Virtual Environments for High-Performance Computing" href="hpc-02-virtual-environments.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Lecture Notes for Cornell Chem 7870 - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Lecture Notes for Cornell Chem 7870 - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to 7870
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1. Linear Algebra</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="linalg-01-intro_vectors.html">A Deeper look at Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-02-coding_matrices_in_python.html">Linear Algebra in Python with Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-03-matrix_decompositions.html">Eigenvectors, Unitary Matrices, and Matrix Decompositions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-04-linear_regression.html">Linear Regression and Least Squares</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Optimization and Numerical Differential Equations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="optim-01-intro-optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-02-nonlinear-optimization.html">Nonlinear Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-03a-autograd-in-pytorch.html">Automatic Differentiation and Pytorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-03b-autograd-in-jax.html">Intro to JaX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-04-three-types-of-NNs.html">A Crash Course on Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-01-ode-intro.html">Intro to Numerical Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-02-symplectic-integrators.html">More on Numerical ODEs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-03-pde.html">From ODE to PDE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3. Probability</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="prob-01-probability.html">Intro to Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-02-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="prob-03-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-04-monte-carlo.html">Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-05-mcmc.html">Markov Chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-06-metropolis-hastings.html">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-07-bayesian-inference.html">Bayesian Inference</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 4. High-Performance Computing</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="hpc-01-supercomputer-architectures.html">Supercomputer Architectures for Computational Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hpc-02-virtual-environments.html">Virtual Environments for High-Performance Computing</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Command-Line Interfaces and Argparse for Scientific Computing</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fhpc-03-argparse.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/hpc-03-argparse.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Command-Line Interfaces and Argparse for Scientific Computing</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-clis-matter-in-scientific-computing">Why CLIs Matter in Scientific Computing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anatomy-of-a-cli-command">Anatomy of a CLI Command</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#argparse-the-standard-library-workhorse">Argparse: The Standard Library Workhorse</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-argument-patterns-for-scientific-workflows">Important Argument Patterns for Scientific Workflows</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typed-arguments-and-validation">Typed Arguments and Validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#file-and-path-arguments">File and Path Arguments</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mutually-exclusive-modes">Mutually Exclusive Modes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-files-plus-cli-overrides">Configuration Files Plus CLI Overrides</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-introduction-to-toml">An Introduction to TOML</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility-tip">Reproducibility Tip</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cli-design-for-slurm-and-batch-workloads">CLI Design for SLURM and Batch Workloads</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#organizing-larger-clis-with-subcommands">Organizing Larger CLIs with Subcommands</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reliability-and-debugging-patterns">Reliability and Debugging Patterns</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes-and-how-to-avoid-them">Common Mistakes and How to Avoid Them</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-in-class-exercise">Suggested In-Class Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="command-line-interfaces-and-argparse-for-scientific-computing">
+<h1>Command-Line Interfaces and Argparse for Scientific Computing<a class="headerlink" href="#command-line-interfaces-and-argparse-for-scientific-computing" title="Link to this heading">#</a></h1>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Explain what a command-line interface (CLI) is and why it is central to scientific and HPC workflows.</p></li>
+<li><p>Build Python programs with robust command-line arguments using argparse.</p></li>
+<li><p>Distinguish positional arguments, optional flags, typed arguments, and mutually exclusive options.</p></li>
+<li><p>Combine command-line arguments with configuration files for reproducible experiment management.</p></li>
+<li><p>Design CLI tools that work cleanly in SLURM batch jobs and parameter sweeps.</p></li>
+<li><p>Apply practical reliability patterns, including logging, dry runs, and argument validation.</p></li>
+</ul>
+</section>
+<section id="why-clis-matter-in-scientific-computing">
+<h2>Why CLIs Matter in Scientific Computing<a class="headerlink" href="#why-clis-matter-in-scientific-computing" title="Link to this heading">#</a></h2>
+<p>In high-performance computing, most serious work is launched through scripts and schedulers, not point-and-click interfaces.  On many clusters, compute nodes have no graphical environment at all, and jobs are submitted remotely through tools like SLURM.  That means your program needs a clear text interface so users can run it with different parameters, automate repeated experiments, and embed it in larger workflows.</p>
+<p>A command-line interface is simply a way to pass inputs to a program from the shell.  For example, consider a code <code class="docutils literal notranslate"><span class="pre">run_simulation.py</span></code> that performs a molecular dynamics simulation.  A CLI allows you to specify parameters like the time step, total simulation time, and integration method directly from the command line:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>run_simulation.py<span class="w"> </span>data/structure.xyz<span class="w"> </span>--dt<span class="w"> </span>1e-3<span class="w"> </span>-T<span class="w"> </span><span class="m">10</span><span class="w"> </span>--method<span class="w"> </span>leapfrog
+</pre></div>
+</div>
+<p>Compared with hard-coding values in Python files, a CLI gives you:</p>
+<ol class="arabic simple">
+<li><p>Reproducibility: the exact parameters are visible in the job script and logs.</p></li>
+<li><p>Automation: shell scripts and job arrays can vary arguments across many runs.</p></li>
+<li><p>Composability: your tool can be combined with other command-line tools.</p></li>
+<li><p>Better collaboration: teammates can run the same command and get the same setup.</p></li>
+</ol>
+</section>
+<section id="anatomy-of-a-cli-command">
+<h2>Anatomy of a CLI Command<a class="headerlink" href="#anatomy-of-a-cli-command" title="Link to this heading">#</a></h2>
+<p>Most command-line programs accept two classes of inputs:</p>
+<ul class="simple">
+<li><p>Positional arguments: required values based on position.</p></li>
+<li><p>Optional arguments (flags): named options beginning with - or –.</p></li>
+</ul>
+<p>In the example above, <code class="docutils literal notranslate"><span class="pre">data/structure.xyz</span></code> is a positional argument, while <code class="docutils literal notranslate"><span class="pre">--dt</span></code>, <code class="docutils literal notranslate"><span class="pre">-T</span></code>, and <code class="docutils literal notranslate"><span class="pre">--method</span></code> are optional flags.  Optional flags can have default values, type constraints, and limited choices.  They can also be boolean switches that turn features on or off.  For instance, – <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> might enable detailed logging when present, and do nothing when absent.</p>
+<p>Some common design conventions:</p>
+<ul class="simple">
+<li><p>Use short names for frequent options, for example <code class="docutils literal notranslate"><span class="pre">-T</span> <span class="pre">100</span></code>.</p></li>
+<li><p>Use long names for readability, for example <code class="docutils literal notranslate"><span class="pre">--t-end</span> <span class="pre">100</span></code>.</p></li>
+<li><p>Use booleans as switches, for example <code class="docutils literal notranslate"><span class="pre">--verbose</span></code></p></li>
+</ul>
+</section>
+<section id="argparse-the-standard-library-workhorse">
+<h2>Argparse: The Standard Library Workhorse<a class="headerlink" href="#argparse-the-standard-library-workhorse" title="Link to this heading">#</a></h2>
+<p>Python’s argparse module provides a dependable way to define and parse command-line arguments.  For HPC classes, a major advantage is that argparse is part of the standard library, so students do not need extra CLI dependencies on shared systems.</p>
+<p>A minimal example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_args</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run a simple molecular dynamics simulation.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;structure_file&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Input structure file (e.g., XYZ or PDB)&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--dt&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Time step size&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-T&quot;</span><span class="p">,</span> <span class="s2">&quot;--t-end&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Final simulation time&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--method&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;euler&quot;</span><span class="p">,</span> <span class="s2">&quot;rk4&quot;</span><span class="p">,</span> <span class="s2">&quot;leapfrog&quot;</span><span class="p">],</span>
+                        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;rk4&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Integrator&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--seed&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Random seed&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--verbose&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Print detailed progress&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In this example, <code class="docutils literal notranslate"><span class="pre">argparse.ArgumentParser(...)</span></code> creates a parser object that knows how to read command-line inputs.  The first <code class="docutils literal notranslate"><span class="pre">add_argument(...)</span></code> defines a required positional argument (<code class="docutils literal notranslate"><span class="pre">structure_file</span></code>) for the input molecular structure, while later calls define optional flags such as <code class="docutils literal notranslate"><span class="pre">--dt</span></code> and <code class="docutils literal notranslate"><span class="pre">--method</span></code>.  Each argument declaration can include type, default value, and constraints (for example, <code class="docutils literal notranslate"><span class="pre">choices</span></code>).<br />
+Additionally, the <code class="docutils literal notranslate"><span class="pre">help</span></code> parameter provides documentation that is displayed when the user runs the script with <code class="docutils literal notranslate"><span class="pre">--help</span></code>.  This is crucial for usability and for helping users learn to use your code.</p>
+<p>Once called, the <code class="docutils literal notranslate"><span class="pre">args</span></code> variable will contain the parsed command-line arguments as attributes, for example <code class="docutils literal notranslate"><span class="pre">args.dt</span></code>, <code class="docutils literal notranslate"><span class="pre">args.t_end</span></code>, and <code class="docutils literal notranslate"><span class="pre">args.method</span></code>.  These values can then be used to control the behavior of the program, such as which integration method to use or how long to run the simulation.
+(You can also convert the <code class="docutils literal notranslate"><span class="pre">args</span></code> namespace to a dictionary with <code class="docutils literal notranslate"><span class="pre">vars(args)</span></code> for easier manipulation, but using the namespace attributes is often more convenient, easier to read, and more type-friendly.)</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">parse_args()</span></code> is called, argparse reads the actual command line, validates the values, and returns them in the <code class="docutils literal notranslate"><span class="pre">args</span></code> namespace.  The <code class="docutils literal notranslate"><span class="pre">main()</span></code> function then uses these parsed values to control program behavior.  From the perspective of a user, they can run the program with different parameters without changing the code, for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>run_simulation.py<span class="w"> </span>data/water.pdb<span class="w"> </span>--t-end<span class="w"> </span><span class="m">5</span><span class="w"> </span>--dt<span class="w"> </span><span class="m">0</span>.005<span class="w"> </span>--method<span class="w"> </span>leapfrog
+</pre></div>
+</div>
+<p>The user can also get help on the available options by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>run_simulation.py<span class="w"> </span>--help
+</pre></div>
+</div>
+</section>
+<section id="important-argument-patterns-for-scientific-workflows">
+<h2>Important Argument Patterns for Scientific Workflows<a class="headerlink" href="#important-argument-patterns-for-scientific-workflows" title="Link to this heading">#</a></h2>
+<section id="typed-arguments-and-validation">
+<h3>Typed Arguments and Validation<a class="headerlink" href="#typed-arguments-and-validation" title="Link to this heading">#</a></h3>
+<p>Scientific codes often require strict types and ranges.  Argparse can enforce many of these constraints directly.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">positive_float</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentTypeError</span><span class="p">(</span><span class="s2">&quot;value must be positive&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+
+<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--dt&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">positive_float</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--num-steps&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The custom type function catches invalid values early, before expensive computation starts.</p>
+</section>
+<section id="file-and-path-arguments">
+<h3>File and Path Arguments<a class="headerlink" href="#file-and-path-arguments" title="Link to this heading">#</a></h3>
+<p>Many tools accept paths to input datasets, checkpoints, and output directories.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+
+<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Input data file&quot;</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--output-dir&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;results&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Using Path objects in your script simplifies path logic and improves portability.</p>
+</section>
+<section id="mutually-exclusive-modes">
+<h3>Mutually Exclusive Modes<a class="headerlink" href="#mutually-exclusive-modes" title="Link to this heading">#</a></h3>
+<p>Sometimes two options should never be used together.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+<span class="n">group</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_mutually_exclusive_group</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--train&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">)</span>
+<span class="n">group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--evaluate&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This avoids ambiguous usage and makes program behavior explicit.</p>
+</section>
+</section>
+<section id="configuration-files-plus-cli-overrides">
+<h2>Configuration Files Plus CLI Overrides<a class="headerlink" href="#configuration-files-plus-cli-overrides" title="Link to this heading">#</a></h2>
+<p>As projects grow, putting every parameter on the command line becomes tedious.  A common scientific pattern is:</p>
+<ol class="arabic simple">
+<li><p>Load defaults from a configuration file.</p></li>
+<li><p>Override selected values from CLI flags.</p></li>
+</ol>
+<p>This gives reproducibility from a saved config and flexibility for quick sweeps.</p>
+<section id="an-introduction-to-toml">
+<h3>An Introduction to TOML<a class="headerlink" href="#an-introduction-to-toml" title="Link to this heading">#</a></h3>
+<p>To implement this, we are going to use the TOML format for configuration files, which is human-friendly and supported by Python’s standard library in version 3.11 and later.
+TOML files are structured as key-value pairs, and they can also include sections for better organization.  For example, you might have a <code class="docutils literal notranslate"><span class="pre">config.toml</span></code> file that looks like this:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rk4&quot;</span>
+<span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.001</span>
+<span class="n">t_end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10.0</span>
+<span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span>
+<span class="n">output_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;results/base&quot;</span>
+</pre></div>
+</div>
+<p>(More complex configurations can include nested arguments, lists, and tables, but this simple flat structure is often sufficient.)</p>
+<p>Loading this configuration in your Python script can be done using the <code class="docutils literal notranslate"><span class="pre">tomllib</span></code> module.  For instance, you can read the configuration file  using the following code snippet:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tomllib</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">load_config</span><span class="p">(</span><span class="n">config_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">config_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">tomllib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will give you a dictionary with the contents of the TOML file.  The dictionary will have keys corresponding to the sections in the TOML file, so you can access the simulation parameters with <code class="docutils literal notranslate"><span class="pre">config[&quot;method&quot;]</span></code>, <code class="docutils literal notranslate"><span class="pre">config[&quot;dt&quot;]</span></code>, etc.</p>
+<p>And the command is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>run_simulation.py<span class="w"> </span>--config<span class="w"> </span>config.toml<span class="w"> </span>--dt<span class="w"> </span><span class="m">0</span>.0005<span class="w"> </span>--output-dir<span class="w"> </span>results/testA
+</pre></div>
+</div>
+<p>A practical implementation pattern:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tomllib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_args</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--config&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--dt&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--t-end&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--method&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;euler&quot;</span><span class="p">,</span> <span class="s2">&quot;rk4&quot;</span><span class="p">,</span> <span class="s2">&quot;leapfrog&quot;</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--seed&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--output-dir&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">merge_config</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">parser</span><span class="p">)</span>  <span class="c1"># Merge config file values with CLI overrides</span>
+    <span class="k">return</span> <span class="n">args</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">merge_config</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="n">parser</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Merge command-line arguments with config file values, giving precedence to CLI.</span>
+<span class="sd">    Code adapted from Micha Feigin&#39;s Medium Post, &quot;On using config files with python&#39;s argparse.&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="n">tomllib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="c1"># This assumes </span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="o">**</span><span class="n">cfg</span><span class="p">)</span>
+
+        <span class="c1"># Reload args to apply config defaults</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">args</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">cli_args</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">merge_config</span><span class="p">(</span><span class="n">cli_args</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note: YAML and JSON are also common.  TOML is nice because Python 3.11 includes tomllib in the standard library.</p>
+</section>
+<section id="reproducibility-tip">
+<h3>Reproducibility Tip<a class="headerlink" href="#reproducibility-tip" title="Link to this heading">#</a></h3>
+<p>At run start, write the final merged configuration to your output directory.  This creates an audit trail that allows you to recreate any run later.
+To do this, you can use the <code class="docutils literal notranslate"><span class="pre">tomli_w</span></code> library to write the configuration back to a TOML file.  (Unfortunately, the <code class="docutils literal notranslate"><span class="pre">tomllib</span></code> module does not support writing TOML files.)  For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tomli_w</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">save_config</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">config_path</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;arguments.toml&quot;</span>
+    <span class="k">with</span> <span class="n">config_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">arguments_dict</span> <span class="o">=</span> <span class="nb">vars</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>  <span class="c1"># Convert Namespace to dict</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tomli_w</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">arguments_dict</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="cli-design-for-slurm-and-batch-workloads">
+<h2>CLI Design for SLURM and Batch Workloads<a class="headerlink" href="#cli-design-for-slurm-and-batch-workloads" title="Link to this heading">#</a></h2>
+<p>A well-designed CLI should be easy to call from batch scripts and job arrays.</p>
+<p>Example SLURM script fragment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH --job-name=ode_sweep</span>
+<span class="c1">#SBATCH --partition=compute</span>
+<span class="c1">#SBATCH --array=0-4</span>
+<span class="c1">#SBATCH --time=00:20:00</span>
+<span class="c1">#SBATCH --ntasks=1</span>
+<span class="c1">#SBATCH --cpus-per-task=1</span>
+<span class="c1">#SBATCH --mem=2G</span>
+
+<span class="nv">DT_VALUES</span><span class="o">=(</span><span class="m">0</span>.1<span class="w"> </span><span class="m">0</span>.05<span class="w"> </span><span class="m">0</span>.02<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="m">0</span>.005<span class="o">)</span>
+<span class="nv">DT</span><span class="o">=</span><span class="si">${</span><span class="nv">DT_VALUES</span><span class="p">[</span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="p">]</span><span class="si">}</span>
+
+python<span class="w"> </span>run_simulation.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--config<span class="w"> </span>config.toml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--dt<span class="w"> </span><span class="si">${</span><span class="nv">DT</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-dir<span class="w"> </span>results/dt_<span class="si">${</span><span class="nv">DT</span><span class="si">}</span>
+</pre></div>
+</div>
+<p>Key HPC-aware features to include in your CLI:</p>
+<ul class="simple">
+<li><p>–dry-run to print resolved parameters and exit.</p></li>
+<li><p>–output-dir to avoid hard-coded paths.</p></li>
+<li><p>–seed for deterministic stochastic experiments.</p></li>
+<li><p>Clear nonzero exit behavior for invalid inputs.</p></li>
+</ul>
+</section>
+<section id="organizing-larger-clis-with-subcommands">
+<h2>Organizing Larger CLIs with Subcommands<a class="headerlink" href="#organizing-larger-clis-with-subcommands" title="Link to this heading">#</a></h2>
+<p>For larger projects, one script may need multiple actions.  For instance, in machine learning one might need to train, evaluate, and plot.  Argparse supports subcommands that allow you to group related arguments under different modes of operation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+
+<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s2">&quot;chemtool&quot;</span><span class="p">)</span>
+<span class="n">subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s2">&quot;command&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">train_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Train a model&quot;</span><span class="p">)</span>
+<span class="n">train_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--epochs&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">eval_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;evaluate&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Evaluate a checkpoint&quot;</span><span class="p">)</span>
+<span class="n">eval_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--ckpt&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plot_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;plot&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Plot outputs&quot;</span><span class="p">)</span>
+<span class="n">plot_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--input&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This pattern scales better than one giant parser with dozens of unrelated options.</p>
+</section>
+<section id="reliability-and-debugging-patterns">
+<h2>Reliability and Debugging Patterns<a class="headerlink" href="#reliability-and-debugging-patterns" title="Link to this heading">#</a></h2>
+<p>Small CLI design choices save substantial cluster time:</p>
+<ol class="arabic simple">
+<li><p>Print parsed arguments at startup, for example print(vars(args)).  This makes it easy to verify that your CLI is working as intended and that the correct parameters are being used before launching expensive computations.</p></li>
+<li><p>Validate filesystem assumptions early and fail fast.</p></li>
+<li><p>Separate parse_args from main so logic is testable.</p></li>
+<li><p>Keep defaults sensible and document units, for example seconds, kelvin, angstrom.</p></li>
+<li><p>Include examples in the help text and in project documentation.</p></li>
+</ol>
+<p>A useful dry-run behavior:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>run_simulation.py<span class="w"> </span>--config<span class="w"> </span>config.toml<span class="w"> </span>--dry-run
+</pre></div>
+</div>
+<p>This should report the final resolved configuration and confirm paths without launching expensive computation.</p>
+</section>
+<section id="common-mistakes-and-how-to-avoid-them">
+<h2>Common Mistakes and How to Avoid Them<a class="headerlink" href="#common-mistakes-and-how-to-avoid-them" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Hidden defaults that users do not know exist.</p></li>
+<li><p>Arguments that silently accept invalid values.</p></li>
+<li><p>Inconsistent naming conventions, for example mixing –t_end and –t-end.</p></li>
+<li><p>Hard-coded absolute paths in scripts.</p></li>
+<li><p>Different parameter handling between interactive runs and batch jobs.</p></li>
+</ul>
+<p>Most of these are solved by thoughtful parser design, explicit validation, and run metadata logging.</p>
+</section>
+<section id="suggested-in-class-exercise">
+<h2>Suggested In-Class Exercise<a class="headerlink" href="#suggested-in-class-exercise" title="Link to this heading">#</a></h2>
+<p>Build a script named run_trajectory.py that:</p>
+<ol class="arabic simple">
+<li><p>Accepts –config, –dt, –t-end, –method, –seed, and –output-dir.</p></li>
+<li><p>Reads defaults from a TOML file.</p></li>
+<li><p>Applies CLI overrides.</p></li>
+<li><p>Supports –dry-run.</p></li>
+<li><p>Writes the final resolved parameters to output_dir/run_config_used.toml.</p></li>
+</ol>
+<p>Then write a SLURM array script that sweeps over dt values and stores outputs in separate folders.</p>
+<p>This exercise reinforces CLI design, reproducibility, and scheduler integration in one workflow.</p>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>For scientific computing and HPC, command-line interfaces are not optional extras.  They are the standard interface between your code, your scheduler, and your research workflow.  Argparse gives a robust and dependency-light foundation for building these interfaces in Python.  When combined with configuration files, clear validation, and batch-friendly design, your tools become easier to automate, debug, reproduce, and scale.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="hpc-02-virtual-environments.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Virtual Environments for High-Performance Computing</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-clis-matter-in-scientific-computing">Why CLIs Matter in Scientific Computing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anatomy-of-a-cli-command">Anatomy of a CLI Command</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#argparse-the-standard-library-workhorse">Argparse: The Standard Library Workhorse</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-argument-patterns-for-scientific-workflows">Important Argument Patterns for Scientific Workflows</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typed-arguments-and-validation">Typed Arguments and Validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#file-and-path-arguments">File and Path Arguments</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mutually-exclusive-modes">Mutually Exclusive Modes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-files-plus-cli-overrides">Configuration Files Plus CLI Overrides</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-introduction-to-toml">An Introduction to TOML</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility-tip">Reproducibility Tip</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cli-design-for-slurm-and-batch-workloads">CLI Design for SLURM and Batch Workloads</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#organizing-larger-clis-with-subcommands">Organizing Larger CLIs with Subcommands</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reliability-and-debugging-patterns">Reliability and Debugging Patterns</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes-and-how-to-avoid-them">Common Mistakes and How to Avoid Them</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-in-class-exercise">Suggested In-Class Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Erik Thiede
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

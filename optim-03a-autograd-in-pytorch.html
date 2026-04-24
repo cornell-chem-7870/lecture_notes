@@ -190,11 +190,18 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="prob-01-probability.html">Intro to Probability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prob-02-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="prob-03-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prob-04-monte-carlo.html">Monte Carlo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prob-05-mcmc.html">Markov Chain Monte Carlo</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prob-06-metropolis-hastings.html">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prob-07-bayesian-inference.html">Bayesian Inference</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 4. High-Performance Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="hpc-01-supercomputer-architectures.html">Supercomputer Architectures for Computational Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hpc-02-virtual-environments.html">Virtual Environments for High-Performance Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hpc-03-argparse.html">Command-Line Interfaces and Argparse for Scientific Computing</a></li>
 </ul>
 
     </div>
@@ -445,10 +452,6 @@
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([2., 4., 6.])
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/erik/mambaforge/envs/compmethods/lib/python3.11/site-packages/torch/autograd/graph.py:865: UserWarning: CUDA initialization: CUDA unknown error - this may be due to an incorrectly set up environment, e.g. changing env variable CUDA_VISIBLE_DEVICES after program start. Setting the available devices to be zero. (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:119.)
-  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
-</pre></div>
-</div>
 </div>
 </div>
 <p>Pytorch keeps the gradients in the <code class="docutils literal notranslate"><span class="pre">.grad</span></code> attribute of the tensor.  Note: these persist, and are sometimes not automatically cleared, so you may need to clear them manually (e.g. by setting <code class="docutils literal notranslate"><span class="pre">a.grad</span> <span class="pre">=</span> <span class="pre">None</span></code>) if you want to compute gradients multiple times in a loop.  For instance, consider the following example:</p>
@@ -611,10 +614,10 @@ tensor([[3.4597, 0.0000, 0.0000],
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: tensor([ 1.9630, -3.0404,  1.0022], requires_grad=True)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: tensor([ 2.0233, -3.0680,  0.9758], requires_grad=True)
 </pre></div>
 </div>
-<img alt="_images/d8e07b1da32be8697a5f7d17c49dcbc8e3f2465a8381a86e98f4db6c3a09ae17.png" src="_images/d8e07b1da32be8697a5f7d17c49dcbc8e3f2465a8381a86e98f4db6c3a09ae17.png" />
+<img alt="_images/68824ff03bae47969c7d769c43ae7c2a36bd007cc88eebaf0b8c12fac7ba563f.png" src="_images/68824ff03bae47969c7d769c43ae7c2a36bd007cc88eebaf0b8c12fac7ba563f.png" />
 </div>
 </div>
 <p>As we see, the learned weights are close to the true weights!</p>
@@ -683,17 +686,17 @@ tensor([[3.4597, 0.0000, 0.0000],
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>weight: Parameter containing:
-tensor([[0.3855, 0.0426, 0.4904]], requires_grad=True)
+tensor([[ 0.1405, -0.5068,  0.3827]], requires_grad=True)
 bias: Parameter containing:
-tensor([-0.0308], requires_grad=True)
+tensor([-0.0382], requires_grad=True)
 ~~~~~~~~~~
 parameters: [Parameter containing:
-tensor([[0.3855, 0.0426, 0.4904]], requires_grad=True), Parameter containing:
-tensor([-0.0308], requires_grad=True)]
+tensor([[ 0.1405, -0.5068,  0.3827]], requires_grad=True), Parameter containing:
+tensor([-0.0382], requires_grad=True)]
 ~~~~~~~~~~
 --- output of linear layer ---
-tensor([1.9109], grad_fn=&lt;ViewBackward0&gt;)
-tensor([1.9109], grad_fn=&lt;ViewBackward0&gt;)
+tensor([0.2368], grad_fn=&lt;ViewBackward0&gt;)
+tensor([0.2368], grad_fn=&lt;ViewBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -733,13 +736,16 @@ tensor([1.9109], grad_fn=&lt;ViewBackward0&gt;)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: Parameter containing:
-tensor([[ 1.9610, -3.0463,  1.0013]], requires_grad=True)
-Learned bias: Parameter containing:
-tensor([0.0495], requires_grad=True)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Learned weights: 
 </pre></div>
 </div>
-<img alt="_images/3913c0274195ce5e3695a7c94c7137dab898e2ab08131be073aa705a5e2cffb9.png" src="_images/3913c0274195ce5e3695a7c94c7137dab898e2ab08131be073aa705a5e2cffb9.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Parameter containing:
+tensor([[ 2.0122, -3.0716,  0.9778]], requires_grad=True)
+Learned bias: Parameter containing:
+tensor([-0.1044], requires_grad=True)
+</pre></div>
+</div>
+<img alt="_images/708a506a2f946030d4c7cbf74e5283f1dd93b81ab14873cec0e77d4302bf32b5.png" src="_images/708a506a2f946030d4c7cbf74e5283f1dd93b81ab14873cec0e77d4302bf32b5.png" />
 </div>
 </div>
 <p>You can build your own custom classes using the <code class="docutils literal notranslate"><span class="pre">class</span></code> keyword in python.  For instance a simple class for holding information about an NMR spectrum could be implemented as below.</p>
