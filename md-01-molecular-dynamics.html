@@ -1,0 +1,779 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Molecular Dynamics: Simulation of Chemical Systems &#8212; Lecture Notes for Cornell Chem 7870</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'md-01-molecular-dynamics';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Command-Line Interfaces and Argparse for Scientific Computing" href="hpc-03-argparse.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Lecture Notes for Cornell Chem 7870 - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Lecture Notes for Cornell Chem 7870 - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to 7870
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1. Linear Algebra</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="linalg-01-intro_vectors.html">A Deeper look at Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-02-coding_matrices_in_python.html">Linear Algebra in Python with Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-03-matrix_decompositions.html">Eigenvectors, Unitary Matrices, and Matrix Decompositions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-04-linear_regression.html">Linear Regression and Least Squares</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Optimization and Numerical Differential Equations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="optim-01-intro-optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-02-nonlinear-optimization.html">Nonlinear Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-03a-autograd-in-pytorch.html">Automatic Differentiation and Pytorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-03b-autograd-in-jax.html">Intro to JaX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-04-three-types-of-NNs.html">A Crash Course on Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-01-ode-intro.html">Intro to Numerical Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-02-symplectic-integrators.html">More on Numerical ODEs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-03-pde.html">From ODE to PDE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3. Probability</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="prob-01-probability.html">Intro to Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-02-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="prob-03-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-04-monte-carlo.html">Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-05-mcmc.html">Markov Chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-06-metropolis-hastings.html">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-07-bayesian-inference.html">Bayesian Inference</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 4. High-Performance Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="hpc-01-supercomputer-architectures.html">Supercomputer Architectures for Computational Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hpc-02-virtual-environments.html">Virtual Environments for High-Performance Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hpc-03-argparse.html">Command-Line Interfaces and Argparse for Scientific Computing</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 5. Molecular Simulation</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Molecular Dynamics: Simulation of Chemical Systems</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fmd-01-molecular-dynamics.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/md-01-molecular-dynamics.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Molecular Dynamics: Simulation of Chemical Systems</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section-1-fundamentals-motivation">Section 1: Fundamentals &amp; Motivation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-molecular-dynamics">Introduction to Molecular Dynamics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-applications-in-chemistry">Common Applications in Chemistry</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section-2-theory-methods">Section 2: Theory &amp; Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classical-mechanics-review">Classical Mechanics Review</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#force-fields-and-interatomic-potentials">Force Fields and Interatomic Potentials</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boundary-conditions-and-long-range-interactions">Boundary Conditions and Long-Range Interactions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ensemble-methods">Ensemble Methods</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section-3-practice-implementation">Section 3: Practice &amp; Implementation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#system-preparation">System Preparation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#equilibration-protocols">Equilibration Protocols</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section-4-tools-best-practices">Section 4: Tools &amp; Best Practices</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#software-and-computational-tools">Software and Computational Tools</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#challenges-and-best-practices">Challenges and Best Practices</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="molecular-dynamics-simulation-of-chemical-systems">
+<h1>Molecular Dynamics: Simulation of Chemical Systems<a class="headerlink" href="#molecular-dynamics-simulation-of-chemical-systems" title="Link to this heading">#</a></h1>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Understand the fundamental concepts and scope of molecular dynamics simulations.</p></li>
+<li><p>Recognize the historical development of MD and its role in modern chemistry.</p></li>
+<li><p>Identify diverse applications of MD across chemical systems.</p></li>
+<li><p>Learn when and why MD is appropriate for answering chemical questions.</p></li>
+<li><p>Appreciate the limitations and challenges of classical MD simulations.</p></li>
+</ul>
+</section>
+<section id="section-1-fundamentals-motivation">
+<h2>Section 1: Fundamentals &amp; Motivation<a class="headerlink" href="#section-1-fundamentals-motivation" title="Link to this heading">#</a></h2>
+<section id="introduction-to-molecular-dynamics">
+<h3>Introduction to Molecular Dynamics<a class="headerlink" href="#introduction-to-molecular-dynamics" title="Link to this heading">#</a></h3>
+<p>Molecular dynamics (MD) is a computational method that simulates the motion of atoms and molecules in time by numerically solving the classical equations of motion. Unlike quantum mechanics, which solves the Schrödinger equation for electron wavefunctions, molecular dynamics treats atoms as classical particles governed by Newton’s laws. This approach provides an atomistic view of molecular systems at the timescale of picoseconds to microseconds and length scales of nanometers.</p>
+<p>The core idea is remarkably simple: if we know the positions and velocities of all atoms in a system at time <span class="math notranslate nohighlight">\(t\)</span>, and we know the forces acting on each atom, we can predict their positions and velocities at a slightly later time <span class="math notranslate nohighlight">\(t + \Delta t\)</span>. By repeatedly applying this process—stepping forward in small time increments—we generate a trajectory through phase space that describes how the molecular system evolves. This trajectory is not just a single snapshot, but a complete dynamical picture of molecular behavior.</p>
+<p>The historical development of MD mirrors the rise of computational power. The first molecular dynamics simulations were performed by Alder and Wainwright in 1957 on hard-sphere systems to study phase transitions. These pioneering studies required days of computing time on early digital computers to simulate hundreds of particles for a few thousand time steps. A major milestone came in the 1970s when McCammon and Karplus performed the first MD simulation of a protein (bovine pancreatic trypsin inhibitor). Their groundbreaking work demonstrated that MD could provide insights into the dynamic behavior of biomolecules, establishing MD as a central tool in computational chemistry and structural biology. From those early days to today, exponential growth in computational power, development of better force fields, and algorithmic improvements have expanded MD’s reach to increasingly complex systems and longer timescales.</p>
+<p>Modern MD has become an indispensable complement to experimental chemistry. While experiments provide crucial information about systems, they often provide time-averaged or ensemble-averaged data. MD simulations can reveal the microscopic mechanisms underlying experimental observations, showing individual molecular trajectories and transient states that may be difficult to observe experimentally. This makes MD particularly valuable for studying reaction mechanisms, protein conformational dynamics, solvation phenomena, and phase transitions at an atomic level of detail.</p>
+</section>
+<section id="common-applications-in-chemistry">
+<h3>Common Applications in Chemistry<a class="headerlink" href="#common-applications-in-chemistry" title="Link to this heading">#</a></h3>
+<p>Molecular dynamics has demonstrated remarkable versatility across diverse areas of chemistry. Understanding these applications helps motivate why we invest in learning the theoretical foundations and practical details of MD.</p>
+<p><strong>Protein Dynamics and Conformational Changes.</strong> Proteins are dynamic machines. While crystal structures show static snapshots of protein structures, proteins are constantly undergoing subtle conformational fluctuations in solution. MD simulations can reveal these dynamics at atomic resolution. For instance, simulations can illustrate how proteins wiggle and breathe, with domains moving relative to each other. More dramatically, MD can simulate protein unfolding, domain motion, and the structural rearrangements involved in allosteric mechanisms—where binding at one site affects activity at a distant site. These simulations help bridge the gap between high-resolution structures from X-ray crystallography and the dynamic nature of proteins in living cells.</p>
+<p><strong>Molecular Solvation and Solution Chemistry.</strong> The interactions between dissolved molecules and solvent molecules are fundamental to all chemistry in solution. MD simulations provide atomic-level detail about hydration shells around ions and molecules, showing how water molecules orient themselves around solutes and how rapidly they exchange. These simulations can reveal preferential solvation when multiple solvents are present, help predict apparent solubilities, and illuminate the entropic and enthalpic contributions to solvation thermodynamics. For ionic solutions, MD can show how counterions are distributed around charged species and how ionic strength affects molecular interactions.</p>
+<p><strong>Phase Transitions and Material Behavior.</strong> MD can simulate melting and crystallization, showing how ordered crystal structures transform into disordered liquids or vice versa. This includes molecular-level insight into phenomena like nucleation—how a small critical nucleus of the new phase grows to trigger bulk phase change. Simulations can also investigate glass transitions, where liquids become glassy and molecules freeze into disordered configurations. Understanding these transitions at the molecular level is crucial for materials science and chemistry.</p>
+<p><strong>Reaction Pathways and Molecular Mechanisms.</strong> While classical MD cannot describe bond breaking and forming (which requires quantum mechanics), it can illustrate the pathway an unreacted complex takes toward or away from a reaction coordinate. By applying constraints or steering forces, enhanced MD methods can map out free energy surfaces showing which pathways are energetically favorable. This information helps chemists understand why reactions proceed through certain mechanisms and can guide experimental and theoretical studies toward the most important intermediate states.</p>
+<p><strong>Drug-Protein Binding.</strong> Among the most practical applications of MD is understanding how drug molecules dock to and bind protein targets. MD can show the initial approach and binding of small molecules to proteins, the distribution of bound conformations, and the dynamics of unbinding. This information directly impacts drug discovery by predicting binding affinities, revealing potential off-target effects, and optimizing lead compounds.</p>
+</section>
+</section>
+<section id="section-2-theory-methods">
+<h2>Section 2: Theory &amp; Methods<a class="headerlink" href="#section-2-theory-methods" title="Link to this heading">#</a></h2>
+<section id="classical-mechanics-review">
+<h3>Classical Mechanics Review<a class="headerlink" href="#classical-mechanics-review" title="Link to this heading">#</a></h3>
+<p>At the heart of molecular dynamics lies classical mechanics. Before diving into the specifics of MD, it’s essential to review the framework upon which all simulations are built.</p>
+<p>In classical mechanics, the motion of particles is governed by Newton’s second law:</p>
+<div class="math notranslate nohighlight">
+\[
+m_i \frac{d^2 \mathbf{r}_i}{dt^2} = \mathbf{F}_i
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(m_i\)</span> is the mass of particle <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(\mathbf{r}_i\)</span> is its position vector, and <span class="math notranslate nohighlight">\(\mathbf{F}_i\)</span> is the total force acting on it. For systems where forces are conservative (i.e., they derive from a potential energy), we can write</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{F}_i = -\nabla_i U(\mathbf{r}_1, \mathbf{r}_2, \ldots, \mathbf{r}_N)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(U\)</span> is the potential energy function. This is the form we use in molecular dynamics: the forces are computed from derivatives of the potential energy function.</p>
+<p>It is convenient to rewrite Newton’s second law as a system of first-order differential equations. Define the velocity as <span class="math notranslate nohighlight">\(\mathbf{v}_i = d\mathbf{r}_i/dt\)</span>. Then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{split}
+\frac{d\mathbf{r}_i}{dt} &amp;= \mathbf{v}_i \\
+\frac{d\mathbf{v}_i}{dt} &amp;= \frac{\mathbf{F}_i}{m_i} = -\frac{1}{m_i} \nabla_i U
+\end{split}
+\end{split}\]</div>
+<p>This is the set of equations that MD integrators solve numerically. We recall from previous lectures on differential equations that there are multiple approaches to numerical integration—forward Euler, backward Euler, leapfrog, etc.—each with different accuracy and stability properties. In MD, we prefer integrators that preserve time-reversal symmetry and conserve energy, leading us to symplectic integrators like the leapfrog algorithm.</p>
+<p>The collection of all positions and velocities at a given time defines a point in phase space. As the system evolves, it traces out a trajectory through this high-dimensional phase space. The ergodic hypothesis—a key principle from statistical mechanics—states that for a system allowed to evolve indefinitely, the time average of any observable along a single trajectory equals the ensemble average (the average over many different configurations weighted by their probability). This hypothesis justifies why MD can be used to compute thermodynamic averages: by integrating equations of motion long enough, we sample the relevant region of phase space, and time averages converge to true ensemble averages.</p>
+</section>
+<section id="force-fields-and-interatomic-potentials">
+<h3>Force Fields and Interatomic Potentials<a class="headerlink" href="#force-fields-and-interatomic-potentials" title="Link to this heading">#</a></h3>
+<p>The potential energy function <span class="math notranslate nohighlight">\(U\)</span> is the core of any MD simulation. This function must be accurate enough to represent the chemistry of interest but computationally efficient enough to allow simulation of large systems. Force fields encode empirical or semi-empirical forms for these potentials.</p>
+<p>A typical molecular mechanics force field is decomposed into bonded and non-bonded contributions:</p>
+<div class="math notranslate nohighlight">
+\[
+U_{\text{total}} = U_{\text{bonded}} + U_{\text{nonbonded}}
+\]</div>
+<p><strong>Bonded Interactions.</strong> For bonded interactions, we typically include:</p>
+<ul class="simple">
+<li><p><strong>Bond stretching:</strong> modeled as a harmonic oscillator, <span class="math notranslate nohighlight">\(U_b = \frac{1}{2} k_b (r - r_0)^2\)</span>, where <span class="math notranslate nohighlight">\(k_b\)</span> is the force constant, <span class="math notranslate nohighlight">\(r\)</span> is the bond length, and <span class="math notranslate nohighlight">\(r_0\)</span> is the equilibrium bond length.</p></li>
+<li><p><strong>Angle bending:</strong> similarly modeled as harmonic, <span class="math notranslate nohighlight">\(U_a = \frac{1}{2} k_a (\theta - \theta_0)^2\)</span>, where <span class="math notranslate nohighlight">\(\theta\)</span> is the angle between three bonded atoms.</p></li>
+<li><p><strong>Dihedral angles (torsions):</strong> described using a Fourier series, <span class="math notranslate nohighlight">\(U_d = \sum_n V_n [1 + \cos(n \phi - \gamma_n)]\)</span>, where <span class="math notranslate nohighlight">\(\phi\)</span> is the dihedral angle. This accounts for rotational barriers around bonds.</p></li>
+<li><p><strong>Improper angles:</strong> sometimes used to maintain planarity of aromatic rings or other geometric constraints.</p></li>
+</ul>
+<p><strong>Non-bonded Interactions.</strong> For atoms not directly bonded, we have:</p>
+<ul class="simple">
+<li><p><strong>Van der Waals interactions:</strong> typically modeled using the Lennard-Jones potential, <span class="math notranslate nohighlight">\(U_{vdW} = 4 \epsilon \left[ \left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^6 \right]\)</span>, where <span class="math notranslate nohighlight">\(\sigma\)</span> characterizes the atomic size and <span class="math notranslate nohighlight">\(\epsilon\)</span> the interaction strength. The <span class="math notranslate nohighlight">\(r^{-12}\)</span> term represents repulsion at short range (hard core repulsion), while the <span class="math notranslate nohighlight">\(r^{-6}\)</span> term represents attractive van der Waals forces (London dispersion).</p></li>
+<li><p><strong>Electrostatic interactions:</strong> modeled using Coulomb’s law with partial charges: <span class="math notranslate nohighlight">\(U_{elec} = \frac{1}{4\pi\epsilon_0} \frac{q_i q_j}{r_{ij}}\)</span>, where <span class="math notranslate nohighlight">\(q_i\)</span> and <span class="math notranslate nohighlight">\(q_j\)</span> are partial charges on atoms.</p></li>
+</ul>
+<p>Many force fields have been developed, each with different philosophies about functional forms and parameters:</p>
+<ul class="simple">
+<li><p><strong>AMBER:</strong> Widely used for proteins, nucleic acids, and organic molecules. Emphasizes biomolecular systems.</p></li>
+<li><p><strong>CHARMM:</strong> Highly transferable with extensive parametrization. Covers proteins, lipids, and carbohydrates.</p></li>
+<li><p><strong>OPLS/OPLS-AA:</strong> Particularly good for small organic molecules and mixed organic-biomolecular systems.</p></li>
+<li><p><strong>GAFF:</strong> General amber force field designed to extend to arbitrary small molecules.</p></li>
+</ul>
+</section>
+<section id="boundary-conditions-and-long-range-interactions">
+<h3>Boundary Conditions and Long-Range Interactions<a class="headerlink" href="#boundary-conditions-and-long-range-interactions" title="Link to this heading">#</a></h3>
+<p>In molecular dynamics, we cannot simulate an infinite bulk system. Instead, we simulate a finite box of molecules. This raises the question: what happens at the boundaries?</p>
+<p>One common approach is <strong>periodic boundary conditions (PBC)</strong>. In this scheme, the simulation box is replicated infinitely in all directions, tiling all of space. When an atom leaves one edge of the box, an identical copy enters from the opposite edge. This effectively creates an infinite system while simulating only <span class="math notranslate nohighlight">\(N\)</span> atoms. PBC is excellent for simulating bulk properties because it eliminates artificial surface effects.</p>
+<p>However, PBC introduces a new problem: the <strong>minimum image convention</strong>. To avoid counting interactions multiple times, we use the nearest image of each pair of atoms. That is, for each pair of atoms, we find the closest distance between them considering all periodic images, and use that distance for computing interactions.</p>
+<p>Mathematically, for two atoms with positions <span class="math notranslate nohighlight">\(\mathbf{r}_i\)</span> and <span class="math notranslate nohighlight">\(\mathbf{r}_j\)</span>, the minimum image distance vector is given by</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{r}_{ij}^{\text{min}} = \mathbf{r}_{ij} - \mathbf{L} \left\lfloor \frac{\mathbf{r}_{ij}}{\mathbf{L}} + 0.5 \right\rfloor\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{r}_{ij} = \mathbf{r}_i - \mathbf{r}_j\)</span>, <span class="math notranslate nohighlight">\(\mathbf{L}\)</span> is the box length vector (with components for each dimension), <span class="math notranslate nohighlight">\(\lfloor \cdot \rfloor\)</span> denotes the floor function, and the division and addition are performed component-wise. The addition of <span class="math notranslate nohighlight">\(0.5\)</span> before the floor function ensures we round to the nearest periodic image. The resulting distance <span class="math notranslate nohighlight">\(r_{ij}^{\text{min}} = |\mathbf{r}_{ij}^{\text{min}}|\)</span> is then used in all potential energy calculations. This approach ensures that each pair of atoms is counted only once, and that we always use the geometrically closest interaction.</p>
+<p>This brings us to the problem of <strong>long-range interactions</strong>. The Coulomb potential falls off as <span class="math notranslate nohighlight">\(1/r\)</span>, which decays slowly. If we apply a simple spherical cutoff at some distance <span class="math notranslate nohighlight">\(r_{\text{cut}}\)</span> and discard all interactions beyond that distance, we introduce significant errors into energy calculations, especially for charged systems. To handle long-range electrostatics properly, we use methods like <strong>Ewald summation</strong> or its efficient variant <strong>Particle Mesh Ewald (PME)</strong>. These methods decompose the Coulomb potential into a short-range part (handled by direct summation) and a long-range part (handled via Fourier transforms). PME has become the standard for large biomolecular simulations.</p>
+</section>
+<section id="ensemble-methods">
+<h3>Ensemble Methods<a class="headerlink" href="#ensemble-methods" title="Link to this heading">#</a></h3>
+<p>In experiments, we don’t control individual atoms; instead, we control macroscopic variables like temperature, pressure, and volume. To connect simulations to experiments, we need to specify which macroscopic variables are held constant. This is the role of thermodynamic ensembles.</p>
+<p><strong>Microcanonical (NVE) Ensemble.</strong> In this ensemble, the number of particles <span class="math notranslate nohighlight">\(N\)</span>, volume <span class="math notranslate nohighlight">\(V\)</span>, and total energy <span class="math notranslate nohighlight">\(E\)</span> are constant. This is the ensemble generated by straightforward numerical integration of Newton’s equations without any external influences. The NVE ensemble is useful for short equilibrium simulations and for testing the stability of integrators (energy should be conserved). However, real experiments typically control temperature, not energy, so NVE is less commonly used for production simulations.</p>
+<p><strong>Canonical (NVT) Ensemble.</strong> Here, <span class="math notranslate nohighlight">\(N\)</span>, <span class="math notranslate nohighlight">\(V\)</span>, and temperature <span class="math notranslate nohighlight">\(T\)</span> are constant. This ensemble represents a system in thermal contact with a heat bath at temperature <span class="math notranslate nohighlight">\(T\)</span>. To achieve this in simulation, we need a thermostat—a mechanism that rescales velocities to maintain a target temperature.</p>
+<p>Several thermostat algorithms exist:</p>
+<ul class="simple">
+<li><p><strong>Berendsen thermostat:</strong> Rescales velocities each timestep by a factor designed to exponentially relax the kinetic energy toward the target value. Simple and efficient, but does not generate a true canonical ensemble (energies are artificially suppressed).</p></li>
+<li><p><strong>Nosé-Hoover thermostat:</strong> Uses an extended system with a fictitious “thermal mass” that couples to the system. This generates a true canonical ensemble and is widely used.</p></li>
+<li><p><strong>Langevin thermostat:</strong> Adds random collisions (friction and noise) to simulate coupling to a heat bath. Also generates a canonical ensemble and is popular for biomolecular simulations. The Langevin equation of motion is</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[m_i \frac{d\mathbf{v}_i}{dt} = \mathbf{F}_i - \gamma m_i \mathbf{v}_i + \mathbf{R}_i(t)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{F}_i = -\nabla_i U\)</span> is the deterministic force, <span class="math notranslate nohighlight">\(\gamma\)</span> is the friction coefficient (inverse timescale for momentum relaxation), and <span class="math notranslate nohighlight">\(\mathbf{R}_i(t)\)</span> is a random force representing collisions with heat bath molecules. The random force has the properties <span class="math notranslate nohighlight">\(\langle \mathbf{R}_i(t) \rangle = 0\)</span> and <span class="math notranslate nohighlight">\(\langle R_{i,\alpha}(t) R_{j,\beta}(t') \rangle = 2 k_B T \gamma m_i \delta_{ij} \delta_{\alpha\beta} \delta(t - t')\)</span>, where <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> denote Cartesian components, <span class="math notranslate nohighlight">\(\delta\)</span> is the Kronecker delta for indices and Dirac delta for time, ensuring the fluctuation-dissipation theorem is satisfied. This automatically maintains the system at temperature <span class="math notranslate nohighlight">\(T\)</span>: kinetic energy gained from random kicks is balanced by friction.</p>
+<p><strong>Isothermal-Isobaric (NPT) Ensemble.</strong> Here, <span class="math notranslate nohighlight">\(N\)</span>, pressure <span class="math notranslate nohighlight">\(P\)</span>, and temperature <span class="math notranslate nohighlight">\(T\)</span> are held constant. This requires both a thermostat and a <strong>barostat</strong>—a mechanism that adjusts the simulation box volume to maintain target pressure. Common barostats include the Berendsen and Parrinello-Rahman algorithms. The NPT ensemble is most relevant for many experiments where we measure properties at a given temperature and atmospheric pressure.</p>
+<p>The choice of ensemble affects both the physical relevance and the convergence of simulations. A common protocol is to equilibrate in NVT (allowing temperature to stabilize) and then run production in NPT (allowing density to equilibrate before collecting data).</p>
+</section>
+</section>
+<section id="section-3-practice-implementation">
+<h2>Section 3: Practice &amp; Implementation<a class="headerlink" href="#section-3-practice-implementation" title="Link to this heading">#</a></h2>
+<section id="system-preparation">
+<h3>System Preparation<a class="headerlink" href="#system-preparation" title="Link to this heading">#</a></h3>
+<p>Before running any MD simulation, the system must be carefully prepared. Poor preparation leads to instabilities, artifacts, and meaningless results. This section outlines the standard workflow.</p>
+<p><strong>Starting Structures.</strong> Most simulations begin with a known structure: a protein structure from the Protein Data Bank (PDB), a crystal structure from the Cambridge Structural Database, or a homology model. These structures are typically obtained from experiments like X-ray crystallography or cryo-electron microscopy. The first task is to add missing atoms (e.g., hydrogens are often not resolved in crystal structures) and assign protonation states. The protonation state of ionizable residues depends on pH and the local chemical environment. Computational tools can estimate pKa values and suggest protonation states, though this remains a source of uncertainty.</p>
+<p><strong>Solvation Setup.</strong> Most chemistry of interest happens in solution. To represent this, we typically place the solute (protein, small molecule, etc.) in a box of explicit solvent molecules, usually water. The choice of box size is important: it must be large enough that the solute doesn’t “see” itself through periodic boundary conditions, but not so large that computation becomes prohibitively expensive. A common rule of thumb is to place at least 1.0 nm of solvent on all sides of the solute. The box geometry can be cubic, octahedral, or other shapes; octahedral and truncated octahedral boxes are more efficient because they minimize the number of solvent molecules needed.</p>
+<p><strong>Counterion Addition.</strong> Most biomolecules carry net charge due to ionizable groups. To create a neutral system (as usually desired), counterions must be added. These are typically placed around the solute to neutralize its charge. The initial placement strategy varies: some methods place them at random, others place them strategically near regions of opposite charge. The exact positioning initially is less critical than ensuring the system has the correct overall charge.</p>
+<p><strong>Initial Velocities.</strong> Once positions are set, we assign initial velocities by drawing them from a Maxwell-Boltzmann distribution at the desired temperature. At temperature <span class="math notranslate nohighlight">\(T\)</span>, the probability distribution for velocity components is</p>
+<div class="math notranslate nohighlight">
+\[
+P(v_x) \propto \exp\left(-\frac{m v_x^2}{2 k_B T}\right)
+\]</div>
+<p>This is typically done by drawing velocities from a Gaussian distribution with standard deviation <span class="math notranslate nohighlight">\(\sigma = \sqrt{k_B T / m}\)</span>. We must also remove any center-of-mass motion (overall translation) so that the system doesn’t drift across the periodic box.</p>
+</section>
+<section id="equilibration-protocols">
+<h3>Equilibration Protocols<a class="headerlink" href="#equilibration-protocols" title="Link to this heading">#</a></h3>
+<p>After initial setup, the system is rarely in equilibrium. Steric clashes may exist, temperatures may be unequilibrated, and box volumes may not correspond to the target pressure. Equilibration is the process of allowing the system to relax and reach a statistical equilibrium.</p>
+<p><strong>Energy Minimization.</strong> The first step is usually energy minimization—moving atoms to reduce steric clashes and bring the system to a local minimum of the potential energy surface. Common methods include steepest descent and conjugate gradient. This typically requires 1,000 to 10,000 steps depending on the initial quality of the structure.</p>
+<p><strong>Thermal Equilibration.</strong> After minimization, the system is slowly heated to the target temperature while position restraints hold heavy atoms (especially protein backbones) in place. This prevents parts of the system from unfolding before the entire system is equilibrated. The heating rate is a critical parameter: too fast and instabilities can develop, too slow and the simulation takes unnecessarily long. Heating at 1-10 K per picosecond is typical. During this phase, we monitor that the temperature rises smoothly without wild fluctuations.</p>
+<p><strong>Pressure Equilibration.</strong> Once temperature is stable, if using the NPT ensemble, the barostat is activated to allow box volume to fluctuate and find the density corresponding to the target pressure. This typically requires several hundred picoseconds to a few nanoseconds. The density should plateau during this phase.</p>
+<p><strong>Monitoring Equilibration.</strong> How do we know equilibration is complete? Several diagnostics are used:</p>
+<ul class="simple">
+<li><p><strong>Root mean square displacement (RMSD):</strong> For proteins, RMSD between initial and current structures should plateau. If it continues increasing, the system may still be drifting away from equilibrium.</p></li>
+<li><p><strong>Potential and kinetic energy:</strong> These should both stabilize around constant values (though fluctuating).</p></li>
+<li><p><strong>Radius of gyration:</strong> For flexible molecules, this should reach a constant average value.</p></li>
+<li><p><strong>System properties:</strong> Temperature, pressure, density should all fluctuate around target values without trends.</p></li>
+</ul>
+<p>The equilibration time depends critically on system size and complexity. A small protein might require nanoseconds to tens of nanoseconds. Large protein complexes might require microseconds. As a rule, if a property hasn’t stabilized after the specified equilibration time, either the simulation parameters need adjustment or the equilibration time needs to be extended.</p>
+</section>
+</section>
+<section id="section-4-tools-best-practices">
+<h2>Section 4: Tools &amp; Best Practices<a class="headerlink" href="#section-4-tools-best-practices" title="Link to this heading">#</a></h2>
+<section id="software-and-computational-tools">
+<h3>Software and Computational Tools<a class="headerlink" href="#software-and-computational-tools" title="Link to this heading">#</a></h3>
+<p>Modern MD simulations require specialized software. This section surveys the most commonly used packages.</p>
+<p><strong>Simulation Engines.</strong></p>
+<ul class="simple">
+<li><p><strong>GROMACS:</strong> Originally developed for biomolecules, GROMACS has become one of the most widely used open-source packages. It emphasizes speed and scalability on both CPUs and GPUs. Its primary domain is biomolecules, but it has been extended to polymers and other systems.</p></li>
+<li><p><strong>AMBER:</strong> The Assisted Model Building with Energy Refinement package emphasizes biomolecular systems. AMBER includes both the Sander program for classical MD and Pmemd (GPU-accelerated) for production runs. It’s widely used in drug discovery and protein studies.</p></li>
+<li><p><strong>LAMMPS:</strong> The Large-scale Atomic/Molecular Massively Parallel Simulator is a general-purpose package widely used in materials science and chemistry. It’s flexible and can handle diverse systems from metals to polymers to granular materials.</p></li>
+<li><p><strong>NAMD:</strong> Developed at the University of Illinois, NAMD excels at parallel scaling and biomolecular simulations. It’s particularly good for very large systems like membrane proteins and complexes.</p></li>
+<li><p><strong>OpenMM:</strong> A modern, GPU-first package with a Python interface. Increasingly popular for research and machine learning applications.</p></li>
+</ul>
+<p><strong>Analysis Tools.</strong> Once simulations are complete, trajectories must be analyzed. Essential tools include:</p>
+<ul class="simple">
+<li><p><strong>MDAnalysis:</strong> A Python package providing a flexible, Pythonic interface to trajectory analysis. It can compute any observable from a trajectory.</p></li>
+<li><p><strong>pytraj:</strong> AmberTools analysis package, integrated with the Amber ecosystem.</p></li>
+<li><p><strong>MDTraj:</strong> Developed with machine learning applications in mind, it efficiently handles large trajectories.</p></li>
+</ul>
+<p>These tools can compute RMSD, radial distribution functions, hydrogen bonding patterns, clustering of conformations, correlation functions, and many other observables.</p>
+<p><strong>Visualization.</strong> Understanding molecular systems requires visualization:</p>
+<ul class="simple">
+<li><p><strong>VMD:</strong> The Visual Molecular Dynamics program is powerful for visualizing trajectories, rendering publication-quality images, and scripting analysis.</p></li>
+<li><p><strong>PyMOL:</strong> Excellent for protein structures and publication-quality images.</p></li>
+<li><p><strong>OVITO:</strong> Specialized for materials science visualization, particularly effective for crystal structures and defects.</p></li>
+</ul>
+</section>
+<section id="challenges-and-best-practices">
+<h3>Challenges and Best Practices<a class="headerlink" href="#challenges-and-best-practices" title="Link to this heading">#</a></h3>
+<p>Despite its maturity, MD simulation remains challenging. Understanding common pitfalls and best practices is essential for producing reliable results.</p>
+<p><strong>Sampling and Ergodicity.</strong> The fundamental challenge of MD is sampling: the system cannot explore all of phase space in finite simulation time. Real systems have complex energy landscapes with multiple minima separated by energy barriers. Simulations starting from one basin may never escape to another, even over microsecond timescales. Protein folding, which in nature takes seconds to minutes, typically takes microseconds to milliseconds in simulation—still many orders of magnitude faster, but the slowest processes remain out of reach. This means our simulations sample only a limited region of phase space, and our computed averages may not represent true ensemble averages if sampling is inadequate.</p>
+<p><strong>Computational Cost Tradeoffs.</strong> Every modeling choice involves tradeoffs:</p>
+<ul class="simple">
+<li><p><strong>Timestep vs. stability:</strong> Larger timesteps speed up simulation but reduce stability. Most biomolecular MD uses <span class="math notranslate nohighlight">\(\Delta t = 2\)</span> fs; if this proves unstable (energy drifts), it may need to be reduced.</p></li>
+<li><p><strong>Cutoff vs. accuracy:</strong> Larger cutoff radii are more accurate but slower. Typical cutoffs are 8-12 Å; larger cutoffs become computationally expensive but are sometimes necessary for accurate Coulomb interactions.</p></li>
+<li><p><strong>Implicit vs. explicit solvent:</strong> Explicit solvent (individual water molecules) is more realistic but slower. Implicit solvent models (which surround the solute with a continuum) are faster but less detailed.</p></li>
+</ul>
+<p><strong>Force Field Limitations.</strong> Classical force fields cannot describe certain chemical phenomena. Bond breaking and forming cannot be represented. Many force fields inadequately represent polarization effects. Some systems have empirical fits for specific interactions rather than truly transferable parameters. Thus, results depend on whether the chosen force field is appropriate for the chemical questions being asked.</p>
+<p><strong>Validation and Error Analysis.</strong> Simulation results should always be compared to experiment when possible. If experimental data are unavailable, multiple independent simulations starting from different initial conditions can reveal whether results are reproducible. The error in computed averages can be estimated via block averaging or other statistical methods. If results differ significantly between force fields or simulation conditions, this signals that parameters require more careful selection or that the system is poorly understood.</p>
+<p><strong>Best Practices Checklist.</strong></p>
+<ul class="simple">
+<li><p>Carefully validate your system before starting production MD.</p></li>
+<li><p>Document all simulation parameters: timestep, cutoff, thermostat, barostat, ensemble, temperature, pressure.</p></li>
+<li><p>Perform equilibration long enough that all observables have plateaued.</p></li>
+<li><p>Run production MD long enough that statistical errors are acceptably small.</p></li>
+<li><p>Perform multiple independent simulations from different starting conditions to assess reproducibility.</p></li>
+<li><p>Compare results to experimental data when possible.</p></li>
+<li><p>Test sensitivity to force field choice, cutoff distance, and other parameters.</p></li>
+<li><p>Report all details necessary for others to reproduce your work.</p></li>
+<li><p>Acknowledge limitations and uncertainties in your conclusions.</p></li>
+</ul>
+</section>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Leimkuhler, B., &amp; Matthews, C. (2015).</strong> <em>Molecular Dynamics: with Deterministic and Stochastic Numerical Methods.</em> Springer. An excellent modern reference covering both theory and practice.</p></li>
+<li><p><strong>Frenkel, D., &amp; Smit, B. (2002).</strong> <em>Understanding Molecular Simulation: From Algorithms to Applications.</em> Academic Press. A comprehensive textbook emphasizing the statistical mechanics foundations.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="hpc-03-argparse.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Command-Line Interfaces and Argparse for Scientific Computing</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section-1-fundamentals-motivation">Section 1: Fundamentals &amp; Motivation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-molecular-dynamics">Introduction to Molecular Dynamics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-applications-in-chemistry">Common Applications in Chemistry</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section-2-theory-methods">Section 2: Theory &amp; Methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classical-mechanics-review">Classical Mechanics Review</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#force-fields-and-interatomic-potentials">Force Fields and Interatomic Potentials</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boundary-conditions-and-long-range-interactions">Boundary Conditions and Long-Range Interactions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ensemble-methods">Ensemble Methods</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section-3-practice-implementation">Section 3: Practice &amp; Implementation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#system-preparation">System Preparation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#equilibration-protocols">Equilibration Protocols</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section-4-tools-best-practices">Section 4: Tools &amp; Best Practices</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#software-and-computational-tools">Software and Computational Tools</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#challenges-and-best-practices">Challenges and Best Practices</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Erik Thiede
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
