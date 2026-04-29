@@ -1,0 +1,837 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Density Functional Theory &#8212; Lecture Notes for Cornell Chem 7870</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'sim-02-dft';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Molecular Dynamics: Simulation of Chemical Systems" href="sim-01-molecular-dynamics.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Lecture Notes for Cornell Chem 7870 - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Lecture Notes for Cornell Chem 7870 - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to 7870
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1. Linear Algebra</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="linalg-01-intro_vectors.html">A Deeper look at Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-02-coding_matrices_in_python.html">Linear Algebra in Python with Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-03-matrix_decompositions.html">Eigenvectors, Unitary Matrices, and Matrix Decompositions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-04-linear_regression.html">Linear Regression and Least Squares</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Optimization and Numerical Differential Equations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="optim-01-intro-optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-02-nonlinear-optimization.html">Nonlinear Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-03a-autograd-in-pytorch.html">Automatic Differentiation and Pytorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-03b-autograd-in-jax.html">Intro to JaX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-04-three-types-of-NNs.html">A Crash Course on Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-01-ode-intro.html">Intro to Numerical Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-02-symplectic-integrators.html">More on Numerical ODEs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-03-pde.html">From ODE to PDE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3. Probability</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="prob-01-probability.html">Intro to Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-02-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="prob-03-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-04-monte-carlo.html">Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-05-mcmc.html">Markov Chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-06-metropolis-hastings.html">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-07-bayesian-inference.html">Bayesian Inference</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 4. High-Performance Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="hpc-01-supercomputer-architectures.html">Supercomputer Architectures for Computational Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hpc-02-virtual-environments.html">Virtual Environments for High-Performance Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hpc-03-argparse.html">Command-Line Interfaces and Argparse for Scientific Computing</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 5. Molecular Simulation</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="sim-01-molecular-dynamics.html">Molecular Dynamics: Simulation of Chemical Systems</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Density Functional Theory</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fsim-02-dft.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/sim-02-dft.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Density Functional Theory</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem-electronic-structure-beyond-classical-potentials">The Problem: Electronic Structure Beyond Classical Potentials</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-hohenberg-kohn-theorems">The Hohenberg-Kohn Theorems</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#first-hohenberg-kohn-theorem">First Hohenberg-Kohn Theorem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#second-hohenberg-kohn-theorem">Second Hohenberg-Kohn Theorem</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kohn-sham-reformulation">Kohn-Sham Reformulation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kohn-sham-orbitals">Kohn-Sham Orbitals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#energy-decomposition">Energy Decomposition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effective-potential-and-kohn-sham-equations">Effective Potential and Kohn-Sham Equations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-scf-loop-in-dft">The SCF Loop in DFT</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exchange-correlation-functionals-the-central-approximation">Exchange-Correlation Functionals: The Central Approximation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-ingredients-in-real-calculations">Numerical Ingredients in Real Calculations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basis-and-representation">Basis and Representation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudopotentials-and-core-electrons">Pseudopotentials and Core Electrons</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#periodic-systems-and-k-point-sampling">Periodic Systems and k-Point Sampling</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-dft-gets-right-and-where-it-fails">What DFT Gets Right and Where It Fails</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-compact-example-workflow">A Compact Example Workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="density-functional-theory">
+<h1>Density Functional Theory<a class="headerlink" href="#density-functional-theory" title="Link to this heading">#</a></h1>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Explain why density functional theory (DFT) uses electron density rather than the full many-electron wavefunction.</p></li>
+<li><p>State the Hohenberg-Kohn theorems and describe what they imply for ground-state electronic structure.</p></li>
+<li><p>Derive the Kohn-Sham equations and interpret the role of the exchange-correlation functional.</p></li>
+<li><p>Understand the self-consistent field (SCF) loop used to solve practical DFT calculations.</p></li>
+<li><p>Recognize common classes of exchange-correlation approximations and their tradeoffs.</p></li>
+<li><p>Identify typical strengths and known failure modes of standard DFT.</p></li>
+</ul>
+</section>
+<section id="the-problem-electronic-structure-beyond-classical-potentials">
+<h2>The Problem: Electronic Structure Beyond Classical Potentials<a class="headerlink" href="#the-problem-electronic-structure-beyond-classical-potentials" title="Link to this heading">#</a></h2>
+<p>In molecular simulation, we often model nuclei as classical particles and evaluate energies with an empirical force field.
+This is computationally efficient and often accurate for near-equilibrium dynamics.
+However, this approach is limited when electronic structure changes significantly, such as during bond breaking, charge transfer, or chemical reaction.</p>
+<p>To model those processes from first principles, we need a quantum description of electrons.
+For fixed nuclei (Born-Oppenheimer approximation), we solve an electronic Schrodinger equation of the form</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{H}_e \Psi = E \Psi
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Psi\)</span> is the many-electron wavefunction.
+The key difficulty is dimensionality: for <span class="math notranslate nohighlight">\(N\)</span> electrons, <span class="math notranslate nohighlight">\(\Psi\)</span> depends on <span class="math notranslate nohighlight">\(3N\)</span> spatial coordinates (and spin labels).
+This is one reason direct wavefunction methods become expensive quickly as system size grows.</p>
+<p>Density functional theory addresses this by shifting focus from <span class="math notranslate nohighlight">\(\Psi\)</span> to the electron density <span class="math notranslate nohighlight">\(n(\mathbf{r})\)</span>, which depends only on three spatial coordinates.</p>
+</section>
+<section id="the-hohenberg-kohn-theorems">
+<h2>The Hohenberg-Kohn Theorems<a class="headerlink" href="#the-hohenberg-kohn-theorems" title="Link to this heading">#</a></h2>
+<p>The formal foundation of DFT is given by two Hohenberg-Kohn (HK) theorems for the ground state.</p>
+<section id="first-hohenberg-kohn-theorem">
+<h3>First Hohenberg-Kohn Theorem<a class="headerlink" href="#first-hohenberg-kohn-theorem" title="Link to this heading">#</a></h3>
+<p>The first theorem states that the ground-state density <span class="math notranslate nohighlight">\(n(\mathbf{r})\)</span> uniquely determines the external potential <span class="math notranslate nohighlight">\(v_{ext}(\mathbf{r})\)</span> (up to an additive constant).
+Consequently, the Hamiltonian is determined, and therefore all ground-state observables are functionals of the density.</p>
+<p>This is a remarkable statement:
+instead of treating the wavefunction as the primary object, we can in principle recover all ground-state information from density alone.</p>
+<p>To see why this is true, we use a proof by contradiction.
+Assume two different external potentials, <span class="math notranslate nohighlight">\(v_{ext}(\mathbf{r})\)</span> and <span class="math notranslate nohighlight">\(v_{ext}'(\mathbf{r})\)</span>, differ by more than a constant but produce the same ground-state density <span class="math notranslate nohighlight">\(n_0(\mathbf{r})\)</span>.
+Let their Hamiltonians be <span class="math notranslate nohighlight">\(\hat{H}\)</span> and <span class="math notranslate nohighlight">\(\hat{H}'\)</span>, with ground states <span class="math notranslate nohighlight">\(\Psi\)</span> and <span class="math notranslate nohighlight">\(\Psi'\)</span> and ground-state energies <span class="math notranslate nohighlight">\(E_0\)</span> and <span class="math notranslate nohighlight">\(E_0'\)</span>.</p>
+<p>Because <span class="math notranslate nohighlight">\(\Psi'\)</span> is not the ground state of <span class="math notranslate nohighlight">\(\hat{H}\)</span>, the variational principle gives</p>
+<div class="math notranslate nohighlight">
+\[
+E_0 &lt; \langle \Psi' | \hat{H} | \Psi' \rangle.
+\]</div>
+<p>Write <span class="math notranslate nohighlight">\(\hat{H} = \hat{H}' + (\hat{V}_{ext} - \hat{V}_{ext}')\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+E_0 &amp;&lt; \langle \Psi' | \hat{H}' | \Psi' \rangle + \langle \Psi' | \hat{V}_{ext} - \hat{V}_{ext}' | \Psi' \rangle \\
+&amp;= E_0' + \int n_0(\mathbf{r})\left[v_{ext}(\mathbf{r}) - v_{ext}'(\mathbf{r})\right] d\mathbf{r}.
+\end{aligned}
+\end{split}\]</div>
+<p>Similarly, because <span class="math notranslate nohighlight">\(\Psi\)</span> is not the ground state of <span class="math notranslate nohighlight">\(\hat{H}'\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+E_0' &amp;&lt; \langle \Psi | \hat{H}' | \Psi \rangle \\
+&amp;= E_0 + \int n_0(\mathbf{r})\left[v_{ext}'(\mathbf{r}) - v_{ext}(\mathbf{r})\right] d\mathbf{r}.
+\end{aligned}
+\end{split}\]</div>
+<p>Adding the two strict inequalities gives</p>
+<div class="math notranslate nohighlight">
+\[
+E_0 + E_0' &lt; E_0 + E_0',
+\]</div>
+<p>which is impossible.
+Therefore, two different external potentials (up to more than an additive constant) cannot produce the same ground-state density.
+So there is a one-to-one mapping between <span class="math notranslate nohighlight">\(n_0(\mathbf{r})\)</span> and <span class="math notranslate nohighlight">\(v_{ext}(\mathbf{r})\)</span> (up to a constant).</p>
+</section>
+<section id="second-hohenberg-kohn-theorem">
+<h3>Second Hohenberg-Kohn Theorem<a class="headerlink" href="#second-hohenberg-kohn-theorem" title="Link to this heading">#</a></h3>
+<p>The second theorem gives a variational principle in terms of density.
+There exists an energy functional <span class="math notranslate nohighlight">\(E[n]\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[
+E_0 = \min_n E[n]
+\]</div>
+<p>subject to the constraints</p>
+<div class="math notranslate nohighlight">
+\[
+n(\mathbf{r}) \ge 0, \qquad \int n(\mathbf{r}) d\mathbf{r} = N.
+\]</div>
+<p>So if we had the exact functional <span class="math notranslate nohighlight">\(E[n]\)</span>, ground-state calculations would reduce to constrained minimization over admissible densities.
+The catch is that part of this exact functional is unknown in closed form.</p>
+</section>
+</section>
+<section id="kohn-sham-reformulation">
+<h2>Kohn-Sham Reformulation<a class="headerlink" href="#kohn-sham-reformulation" title="Link to this heading">#</a></h2>
+<p>The Kohn-Sham approach provides a practical route to use the HK theorems.
+Instead of minimizing a fully unknown functional directly, we map the interacting electron problem to an auxiliary noninteracting system that reproduces the same ground-state density.</p>
+<section id="kohn-sham-orbitals">
+<h3>Kohn-Sham Orbitals<a class="headerlink" href="#kohn-sham-orbitals" title="Link to this heading">#</a></h3>
+<p>The central unknowns in the Kohn-Sham construction are one-electron orbitals <span class="math notranslate nohighlight">\(\phi_i(\mathbf{r})\)</span>.
+These are not the true many-electron wavefunction; they are auxiliary orbitals of a noninteracting reference system chosen so that they reproduce the exact ground-state density (in exact DFT).</p>
+<p>They satisfy orthonormality:</p>
+<div class="math notranslate nohighlight">
+\[
+\int \phi_i^*(\mathbf{r})\phi_j(\mathbf{r})\,d\mathbf{r} = \delta_{ij}.
+\]</div>
+<p>Given orbital occupations <span class="math notranslate nohighlight">\(f_i\)</span>, the density is</p>
+<div class="math notranslate nohighlight">
+\[
+n(\mathbf{r}) = \sum_i f_i |\phi_i(\mathbf{r})|^2.
+\]</div>
+<p>For a closed-shell molecule in a spin-restricted picture, occupied spatial orbitals usually have <span class="math notranslate nohighlight">\(f_i=2\)</span> and unoccupied orbitals have <span class="math notranslate nohighlight">\(f_i=0\)</span>.
+In metallic systems or finite-temperature smearing schemes, fractional occupations can occur.</p>
+<p>Conceptually, each <span class="math notranslate nohighlight">\(|\phi_i(\mathbf{r})|^2\)</span> contributes a piece of the total electron density, while the full many-body effects are represented through the effective potential and the exchange-correlation functional.</p>
+</section>
+<section id="energy-decomposition">
+<h3>Energy Decomposition<a class="headerlink" href="#energy-decomposition" title="Link to this heading">#</a></h3>
+<p>Kohn-Sham DFT writes the energy as</p>
+<div class="math notranslate nohighlight">
+\[
+E[n] = T_s[n] + \int v_{ext}(\mathbf{r}) n(\mathbf{r}) d\mathbf{r} + E_H[n] + E_{xc}[n]
+\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(T_s[n]\)</span> is the kinetic energy of a noninteracting reference system.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\int v_{ext} n\)</span> is the electron-nuclear interaction term.</p></li>
+<li><p><span class="math notranslate nohighlight">\(E_H[n]\)</span> is the classical Hartree electron-electron repulsion.</p></li>
+<li><p><span class="math notranslate nohighlight">\(E_{xc}[n]\)</span> is the exchange-correlation functional.</p></li>
+</ul>
+<p>In terms of the Kohn-Sham orbitals, the noninteracting kinetic energy is</p>
+<div class="math notranslate nohighlight">
+\[
+T_s[n] = -\frac{1}{2}\sum_i f_i \int \phi_i^*(\mathbf{r})\nabla^2\phi_i(\mathbf{r})\,d\mathbf{r}.
+\]</div>
+<p>The classical electron-electron repulsion (Hartree term) is</p>
+<div class="math notranslate nohighlight">
+\[
+E_H[n] = \frac{1}{2}\iint \frac{n(\mathbf{r})n(\mathbf{r}')}{|\mathbf{r}-\mathbf{r}'|}\,d\mathbf{r}\,d\mathbf{r}'.
+\]</div>
+<p>For comparison, the exact interacting electron-electron repulsion is</p>
+<div class="math notranslate nohighlight">
+\[
+V_{ee}[\Psi] = \frac{1}{2}\sum_{i\neq j}\left\langle \Psi \middle| \frac{1}{|\mathbf{r}_i-\mathbf{r}_j|} \middle| \Psi \right\rangle,
+\]</div>
+<p>so <span class="math notranslate nohighlight">\(E_{xc}[n]\)</span> contains the difference between this many-body interaction and the Hartree approximation, along with kinetic corrections beyond <span class="math notranslate nohighlight">\(T_s[n]\)</span>.</p>
+<p>The exchange-correlation term collects everything missing from the first three contributions, including exchange and correlation effects and the correction from true interacting kinetic energy to <span class="math notranslate nohighlight">\(T_s\)</span>.</p>
+</section>
+<section id="effective-potential-and-kohn-sham-equations">
+<h3>Effective Potential and Kohn-Sham Equations<a class="headerlink" href="#effective-potential-and-kohn-sham-equations" title="Link to this heading">#</a></h3>
+<p>Minimizing the energy under the particle-number constraint leads to one-electron equations:</p>
+<div class="math notranslate nohighlight">
+\[
+\left[-\frac{1}{2}\nabla^2 + v_{eff}(\mathbf{r})\right]\phi_i(\mathbf{r}) = \epsilon_i\phi_i(\mathbf{r})
+\]</div>
+<p>with</p>
+<div class="math notranslate nohighlight">
+\[
+v_{eff}(\mathbf{r}) = v_{ext}(\mathbf{r}) + v_H(\mathbf{r}) + v_{xc}(\mathbf{r}),
+\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+v_{xc}(\mathbf{r}) = \frac{\delta E_{xc}[n]}{\delta n(\mathbf{r})}.
+\]</div>
+<p>The density is reconstructed from occupied Kohn-Sham orbitals:</p>
+<div class="math notranslate nohighlight">
+\[
+n(\mathbf{r}) = \sum_{i \in occ} f_i |\phi_i(\mathbf{r})|^2
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(f_i\)</span> are orbital occupation numbers.</p>
+<p>At this point we have a closed-looking system, but it is nonlinear because <span class="math notranslate nohighlight">\(v_{eff}\)</span> depends on <span class="math notranslate nohighlight">\(n\)</span>, while <span class="math notranslate nohighlight">\(n\)</span> depends on orbitals obtained from <span class="math notranslate nohighlight">\(v_{eff}\)</span>.
+So we solve it iteratively.</p>
+</section>
+</section>
+<section id="the-scf-loop-in-dft">
+<h2>The SCF Loop in DFT<a class="headerlink" href="#the-scf-loop-in-dft" title="Link to this heading">#</a></h2>
+<p>A practical DFT calculation follows a self-consistent field loop:</p>
+<ol class="arabic simple">
+<li><p>Start from an initial guess density <span class="math notranslate nohighlight">\(n^{(0)}(\mathbf{r})\)</span>.</p></li>
+<li><p>Build <span class="math notranslate nohighlight">\(v_{eff}^{(k)}(\mathbf{r})\)</span> from the current density.</p></li>
+<li><p>Solve the Kohn-Sham equations for <span class="math notranslate nohighlight">\(\phi_i^{(k)}\)</span> and <span class="math notranslate nohighlight">\(\epsilon_i^{(k)}\)</span>.</p></li>
+<li><p>Build an updated density <span class="math notranslate nohighlight">\(\tilde{n}^{(k+1)}(\mathbf{r})\)</span>.</p></li>
+<li><p>Mix old and new densities, then test convergence.</p></li>
+<li><p>Repeat until changes in density and energy are below tolerance.</p></li>
+</ol>
+<p>Convergence can be slow or oscillatory.
+Common stabilization strategies include density mixing, damping, and DIIS/Pulay acceleration.
+For metallic systems, occupation smearing is often important.</p>
+</section>
+<section id="exchange-correlation-functionals-the-central-approximation">
+<h2>Exchange-Correlation Functionals: The Central Approximation<a class="headerlink" href="#exchange-correlation-functionals-the-central-approximation" title="Link to this heading">#</a></h2>
+<p>The exact <span class="math notranslate nohighlight">\(E_{xc}[n]\)</span> is unknown, so practical DFT depends on approximation families.
+A common hierarchy is:</p>
+<ul class="simple">
+<li><p>LDA (local density approximation): depends only on local density <span class="math notranslate nohighlight">\(n(\mathbf{r})\)</span>.</p></li>
+<li><p>GGA (generalized gradient approximation): uses <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(\nabla n\)</span>.</p></li>
+<li><p>meta-GGA: includes additional semilocal ingredients such as kinetic-energy density.</p></li>
+<li><p>Hybrids: mix semilocal exchange with a fraction of exact Hartree-Fock exchange.</p></li>
+</ul>
+<p>No single functional is universally best.
+In practice, one chooses based on target properties and system type, then validates against reference data where possible.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In real research workflows, functional choice and numerical settings (basis, cutoff, k-point mesh, pseudopotential) should be convergence-tested together.
+A good functional with unconverged numerics still gives unreliable results.</p>
+</div>
+</section>
+<section id="numerical-ingredients-in-real-calculations">
+<h2>Numerical Ingredients in Real Calculations<a class="headerlink" href="#numerical-ingredients-in-real-calculations" title="Link to this heading">#</a></h2>
+<p>Beyond formal equations, implementation details strongly affect quality and cost.</p>
+<section id="basis-and-representation">
+<h3>Basis and Representation<a class="headerlink" href="#basis-and-representation" title="Link to this heading">#</a></h3>
+<p>Three common choices are:</p>
+<ul class="simple">
+<li><p>Gaussian basis sets (frequent in molecular quantum chemistry).</p></li>
+<li><p>Plane-wave basis sets (frequent for periodic solids).</p></li>
+<li><p>Real-space grids/wavelets (alternative discretizations with different scaling and boundary behavior).</p></li>
+</ul>
+</section>
+<section id="pseudopotentials-and-core-electrons">
+<h3>Pseudopotentials and Core Electrons<a class="headerlink" href="#pseudopotentials-and-core-electrons" title="Link to this heading">#</a></h3>
+<p>Treating all electrons explicitly is expensive, especially for heavier atoms.
+Pseudopotentials or frozen-core approximations reduce cost by replacing chemically inert core electrons with an effective potential.
+This usually gives major speedups, but transferability must be checked.</p>
+</section>
+<section id="periodic-systems-and-k-point-sampling">
+<h3>Periodic Systems and k-Point Sampling<a class="headerlink" href="#periodic-systems-and-k-point-sampling" title="Link to this heading">#</a></h3>
+<p>For periodic crystals, quantities are averaged over the Brillouin zone.
+So total energies and forces depend on k-point sampling quality.
+Insufficient sampling can lead to significant errors, especially for metals.</p>
+</section>
+</section>
+<section id="what-dft-gets-right-and-where-it-fails">
+<h2>What DFT Gets Right and Where It Fails<a class="headerlink" href="#what-dft-gets-right-and-where-it-fails" title="Link to this heading">#</a></h2>
+<p>Standard DFT often performs well for:</p>
+<ul class="simple">
+<li><p>Ground-state geometries and structural trends.</p></li>
+<li><p>Vibrational frequencies (with caveats).</p></li>
+<li><p>Relative energies at moderate computational cost.</p></li>
+</ul>
+<p>Common difficulties include:</p>
+<ul class="simple">
+<li><p>Strongly correlated electronic states.</p></li>
+<li><p>Delocalization and self-interaction errors.</p></li>
+<li><p>Weak van der Waals interactions unless a dispersion correction is included.</p></li>
+<li><p>Underestimated band gaps with many semilocal functionals.</p></li>
+</ul>
+<p>These limitations motivate extensions such as DFT+U, hybrid and range-separated functionals, many-body perturbation methods (for example GW), and time-dependent DFT for excitations.</p>
+</section>
+<section id="a-compact-example-workflow">
+<h2>A Compact Example Workflow<a class="headerlink" href="#a-compact-example-workflow" title="Link to this heading">#</a></h2>
+<p>Suppose we want the equilibrium bond length of a diatomic molecule.
+A standard DFT workflow is:</p>
+<ol class="arabic simple">
+<li><p>Choose functional, basis/pseudopotential, and convergence thresholds.</p></li>
+<li><p>Compute total energies on a grid of bond lengths.</p></li>
+<li><p>Ensure each geometry is SCF-converged and numerical settings are converged.</p></li>
+<li><p>Fit the resulting energy curve and locate its minimum.</p></li>
+<li><p>Compare with experiment or a higher-level reference method.</p></li>
+</ol>
+<p>This process illustrates a core point: DFT is not only a theory but also a numerical procedure, and both aspects must be controlled.</p>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>Density functional theory provides a practical first-principles framework for electronic structure by expressing the ground-state problem in terms of density rather than the full many-electron wavefunction.
+The Hohenberg-Kohn theorems guarantee exactness in principle, while the Kohn-Sham construction makes calculations tractable in practice.
+The exchange-correlation functional is the central approximation, and careful numerical convergence is essential for reliable predictions.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="sim-01-molecular-dynamics.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Molecular Dynamics: Simulation of Chemical Systems</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem-electronic-structure-beyond-classical-potentials">The Problem: Electronic Structure Beyond Classical Potentials</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-hohenberg-kohn-theorems">The Hohenberg-Kohn Theorems</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#first-hohenberg-kohn-theorem">First Hohenberg-Kohn Theorem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#second-hohenberg-kohn-theorem">Second Hohenberg-Kohn Theorem</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kohn-sham-reformulation">Kohn-Sham Reformulation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kohn-sham-orbitals">Kohn-Sham Orbitals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#energy-decomposition">Energy Decomposition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effective-potential-and-kohn-sham-equations">Effective Potential and Kohn-Sham Equations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-scf-loop-in-dft">The SCF Loop in DFT</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exchange-correlation-functionals-the-central-approximation">Exchange-Correlation Functionals: The Central Approximation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-ingredients-in-real-calculations">Numerical Ingredients in Real Calculations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basis-and-representation">Basis and Representation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudopotentials-and-core-electrons">Pseudopotentials and Core Electrons</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#periodic-systems-and-k-point-sampling">Periodic Systems and k-Point Sampling</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-dft-gets-right-and-where-it-fails">What DFT Gets Right and Where It Fails</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-compact-example-workflow">A Compact Example Workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Erik Thiede
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

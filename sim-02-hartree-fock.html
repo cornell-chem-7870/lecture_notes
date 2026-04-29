@@ -1,0 +1,725 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Hartree-Fock: A First Electronic Structure Method &#8212; Lecture Notes for Cornell Chem 7870</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'sim-02-hartree-fock';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Molecular Dynamics: Simulation of Chemical Systems" href="sim-01-molecular-dynamics.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Lecture Notes for Cornell Chem 7870 - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Lecture Notes for Cornell Chem 7870 - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to 7870
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 1. Linear Algebra</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="linalg-01-intro_vectors.html">A Deeper look at Vectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-02-coding_matrices_in_python.html">Linear Algebra in Python with Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-03-matrix_decompositions.html">Eigenvectors, Unitary Matrices, and Matrix Decompositions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linalg-04-linear_regression.html">Linear Regression and Least Squares</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 2. Optimization and Numerical Differential Equations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="optim-01-intro-optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-02-nonlinear-optimization.html">Nonlinear Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-03a-autograd-in-pytorch.html">Automatic Differentiation and Pytorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-03b-autograd-in-jax.html">Intro to JaX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optim-04-three-types-of-NNs.html">A Crash Course on Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-01-ode-intro.html">Intro to Numerical Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-02-symplectic-integrators.html">More on Numerical ODEs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffeq-03-pde.html">From ODE to PDE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 3. Probability</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="prob-01-probability.html">Intro to Probability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-02-random-in-numpy.html">Using Random Numbers in Numpy</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="prob-03-bayes-rule.html">Conditional Probability and Bayes Rule</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-04-monte-carlo.html">Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-05-mcmc.html">Markov Chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-06-metropolis-hastings.html">Detailed Balance and the Metropolis-Hastings Algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prob-07-bayesian-inference.html">Bayesian Inference</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 4. High-Performance Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="hpc-01-supercomputer-architectures.html">Supercomputer Architectures for Computational Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hpc-02-virtual-environments.html">Virtual Environments for High-Performance Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hpc-03-argparse.html">Command-Line Interfaces and Argparse for Scientific Computing</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Part 5. Molecular Simulation</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="sim-01-molecular-dynamics.html">Molecular Dynamics: Simulation of Chemical Systems</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Hartree-Fock: A First Electronic Structure Method</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fsim-02-hartree-fock.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/sim-02-hartree-fock.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Hartree-Fock: A First Electronic Structure Method</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-electronic-structure">Why Electronic Structure?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slater-determinants-and-antisymmetry">Slater Determinants and Antisymmetry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deriving-the-hartree-fock-equations-from-a-single-determinant">Deriving the Hartree-Fock Equations from a Single Determinant</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-hartree-fock-approximation-as-a-variational-problem">The Hartree-Fock Approximation as a Variational Problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#roothaan-hall-equations-and-the-scf-loop">Roothaan-Hall Equations and the SCF Loop</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-compact-worked-example-h2-in-a-minimal-basis">A Compact Worked Example: H2 in a Minimal Basis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations-of-hartree-fock-and-the-post-hf-bridge">Limitations of Hartree-Fock and the Post-HF Bridge</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checkpoint-question">Checkpoint Question</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="hartree-fock-a-first-electronic-structure-method">
+<h1>Hartree-Fock: A First Electronic Structure Method<a class="headerlink" href="#hartree-fock-a-first-electronic-structure-method" title="Link to this heading">#</a></h1>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Explain why we need electronic-structure methods beyond classical molecular simulation.</p></li>
+<li><p>Understand the role of antisymmetry and the Slater determinant in many-electron wavefunctions.</p></li>
+<li><p>Derive the Hartree-Fock picture as a variational mean-field approximation.</p></li>
+<li><p>Interpret the Roothaan-Hall equations and the self-consistent field (SCF) iteration.</p></li>
+<li><p>Identify the main limitation of Hartree-Fock and how post-HF/DFT methods address it.</p></li>
+</ul>
+</section>
+<section id="why-electronic-structure">
+<h2>Why Electronic Structure?<a class="headerlink" href="#why-electronic-structure" title="Link to this heading">#</a></h2>
+<p>Classical molecular dynamics treats nuclei as classical particles and uses a fitted potential energy surface. This is very useful, but it cannot directly describe phenomena that are explicitly electronic: bond rearrangement, charge transfer, spin effects, and spectroscopic observables. To model those, we need a quantum model of electrons.</p>
+<p>In this lecture we use the Born-Oppenheimer picture: nuclei are fixed while solving for the electronic state. Conceptually, we solve</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{H}_e \Psi = E_e \Psi
+\]</div>
+<p>for each nuclear geometry, then use the resulting energy as a potential surface for nuclear motion.
+So electronic-structure theory is an application of the linear algebra and PDE viewpoints we have already discussed.  We begin with an operator equation, then convert it into a matrix problem by working in a finite basis.</p>
+</section>
+<section id="slater-determinants-and-antisymmetry">
+<h2>Slater Determinants and Antisymmetry<a class="headerlink" href="#slater-determinants-and-antisymmetry" title="Link to this heading">#</a></h2>
+<p>For many-electron systems, the wavefunction must satisfy a key fermion rule: swapping two electrons changes the sign of the wavefunction.</p>
+<div class="math notranslate nohighlight">
+\[
+\Psi(\dots, x_i, \dots, x_j, \dots) = -\Psi(\dots, x_j, \dots, x_i, \dots)
+\]</div>
+<p>Here <span class="math notranslate nohighlight">\(x_i = (\mathbf{r}_i, s_i)\)</span> includes both spatial and spin coordinates.
+The standard way to enforce this antisymmetry is a Slater determinant built from one-electron spin-orbitals <span class="math notranslate nohighlight">\(\phi_k(x)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\Psi_{SD}(x_1,\dots,x_N) = \frac{1}{\sqrt{N!}}
+\begin{vmatrix}
+\phi_1(x_1) &amp; \phi_2(x_1) &amp; \cdots &amp; \phi_N(x_1) \\
+\phi_1(x_2) &amp; \phi_2(x_2) &amp; \cdots &amp; \phi_N(x_2) \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\phi_1(x_N) &amp; \phi_2(x_N) &amp; \cdots &amp; \phi_N(x_N)
+\end{vmatrix}
+\end{split}\]</div>
+<p>This compact expression matters for three reasons:</p>
+<ul class="simple">
+<li><p>Exchanging two electron labels swaps two determinant rows and flips the sign automatically.</p></li>
+<li><p>If two electrons try to occupy the exact same spin-orbital, two rows/columns become identical and the determinant is zero.</p></li>
+<li><p>That zero-condition is the Pauli exclusion principle in wavefunction form.</p></li>
+</ul>
+<p>In Hartree-Fock, we approximate the full many-electron state using a single Slater determinant and then optimize the orbitals.</p>
+</section>
+<section id="deriving-the-hartree-fock-equations-from-a-single-determinant">
+<h2>Deriving the Hartree-Fock Equations from a Single Determinant<a class="headerlink" href="#deriving-the-hartree-fock-equations-from-a-single-determinant" title="Link to this heading">#</a></h2>
+<p>Now we make that statement precise.  Start with a normalized single Slater determinant built from orthonormal spin-orbitals <span class="math notranslate nohighlight">\(\{\phi_i\}\)</span>.
+For this ansatz, the expectation value of the electronic Hamiltonian can be written as</p>
+<div class="math notranslate nohighlight">
+\[
+E[\Phi] = \sum_i \langle i|\hat{h}|i\rangle + \frac{1}{2}\sum_{i,j}\left(\langle ij|ij\rangle - \langle ij|ji\rangle\right)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{h}\)</span> is the one-electron operator (kinetic energy plus electron-nuclear attraction), and the two-electron terms are Coulomb and exchange contributions.</p>
+<p>We minimize this energy subject to orbital orthonormality constraints,</p>
+<div class="math notranslate nohighlight">
+\[
+\langle \phi_i|\phi_j\rangle = \delta_{ij}
+\]</div>
+<p>using a Lagrangian</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L} = E[\Phi] - \sum_{i,j}\epsilon_{ij}\left(\langle \phi_i|\phi_j\rangle - \delta_{ij}\right)
+\]</div>
+<p>and requiring stationarity with respect to orbital variations <span class="math notranslate nohighlight">\(\delta\phi_i^*\)</span>.
+The Euler-Lagrange condition gives</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{F}\phi_i = \sum_j \epsilon_{ij}\phi_j
+\]</div>
+<p>with the Fock operator</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{F} = \hat{h} + \sum_j (\hat{J}_j - \hat{K}_j)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{J}_j\)</span> and <span class="math notranslate nohighlight">\(\hat{K}_j\)</span> are the Coulomb and exchange operators built from occupied orbitals.</p>
+<p>Because the occupied orbitals can be unitary-rotated without changing the determinant energy, we choose the canonical orbital basis that diagonalizes <span class="math notranslate nohighlight">\(\epsilon_{ij}\)</span>.
+This yields the Hartree-Fock one-electron equations</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{F}\phi_i = \epsilon_i\phi_i
+\]</div>
+<p>which are coupled because <span class="math notranslate nohighlight">\(\hat{F}\)</span> depends on the very orbitals we are solving for.
+That self-dependence is exactly why Hartree-Fock must be solved iteratively with an SCF procedure.</p>
+</section>
+<section id="the-hartree-fock-approximation-as-a-variational-problem">
+<h2>The Hartree-Fock Approximation as a Variational Problem<a class="headerlink" href="#the-hartree-fock-approximation-as-a-variational-problem" title="Link to this heading">#</a></h2>
+<p>The Hartree-Fock energy is obtained by minimizing an energy functional over orthonormal spin-orbitals:</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{\{\phi_i\}} E[\{\phi_i\}] \quad \text{subject to} \quad \langle \phi_i|\phi_j\rangle = \delta_{ij}
+\]</div>
+<p>This is a constrained optimization problem, closely aligned with the optimization methods we discussed earlier in the semester.
+The orthonormality constraints are enforced with Lagrange multipliers, and the resulting stationarity conditions produce one-electron equations coupled through a mean field.</p>
+<p>It is useful to stress what “mean field” means in practice: each electron feels the average effect of all other electrons rather than instantaneous pairwise correlation.
+Hartree-Fock does include exchange effects through antisymmetry, but it does not include full electron correlation.</p>
+</section>
+<section id="roothaan-hall-equations-and-the-scf-loop">
+<h2>Roothaan-Hall Equations and the SCF Loop<a class="headerlink" href="#roothaan-hall-equations-and-the-scf-loop" title="Link to this heading">#</a></h2>
+<p>In a finite basis, Hartree-Fock is written as a generalized eigenvalue problem:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{F}(\mathbf{P})\mathbf{C} = \mathbf{S}\mathbf{C}\boldsymbol{\varepsilon}
+\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\mathbf{F}\)</span> is the Fock matrix, <span class="math notranslate nohighlight">\(\mathbf{S}\)</span> is the overlap matrix, <span class="math notranslate nohighlight">\(\mathbf{C}\)</span> contains orbital coefficients, and <span class="math notranslate nohighlight">\(\boldsymbol{\varepsilon}\)</span> contains orbital energies.
+The density matrix for a closed-shell system is</p>
+<div class="math notranslate nohighlight">
+\[
+P_{\mu\nu} = 2\sum_{i \in \text{occ}} C_{\mu i}C_{\nu i}
+\]</div>
+<p>The key feature is nonlinearity: <span class="math notranslate nohighlight">\(\mathbf{F}\)</span> depends on <span class="math notranslate nohighlight">\(\mathbf{P}\)</span>, but <span class="math notranslate nohighlight">\(\mathbf{P}\)</span> depends on the occupied columns of <span class="math notranslate nohighlight">\(\mathbf{C}\)</span> obtained from diagonalizing <span class="math notranslate nohighlight">\(\mathbf{F}\)</span>.
+So we solve the equations iteratively using a self-consistent field (SCF) procedure:</p>
+<ol class="arabic simple">
+<li><p>Guess an initial density matrix <span class="math notranslate nohighlight">\(\mathbf{P}^{(0)}\)</span>.</p></li>
+<li><p>Build <span class="math notranslate nohighlight">\(\mathbf{F}^{(k)}\)</span> from <span class="math notranslate nohighlight">\(\mathbf{P}^{(k)}\)</span>.</p></li>
+<li><p>Solve <span class="math notranslate nohighlight">\(\mathbf{F}^{(k)}\mathbf{C}^{(k)} = \mathbf{S}\mathbf{C}^{(k)}\boldsymbol{\varepsilon}^{(k)}\)</span>.</p></li>
+<li><p>Construct a new density <span class="math notranslate nohighlight">\(\tilde{\mathbf{P}}^{(k+1)}\)</span> from occupied orbitals.</p></li>
+<li><p>Mix densities and test convergence in energy and density.</p></li>
+<li><p>Repeat until convergence criteria are met.</p></li>
+</ol>
+<p>In practice, SCF can oscillate or converge slowly.  Damping and DIIS are common acceleration/stabilization strategies.</p>
+</section>
+<section id="a-compact-worked-example-h2-in-a-minimal-basis">
+<h2>A Compact Worked Example: H2 in a Minimal Basis<a class="headerlink" href="#a-compact-worked-example-h2-in-a-minimal-basis" title="Link to this heading">#</a></h2>
+<p>Even the smallest molecular example illustrates the full HF workflow.
+For H2 in a minimal basis, the central ingredients are:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{S}_{\mu\nu} = \langle \chi_\mu | \chi_\nu \rangle
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+E_{HF} = \sum_{\mu\nu} P_{\mu\nu}\left(H^{core}_{\mu\nu} + \frac{1}{2}F_{\mu\nu}\right)
+\]</div>
+<p>As the internuclear separation changes, overlap, one-electron integrals, two-electron integrals, and therefore the Fock matrix all change.
+The SCF cycle then gives a new density and a new total energy at each geometry.</p>
+<p>The pedagogical value of this example is not numerical realism; it is seeing the complete loop in the smallest possible setting.</p>
+</section>
+<section id="limitations-of-hartree-fock-and-the-post-hf-bridge">
+<h2>Limitations of Hartree-Fock and the Post-HF Bridge<a class="headerlink" href="#limitations-of-hartree-fock-and-the-post-hf-bridge" title="Link to this heading">#</a></h2>
+<p>Hartree-Fock is a foundational baseline, but it misses correlation energy:</p>
+<div class="math notranslate nohighlight">
+\[
+E_{corr} = E_{exact} - E_{HF}
+\]</div>
+<p>HF is variational, so</p>
+<div class="math notranslate nohighlight">
+\[
+E_{HF} \ge E_0
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(E_0\)</span> is the exact nonrelativistic ground-state energy within the same Hamiltonian model.</p>
+<p>This motivates methods beyond HF.
+At a high level:</p>
+<ul class="simple">
+<li><p>MP2 adds a perturbative correlation correction on top of HF.</p></li>
+<li><p>CI expands the wavefunction in excited determinants.</p></li>
+<li><p>Coupled cluster (for example, CCSD(T)) uses an exponential ansatz and often delivers high accuracy for weakly correlated systems.</p></li>
+<li><p>DFT replaces the wavefunction-first view with a density-functional framework and often provides a favorable cost/accuracy tradeoff.</p></li>
+</ul>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>Hartree-Fock converts the many-electron Schrodinger problem into an iterative matrix problem by combining three ideas:</p>
+<ol class="arabic simple">
+<li><p>A basis expansion for orbitals.</p></li>
+<li><p>A single-determinant antisymmetric ansatz.</p></li>
+<li><p>Variational minimization solved through a self-consistent field loop.</p></li>
+</ol>
+<p>This framework is the starting point for much of modern electronic-structure theory.</p>
+</section>
+<section id="checkpoint-question">
+<h2>Checkpoint Question<a class="headerlink" href="#checkpoint-question" title="Link to this heading">#</a></h2>
+<p>What physical effect does Hartree-Fock miss, and why does that matter for predicted energies?</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="sim-01-molecular-dynamics.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Molecular Dynamics: Simulation of Chemical Systems</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-electronic-structure">Why Electronic Structure?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slater-determinants-and-antisymmetry">Slater Determinants and Antisymmetry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deriving-the-hartree-fock-equations-from-a-single-determinant">Deriving the Hartree-Fock Equations from a Single Determinant</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-hartree-fock-approximation-as-a-variational-problem">The Hartree-Fock Approximation as a Variational Problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#roothaan-hall-equations-and-the-scf-loop">Roothaan-Hall Equations and the SCF Loop</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-compact-worked-example-h2-in-a-minimal-basis">A Compact Worked Example: H2 in a Minimal Basis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations-of-hartree-fock-and-the-post-hf-bridge">Limitations of Hartree-Fock and the Post-HF Bridge</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checkpoint-question">Checkpoint Question</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Erik Thiede
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
