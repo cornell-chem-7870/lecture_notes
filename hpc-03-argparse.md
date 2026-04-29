@@ -348,7 +348,7 @@ python run_simulation.py --config config.toml --dry-run
 This should report the final resolved configuration and confirm paths without launching expensive computation.
 
 
-## Common Mistakes and How to Avoid Them
+## Common Mistakes 
 
 - Hidden defaults that users do not know exist.
 - Arguments that silently accept invalid values.
@@ -357,21 +357,6 @@ This should report the final resolved configuration and confirm paths without la
 - Different parameter handling between interactive runs and batch jobs.
 
 Most of these are solved by thoughtful parser design, explicit validation, and run metadata logging.
-
-
-## Suggested In-Class Exercise
-
-Build a script named run_trajectory.py that:
-
-1. Accepts --config, --dt, --t-end, --method, --seed, and --output-dir.
-2. Reads defaults from a TOML file.
-3. Applies CLI overrides.
-4. Supports --dry-run.
-5. Writes the final resolved parameters to output_dir/run_config_used.toml.
-
-Then write a SLURM array script that sweeps over dt values and stores outputs in separate folders.
-
-This exercise reinforces CLI design, reproducibility, and scheduler integration in one workflow.
 
 
 ## Summary

@@ -34,3 +34,7 @@ parts:
     - file: hpc-01-supercomputer-architectures.md
     - file: hpc-02-virtual-environments.md
     - file: hpc-03-argparse.md
+  - caption: Part 5. Molecular Simulation
+    chapters:
+    - file: sim-01-molecular-dynamics.md
+    - file: sim-02-dft.md
